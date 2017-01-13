@@ -14,29 +14,38 @@ function rp_inventory_create_item($arguments) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';
 
+    $wpdb->query('START TRANSACTION');
+
+    $slot = $wpdb->get_var("SELECT MAX(slot) FROM $db_table_name WHERE owner='Gruppe' AND show_in_container_id=0");
+    $slot += 1;
+
+    $container_order = 0;
+    $container_id = 0;
+    if ($arguments['is_container'] == "true") {
+        $container_id = $wpdb->get_var("SELECT MAX(hosts_container_id) FROM $db_table_name");
+        $container_id += 1;
+        $container_order = $arguments['container_order'];
+    }
+
     $values = array(
-        'owner' => 'MyHero', 
+        'owner' => "Gruppe", 
         'show_in_container_id' => 0,
-        'slot' => 0,
-        'hosts_container_id' => 0,
-        'hosts_container_order' => 0,
-        'icon' => 'broadsword.png',
-        'name' => "Breitschwert",
-        'description' => "Mein Breitschwert",
-        'flavor' => "Flavor",
-        'type' => "mundane",
-        'price' => 0.5,
-        'weight' => 0.7
+        'slot' => $slot,
+        'hosts_container_id' => $container_id,
+        'hosts_container_order' => $container_order,
+        'icon' => $arguments['icon'],
+        'name' => $arguments['name'],
+        'description' => $arguments['description'],
+        'flavor' => $arguments['flavor'],
+        'type' => $arguments['type'],
+        'price' => $arguments['price'],
+        'weight' => $arguments['weight']
     );
-    $wpdb->insert($db_table_name, $values); /* , array('%s', '%d') */
+    $wpdb->insert($db_table_name, $values);
 
     $desc = $wpdb->get_results("SELECT * FROM $db_table_name");
 
-    print_r($desc);
-
-    echo("created!");
-
-
+    $wpdb->query('COMMIT');
 }
 
 

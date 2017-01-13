@@ -29,12 +29,19 @@ function rp_inventory_shortcode($atts, $content) {
 
 	$title = esc_attr($title);
     $owner = $name;
+    if (empty($owner) or ($owner == "name")) {
+        $owner = "Gruppe";
+    }
 
     // $db_result = $wpdb->get_var("show tables like '$db_table_name'");
     $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE owner = '$owner' ORDER BY show_in_container_id, slot");
 
-    $create_buttons = "";
-    if (empty($owner) or ($owner == "name")) $create_buttons = "<div class=\"rp-inventory-button-create\" onclick=\"rp_inventory_create_item()\"></div>\n";
+    $header_content = "";
+    if ($owner == "Gruppe") {
+        $tpl_inventory_header = new Template($path_local . "/tpl/inventory_header.html");
+        $tpl_inventory_header->set("Owner", $owner);
+        $header_content .= $tpl_inventory_header->output();
+    }
 
     $default_container = new stdClass();
     $default_container->name = "Am K&ouml;rper";
@@ -112,7 +119,7 @@ function rp_inventory_shortcode($atts, $content) {
     }
 
     $tpl_inventory = new Template($path_local . "/tpl/inventory.html");
-    $tpl_inventory->set("CreateButtons", $create_buttons);
+    $tpl_inventory->set("HeaderContent", $header_content);
     $tpl_inventory->set("Containers", $containers_html);
     $output .= $tpl_inventory->output();
 

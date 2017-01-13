@@ -1,0 +1,28 @@
+<div class="rp-inventory-button-popup-create" onclick="rp_inventory_create_item_popup()"></div>
+<div class="rp-inventory-popup-create" id="rp-inventory-popup-create">
+    <table>
+        <colgroup>
+            <col width="200">
+            <col width="400">
+        </colgroup>
+        <tr><td>Name:</td><td><input id="rp-inventory-create-name" value="Broadsword"></input></td></tr>
+        <tr><td>Icon:</td><td><input id="rp-inventory-create-icon" value="broadsword.png"></input></td></tr>
+        <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" style="width: 406px">
+                        <option value="trash">Beschädigt</option>
+                        <option value="mundane" selected>Gewöhnlich</option>
+                        <option value="magic">Besonders</option>
+                        <option value="epic">Episch</option>
+                    </select></td></tr>
+        <tr><td>Preis (Dukaten):</td><td><input id="rp-inventory-create-price" value="1,5"></input></td></tr>
+        <tr><td>Gewicht (Unzen):</td><td><input id="rp-inventory-create-weight" value="15,7"></input></td></tr>
+        <tr><td>Behälter (Ja/Nein):</td><td><input type="checkbox" id="rp-inventory-create-is-container" style="width: 20px"></input></td></tr>
+        <tr><td>Behälter-Reihenfolge:</td><td><input id="rp-inventory-create-container-order" value="1"></input></td></tr>
+        <tr><td>Beschreibung:</td><td><textarea id="rp-inventory-create-description"></textarea></td></tr>
+        <tr><td>Flavor Text:</td><td><textarea id="rp-inventory-create-flavor"></textarea></td></tr>
+    </table>
+    <div>
+        <div class="rp-inventory-button-create" onclick="rp_inventory_create_item()">Erstellen</div>
+        <div class="rp-inventory-button-create" onclick="rp_inventory_create_item_close()">Schliessen</div>
+    </div>
+</div>
+

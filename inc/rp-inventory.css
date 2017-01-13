@@ -1,4 +1,89 @@
 .rp-inventory {
 	padding: 0px;
-    border-style: 1px solid white;
+    /* border: 1px solid white; */
+    width: 200px;
+}
+
+.rp-inventory-header {
+    background-color: red;
+}
+
+.rp-inventory-button-create {
+    width: 32px;
+    height: 32px;
+    background-color: green;
+}
+
+.rp-inventory-container {
+}
+
+.rp-inventory-container table {
+    background-image: url('../img/background.png');
+    background-size: 100%;
+    border-spacing: 4px;
+    width: 100%;
+}
+
+.rp-inventory-container table tr {
+    height: 36px;
+}
+
+.rp-inventory-container table, td, th {
+    border: 0px;
+    padding: 0px;
+}
+
+.rp-inventory-item-slot {
+    width: 32px;
+    height: 32px;
+    line-height: 0px;  
+}
+
+.rp-inventory-item-border-sunken {
+    border-top: 2px solid rgba(0, 0, 0, 0.35);
+    border-left: 2px solid rgba(0, 0, 0, 0.35);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    border-right: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.rp-inventory-item-border-raised {
+    border-top: 2px solid rgba(255, 255, 255, 0.15);
+    border-left: 2px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.35);
+    border-right: 2px solid rgba(0, 0, 0, 0.35);
+}
+
+.rp-inventory-item-slot-border-select {
+    width: 32px;
+    height: 32px;
+    border: 2px solid black;
+      
+    background-image: url('../img/slot.png');
+    background-size: 32px;
+    opacity: 0.6;
+
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+}
+
+.rp-inventory-item-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.rp-inventory-item-name {
+    padding-left: 10px;
+    line-height: 36px;
+    height: 36px;
+}
+
+.rp-inventory-container-name {
+    padding-left: 10px;
+    line-height: 36px;
+    height: 36px;
+    background-color: rgba(0, 0, 0, 0.25);
 }

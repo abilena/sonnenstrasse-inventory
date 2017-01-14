@@ -1,12 +1,17 @@
 
-var selectedItem = null;
-var swapItem = null;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Item creation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 var isCreating = false;
 
 function rp_inventory_create_item_popup()
 {
     var popup = document.getElementById("rp-inventory-popup-create");
     popup.style.visibility = "visible";
+
+    if (icons_list == null) 
+        populateFolders();
 }
 
 function rp_inventory_create_item_close()
@@ -15,6 +20,18 @@ function rp_inventory_create_item_close()
     popup.style.visibility = "collapse";
 
     reloadScroll();
+}
+
+function rp_inventory_create_item_icon_popup()
+{
+    var popup = document.getElementById("rp-inventory-popup-create-icon");
+    popup.style.visibility = "visible";
+}
+
+function rp_inventory_create_item_icon_close()
+{
+    var popup = document.getElementById("rp-inventory-popup-create-icon");
+    popup.style.visibility = "collapse";
 }
 
 function rp_inventory_create_item()
@@ -26,7 +43,9 @@ function rp_inventory_create_item()
     }
 
     var name = document.getElementById("rp-inventory-create-name").value;
-    var icon = document.getElementById("rp-inventory-create-icon").value;
+    var icon = document.getElementById("rp-inventory-create-folder").value + "/";
+    icon += document.getElementById("rp-inventory-create-subfolder").value + "/";
+    icon += document.getElementById("rp-inventory-create-icon-file").value;
     var type = document.getElementById("rp-inventory-create-type").value;
     var price = document.getElementById("rp-inventory-create-price").value;
     var weight = document.getElementById("rp-inventory-create-weight").value;
@@ -70,6 +89,13 @@ function rp_inventory_create_item()
     xhttp.send(parameters);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Item swapping
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var selectedItem = null;
+var swapItem = null;
+
 function rp_inventory_click_item(e)
 {
     if (!e)
@@ -105,6 +131,167 @@ function rp_inventory_click_item(e)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Populate item creation icon popup option
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var icons_list = null;
+var prevFileName = null;
+
+function populateFolders()
+{
+    var icons_str = document.getElementById("rp-inventory-create-icon-all-files").value;
+    icons_list = icons_str.split(":");
+
+    var selectElement = document.getElementById("rp-inventory-create-folder");
+
+    var folder_list = [];
+    for (var index = 0; index < icons_list.length; index++) {
+        var icon_path = icons_list[index];
+        var icon_folder = icon_path.substring(0, icon_path.indexOf("/"));
+        if (folder_list.indexOf(icon_folder) < 0)
+            folder_list.push(icon_folder);
+    }
+
+    for (var index = 0; index < folder_list.length; index++) {
+        var folderName = folder_list[index];
+        var optionElement = document.createElement("option");
+        optionElement.setAttribute("value", folderName);
+        optionElement.textContent = folderName;
+        selectElement.appendChild(optionElement);
+    }
+
+    populateSubFolders();
+}
+
+function populateSubFolders()
+{
+    var folder = document.getElementById("rp-inventory-create-folder").value + "/";
+    var selectElement = document.getElementById("rp-inventory-create-subfolder");
+    while (selectElement.firstChild) {
+        selectElement.removeChild(selectElement.firstChild);
+    }
+    
+    var folder_list = [];
+    for (var index = 0; index < icons_list.length; index++) {
+        var icon_path = icons_list[index];
+        if (icon_path.startsWith(folder)) {
+            icon_path = icon_path.substring(folder.length);
+            var icon_folder = icon_path.substring(0, icon_path.indexOf("/"));
+            if (folder_list.indexOf(icon_folder) < 0)
+                folder_list.push(icon_folder);
+        }
+    }
+
+    for (var index = 0; index < folder_list.length; index++) {
+        var folderName = folder_list[index];
+        var optionElement = document.createElement("option");
+        optionElement.setAttribute("value", folderName);
+        optionElement.textContent = folderName;
+        selectElement.appendChild(optionElement);
+    }
+
+    populateFiles();
+}
+
+function populateFiles()
+{
+    var folder = document.getElementById("rp-inventory-create-folder").value + "/";
+    folder += document.getElementById("rp-inventory-create-subfolder").value + "/";
+    var selectElement = document.getElementById("rp-inventory-create-icon-file");
+    while (selectElement.firstChild) {
+        selectElement.removeChild(selectElement.firstChild);
+    }
+    var divElement = document.getElementById("rp-inventory-popup-create-icon-list");
+    while (divElement.firstChild) {
+        divElement.removeChild(divElement.firstChild);
+    }
+
+    var file_list = [];
+    for (var index = 0; index < icons_list.length; index++) {
+        var icon_path = icons_list[index];
+        if (icon_path.startsWith(folder)) {
+            icon_path = icon_path.substring(folder.length);
+            if (file_list.indexOf(icon_path) < 0)
+                file_list.push(icon_path);
+        }
+    }
+
+    for (var index = 0; index < file_list.length; index++) {
+        var fileName = file_list[index];
+        var optionElement = document.createElement("option");
+        optionElement.setAttribute("value", fileName);
+        optionElement.textContent = fileName;
+        selectElement.appendChild(optionElement);
+
+        var borderSunkenElement = document.createElement("div");
+        borderSunkenElement.setAttribute("class", "rp-inventory-item-border-sunken");
+        borderSunkenElement.setAttribute("style", "display: inline-block;");
+        var borderSelectElement = document.createElement("div");
+        borderSelectElement.setAttribute("class", "rp-inventory-item-slot-border-select");
+        borderSelectElement.setAttribute("id", "rp-inventory-preview-icon-" + fileName);
+        borderSelectElement.onclick = function() { selectClickedIcon(); };
+        var imageElement = document.createElement("img");
+        imageElement.setAttribute("class", "rp-inventory-item-icon");
+        imageElement.setAttribute("src", "wp-content/plugins/rp-inventory/img/icons/" + folder + fileName);
+        borderSelectElement.appendChild(imageElement);
+        borderSunkenElement.appendChild(borderSelectElement);
+        divElement.appendChild(borderSunkenElement);
+    }
+
+    selectIcon();
+}
+
+function selectIcon()
+{
+    var fileName = document.getElementById("rp-inventory-create-icon-file").value;
+    var file = document.getElementById("rp-inventory-create-folder").value + "/";
+    file += document.getElementById("rp-inventory-create-subfolder").value + "/";
+    file += fileName;
+
+    var imageElement = document.getElementById("rp-inventory-preview-icon");
+    imageElement.src = "wp-content/plugins/rp-inventory/img/icons/" + file;
+
+    var borderSelectElement = document.getElementById("rp-inventory-preview-icon-" + fileName);
+    borderSelectElement.style.border = "2px solid yellow";
+
+    if (prevFileName) {
+        borderSelectElement = document.getElementById("rp-inventory-preview-icon-" + prevFileName);
+        if (borderSelectElement)
+            borderSelectElement.style.border = "2px solid black";
+    }
+
+    prevFileName = fileName;
+}
+
+function selectClickedIcon(e)
+{
+    if (!e)
+        e = window.event;
+    var sender = e.srcElement || e.target;
+
+    var slot = sender;
+    if (sender.nodeName.toLowerCase() == "img")
+        slot = sender.parentNode;
+
+    if (slot) {
+        var prefix = "rp-inventory-preview-icon-";
+        var fileName = slot.id.substring(prefix.length);
+
+        var selectElement = document.getElementById("rp-inventory-create-icon-file");
+        for (var index = 0; index < selectElement.options.length; index++) {
+            if (selectElement.options[index].value === fileName) {
+                selectElement.selectedIndex = index;
+                selectIcon();
+                break;
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Keep scroll position
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var isFramed = top.frames.length > 0;
 

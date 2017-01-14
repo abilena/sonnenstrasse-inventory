@@ -38,8 +38,12 @@ function rp_inventory_shortcode($atts, $content) {
 
     $header_content = "";
     if ($owner == "Gruppe") {
+        $icon_files = get_all_files($path_local . "/img/icons/");
+        $icon_files_html = implode(":", $icon_files);
+
         $tpl_inventory_header = new Template($path_local . "/tpl/inventory_header.html");
         $tpl_inventory_header->set("Owner", $owner);
+        $tpl_inventory_header->set("IconsList", $icon_files_html);
         $header_content .= $tpl_inventory_header->output();
     }
 
@@ -60,6 +64,11 @@ function rp_inventory_shortcode($atts, $content) {
 
     // enumerate all containers
     foreach ($db_result as $row_id => $row_data) {
+        $row_data->name = stripslashes($row_data->name);
+        $row_data->icon = stripslashes($row_data->icon);
+        $row_data->description = stripslashes($row_data->description);
+        $row_data->flavor = stripslashes($row_data->flavor);
+
         if ($row_data->hosts_container_id > 0) {
             array_push($container_ids, $row_data->hosts_container_id, $row_data);
             array_push($container_content, $row_data->hosts_container_id, array());

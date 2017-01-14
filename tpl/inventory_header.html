@@ -1,13 +1,43 @@
 <div class="rp-inventory-button-popup-create" onclick="rp_inventory_create_item_popup()"></div>
 <div class="rp-inventory-popup-create" id="rp-inventory-popup-create">
+    <input style="display: none;" id="rp-inventory-create-icon-all-files" value="[@IconsList]"></input>
     <table>
         <colgroup>
             <col width="200">
             <col width="400">
         </colgroup>
-        <tr><td>Name:</td><td><input id="rp-inventory-create-name" value="Broadsword"></input></td></tr>
-        <tr><td>Icon:</td><td><input id="rp-inventory-create-icon" value="broadsword.png"></input></td></tr>
-        <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" style="width: 406px">
+        <tr><td>Preview:</td><td><table style="margin-bottom: 10px;">
+            <tr>
+                <td class="rp-inventory-item-slot">
+                    <div class="rp-inventory-item-border-sunken">
+                        <div class="rp-inventory-item-slot-border-select">
+                            <img class="rp-inventory-item-icon" id="rp-inventory-preview-icon" src="wp-content/plugins/rp-inventory/img/empty.png">
+                        </div><!-- rp-inventory-item-slot-border-select -->
+                    </div><!-- rp-inventory-item-border-sunken -->
+                </td><!-- rp-inventory-item-slot -->
+                <td>
+                    <div class="rp-inventory-item-border-sunken">
+                        <div class="rp-inventory-item-name" id="rp-inventory-preview-name" style="width: 246px;"></div>
+                    </div><!-- rp-inventory-item-border-sunken -->
+                </td>
+                <td>
+                    <div class="rp-inventory-button-create" onclick="rp_inventory_create_item_icon_popup()">Icon Auswählen</div>
+                    <div class="rp-inventory-popup-create-icon" id="rp-inventory-popup-create-icon">
+                        <div>
+                            <select id="rp-inventory-create-folder" style="width: 100px;" onchange="populateSubFolders()"></select>
+                            <select id="rp-inventory-create-subfolder" style="width: 100px; margin-left: 2px;" onchange="populateFiles()"></select>
+                            <select id="rp-inventory-create-icon-file" style="width: 200px; margin-left: 2px;" onchange="selectIcon()"></select>
+                        </div>
+                        <div class="rp-inventory-popup-create-icon-list rp-inventory-item-border-sunken" id="rp-inventory-popup-create-icon-list"></div>
+                        <div>
+                            <div class="rp-inventory-button-create" onclick="rp_inventory_create_item_icon_close()">Schliessen</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>        
+        </table></td></tr>
+        <tr><td>Name:</td><td><input id="rp-inventory-create-name" value=""></input></td></tr>
+        <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" style="width: 406px;">
                         <option value="trash">Beschädigt</option>
                         <option value="mundane" selected>Gewöhnlich</option>
                         <option value="magic">Besonders</option>

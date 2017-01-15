@@ -264,6 +264,16 @@ function selectIcon()
     prevFileName = fileName;
 }
 
+function updateItemText()
+{
+    var name = document.getElementById("rp-inventory-create-name");
+    var type = document.getElementById("rp-inventory-create-type");
+    
+    var itemText = document.getElementById("rp-inventory-preview-name");
+    itemText.textContent = name.value;
+    itemText.className = "rp-inventory-item-name-text rp-inventory-item-" + type.value;
+}
+
 function selectClickedIcon(e)
 {
     if (!e)

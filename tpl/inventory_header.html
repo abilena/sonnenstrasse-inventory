@@ -17,7 +17,7 @@
                 </td><!-- rp-inventory-item-slot -->
                 <td>
                     <div class="rp-inventory-item-border-sunken">
-                        <div class="rp-inventory-item-name" id="rp-inventory-preview-name" style="width: 246px;"></div>
+                        <div class="rp-inventory-item-name"><span id="rp-inventory-preview-name" class="rp-inventory-item-name-text rp-inventory-item-mundane"></span></div>
                     </div><!-- rp-inventory-item-border-sunken -->
                 </td>
                 <td>
@@ -36,8 +36,8 @@
                 </td>
             </tr>        
         </table></td></tr>
-        <tr><td>Name:</td><td><input id="rp-inventory-create-name" value=""></input></td></tr>
-        <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" style="width: 406px;">
+        <tr><td>Name:</td><td><input id="rp-inventory-create-name" value="" onchange="updateItemText()"></input></td></tr>
+        <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" style="width: 406px;" onchange="updateItemText()">
                         <option value="trash">Beschädigt</option>
                         <option value="mundane" selected>Gewöhnlich</option>
                         <option value="magic">Besonders</option>

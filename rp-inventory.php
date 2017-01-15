@@ -103,11 +103,13 @@ function rp_inventory_shortcode($atts, $content) {
 
             $icon = $path_url . "/img/empty.png";
             $name = "";
+            $type = "mundane";
             $item_id = "0";
             if (array_key_exists($slot, $content_array)) {
                 $content_data = $content_array[$slot];
                 $icon = $path_url . "/img/icons/" . $content_data->icon;
                 $name = $content_data->name;
+                $type = $content_data->type;
                 $item_id = $content_data->item_id;
             }
 
@@ -117,6 +119,7 @@ function rp_inventory_shortcode($atts, $content) {
             $tpl_inventory_item->set("ItemId", $item_id);
             $tpl_inventory_item->set("Icon", $icon);
             $tpl_inventory_item->set("Name", $name);
+            $tpl_inventory_item->set("Type", $type);
             $tpl_inventory_item->set("Owner", $owner);
             $container_content_html .= $tpl_inventory_item->output();
         }

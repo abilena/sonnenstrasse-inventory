@@ -137,9 +137,21 @@
 }
 
 .rp-inventory-item-name {
-    padding-left: 10px;
-    line-height: 36px;
-    height: 36px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 31px;
+    width: 124px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.rp-inventory-item-name-text {
+    vertical-align: middle;
+    display: table-cell;
+    height: 28px;
+    line-height: 14px;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 .rp-inventory-container-name {

@@ -175,7 +175,7 @@ function populateSubFolders()
     var folder_list = [];
     for (var index = 0; index < icons_list.length; index++) {
         var icon_path = icons_list[index];
-        if (icon_path.startsWith(folder)) {
+        if (stringStartsWith(icon_path, folder)) {
             icon_path = icon_path.substring(folder.length);
             var icon_folder = icon_path.substring(0, icon_path.indexOf("/"));
             if (folder_list.indexOf(icon_folder) < 0)
@@ -210,7 +210,7 @@ function populateFiles()
     var file_list = [];
     for (var index = 0; index < icons_list.length; index++) {
         var icon_path = icons_list[index];
-        if (icon_path.startsWith(folder)) {
+        if (stringStartsWith(icon_path, folder)) {
             icon_path = icon_path.substring(folder.length);
             if (file_list.indexOf(icon_path) < 0)
                 file_list.push(icon_path);
@@ -297,6 +297,11 @@ function selectClickedIcon(e)
             }
         }
     }
+}
+
+function stringStartsWith(testString, startPattern)
+{
+    return (testString.substring(0, startPattern.length).toLowerCase() == startPattern.toLowerCase());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

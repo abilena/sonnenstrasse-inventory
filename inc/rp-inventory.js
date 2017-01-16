@@ -4,10 +4,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var isCreating = false;
+var wasCreated = false;
 
 function rp_inventory_create_item_popup()
 {
     var popup = document.getElementById("rp-inventory-popup-create");
+    if (popup.style.visibility == "visible")
+        return;
+
+    wasCreated = false;
     popup.style.visibility = "visible";
 
     if (icons_list == null) 
@@ -19,7 +24,8 @@ function rp_inventory_create_item_close()
     var popup = document.getElementById("rp-inventory-popup-create");
     popup.style.visibility = "collapse";
 
-    reloadScroll();
+    if (wasCreated)
+        reloadScroll();
 }
 
 function rp_inventory_create_item_icon_popup()
@@ -80,6 +86,7 @@ function rp_inventory_create_item()
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             isCreating = false;
+            wasCreated = true;
         }
     };
 

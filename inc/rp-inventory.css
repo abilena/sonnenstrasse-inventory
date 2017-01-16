@@ -5,17 +5,7 @@
 }
 
 .rp-inventory-header {
-    background-color: red;
-}
-
-.rp-inventory-button-popup-create {
-    width: 32px;
-    height: 32px;
-    background-color: green;
-}
-
-.rp-inventory-button-popup-create:hover {
-    background-color: yellow;
+    background-image: url('../img/background.png');
 }
 
 .rp-inventory-popup-create {
@@ -61,18 +51,22 @@
     overflow-y: scroll;
 }
 
-.rp-inventory-button-create {
+.rp-inventory-button {
     width: 100px;
     height: 32px;
-    background-color: green;
+    border-top: 2px solid rgba(255, 255, 255, 0.15);
+    border-left: 2px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.35);
+    border-right: 2px solid rgba(0, 0, 0, 0.35);
+    background-color: rgba(255, 255, 255, 0.1);
     text-align: center;
     line-height: 32px;
     cursor: default;
     display: inline-block;
 }
 
-.rp-inventory-button-create:hover {
-    background-color: yellow;
+.rp-inventory-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .rp-inventory-container {

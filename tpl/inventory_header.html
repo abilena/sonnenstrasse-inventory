@@ -1,4 +1,4 @@
-<div class="rp-inventory-button-popup-create" onclick="rp_inventory_create_item_popup()"></div>
+<div class="rp-inventory-button" onclick="rp_inventory_create_item_popup()">Erstellen</div>
 <div class="rp-inventory-popup-create" id="rp-inventory-popup-create">
     <input style="display: none;" id="rp-inventory-create-icon-all-files" value="[@IconsList]"></input>
     <table>
@@ -21,7 +21,7 @@
                     </div><!-- rp-inventory-item-border-sunken -->
                 </td>
                 <td>
-                    <div class="rp-inventory-button-create" onclick="rp_inventory_create_item_icon_popup()">Icon Auswählen</div>
+                    <div class="rp-inventory-button" onclick="rp_inventory_create_item_icon_popup()">Icon Ändern</div>
                     <div class="rp-inventory-popup-create-icon" id="rp-inventory-popup-create-icon">
                         <div>
                             <select id="rp-inventory-create-folder" style="width: 100px;" onchange="populateSubFolders()"></select>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="rp-inventory-popup-create-icon-list rp-inventory-item-border-sunken" id="rp-inventory-popup-create-icon-list"></div>
                         <div>
-                            <div class="rp-inventory-button-create" onclick="rp_inventory_create_item_icon_close()">Schliessen</div>
+                            <div class="rp-inventory-button" onclick="rp_inventory_create_item_icon_close()">Schliessen</div>
                         </div>
                     </div>
                 </td>
@@ -51,8 +51,8 @@
         <tr><td>Flavor Text:</td><td><textarea id="rp-inventory-create-flavor"></textarea></td></tr>
     </table>
     <div>
-        <div class="rp-inventory-button-create" onclick="rp_inventory_create_item()">Erstellen</div>
-        <div class="rp-inventory-button-create" onclick="rp_inventory_create_item_close()">Schliessen</div>
+        <div class="rp-inventory-button" onclick="rp_inventory_create_item()">Erstellen</div>
+        <div class="rp-inventory-button" onclick="rp_inventory_create_item_close()">Schliessen</div>
     </div>
 </div>
 

@@ -70,9 +70,9 @@ function rp_inventory_shortcode($atts, $content) {
         $row_data->flavor = stripslashes($row_data->flavor);
 
         if ($row_data->hosts_container_id > 0) {
-            array_push($container_ids, $row_data->hosts_container_id, $row_data);
-            array_push($container_content, $row_data->hosts_container_id, array());
-            array_push($container_orders, $row_data->hosts_container_order, $row_data->hosts_container_id);
+            $container_ids[$row_data->hosts_container_id] = $row_data;
+            $container_content[$row_data->hosts_container_id] = array();
+            $container_orders[$row_data->hosts_container_order] = $row_data->hosts_container_id;
         }
     }
     ksort($container_orders);

@@ -3,6 +3,13 @@
                     <div class="rp-inventory-item-border-sunken">
                         <div class="rp-inventory-item-slot-border-select" id="con_[@ContainerId]_[@Slot]_[@ItemId]_[@Owner]" onclick="rp_inventory_click_item(event)">
                             <img class="rp-inventory-item-icon" src="[@Icon]">
+                            <div class="rp-inventory-item-info-popup" style="visibility: [@Visibility]">
+                                <div class="rp-inventory-item-info-popup-header rp-inventory-item-[@Type]">[@Name]</div>
+                                <div class="rp-inventory-item-info-popup-flavor">[@Flavor]</div>
+                                <div class="rp-inventory-item-info-popup-description">[@Description]</div>
+                                <div class="rp-inventory-item-info-popup-weight">[@Weight] Unzen</div>
+                                <div class="rp-inventory-item-info-popup-price">[@Price] Dukaten</div>
+                            </div>
                         </div><!-- rp-inventory-item-slot-border-select -->
                     </div><!-- rp-inventory-item-border-sunken -->
                 </td><!-- rp-inventory-item-slot -->

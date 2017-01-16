@@ -115,7 +115,6 @@
       
     background-image: url('../img/slot.png');
     background-size: 32px;
-    opacity: 0.6;
 
     image-rendering: -moz-crisp-edges;         /* Firefox */
     image-rendering:   -o-crisp-edges;         /* Opera */
@@ -125,9 +124,49 @@
     -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
 }
 
+.rp-inventory-item-slot-border-select:hover .rp-inventory-item-info-popup {
+    display: block;
+}
+
 .rp-inventory-item-icon {
     width: 32px;
     height: 32px;
+}
+
+.rp-inventory-item-info-popup {
+    position: relative;
+    left: 40px;
+    top: -34px;
+    z-index: 1;
+    width: 200px;
+    height: auto;
+    display: none;
+    background-image: url('../img/background.png');
+    border: 1px solid white;
+    padding: 10px;
+    line-height: 14px;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.rp-inventory-item-info-popup-header {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.rp-inventory-item-info-popup-flavor {
+    margin-bottom: 5px;
+    font-style: italic;
+}
+
+.rp-inventory-item-info-popup-description {
+    margin-bottom: 5px;
+}
+
+.rp-inventory-item-info-popup-weight {
+}
+
+.rp-inventory-item-info-popup-price {
 }
 
 .rp-inventory-item-name {

@@ -38,8 +38,8 @@ function rp_inventory_create_item($arguments) {
         'description' => $arguments['description'],
         'flavor' => $arguments['flavor'],
         'type' => $arguments['type'],
-        'price' => $arguments['price'],
-        'weight' => $arguments['weight']
+        'price' => str_replace(",", ".", $arguments['price']),
+        'weight' => str_replace(",", ".", $arguments['weight'])
     );
     $wpdb->insert($db_table_name, $values);
 

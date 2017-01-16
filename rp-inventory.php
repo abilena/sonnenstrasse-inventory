@@ -48,7 +48,7 @@ function rp_inventory_shortcode($atts, $content) {
     }
 
     $default_container = new stdClass();
-    $default_container->name = "Am K&ouml;rper";
+    $default_container->name = ($owner === "Gruppe") ? "Gruppe" : "Am K&ouml;rper";
     $default_container->item_id = 0;
     $default_container->owner = $owner;
     $default_container->hosts_container_id = 0;
@@ -105,12 +105,22 @@ function rp_inventory_shortcode($atts, $content) {
             $name = "";
             $type = "mundane";
             $item_id = "0";
+            $flavor = "";
+            $description = "";
+            $weight = "";
+            $price = "";
+            $visibility = "hidden";
             if (array_key_exists($slot, $content_array)) {
                 $content_data = $content_array[$slot];
                 $icon = $path_url . "/img/icons/" . $content_data->icon;
                 $name = $content_data->name;
                 $type = $content_data->type;
                 $item_id = $content_data->item_id;
+                $flavor = str_replace("\n", "<br>", $content_data->flavor);
+                $description = str_replace("\n", "<br>", $content_data->description);
+                $weight = sprintf("%.0f", $content_data->weight);
+                $price = str_replace(".", ",", sprintf("%.2f", $content_data->price));
+                $visibility = "visible";
             }
 
             $tpl_inventory_item = new Template($path_local . "/tpl/inventory_item.html");
@@ -121,6 +131,11 @@ function rp_inventory_shortcode($atts, $content) {
             $tpl_inventory_item->set("Name", $name);
             $tpl_inventory_item->set("Type", $type);
             $tpl_inventory_item->set("Owner", $owner);
+            $tpl_inventory_item->set("Flavor", $flavor);
+            $tpl_inventory_item->set("Description", $description);
+            $tpl_inventory_item->set("Weight", $weight);
+            $tpl_inventory_item->set("Price", $price);
+            $tpl_inventory_item->set("Visibility", $visibility);
             $container_content_html .= $tpl_inventory_item->output();
         }
 

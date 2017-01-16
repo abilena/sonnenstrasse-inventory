@@ -97,6 +97,38 @@ function rp_inventory_create_item()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Item deletion
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_delete_item()
+{
+    if (selectedItem == null)
+    {
+        alert("No item is selected.");
+        return;
+    }
+    else
+    {
+        var itemName = selectedItem.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[0].innerHTML;
+
+        if (!confirm("Are you sure you want to delete " + itemName + "?"))
+            return;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (this.responseText.substring(0, 9).toLowerCase() != "succeeded")
+                    alert(this.responseText);
+
+                reloadScroll();
+            }
+        };
+        xhttp.open("GET", "wp-content/plugins/rp-inventory/delete-item.php?item=" + selectedItem.id, true);
+        xhttp.send();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Item swapping
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

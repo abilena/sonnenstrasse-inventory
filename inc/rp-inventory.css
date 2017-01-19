@@ -1,5 +1,7 @@
 .rp-inventory {
 	padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .rp-inventory-header {
@@ -7,7 +9,7 @@
 
 .rp-inventory-popup-create {
     position: absolute;
-    z-index: 2;
+    z-index: 100;
     width: 600px;
     height: 550px;
     display: block;
@@ -32,7 +34,7 @@
     position: absolute;
     left: 10px;
     top: 60px;
-    z-index: 3;
+    z-index: 110;
     width: 578px;
     height: 450px;
     display: block;
@@ -90,6 +92,16 @@
 
 .rp-inventory-container-content {
     background-image: url('../img/shapes/armor-bg.jpg');
+    background-repeat: repeat-x;
+    background-color: #22211f;
+}
+
+.rp-inventory-container-bottom {
+    background-image: url('../img/shapes/container_bottom.png');
+    height: 30px;
+    margin-top: -8px;
+    z-index: 1;
+    position: relative;
 }
 
 .rp-inventory-container-slot {
@@ -106,9 +118,6 @@
 }
 
 .rp-inventory-container table {
-    background-image: url('../img/shapes/armor-bg.jpg');
-    background-repeat: repeat-x;
-    background-color: #22211f;
     font-size: 11px;
     font-family: Verdana, Geneva, sans-serif;
 }
@@ -286,7 +295,7 @@
     position: absolute;
     left: 40px;
     top: -4px;
-    z-index: 1;
+    z-index: 1000;
     width: 200px;
     height: auto;
     display: none;

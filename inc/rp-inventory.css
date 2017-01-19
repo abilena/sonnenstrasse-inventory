@@ -12,7 +12,7 @@
     position: absolute;
     z-index: 2;
     width: 600px;
-    height: 455px;
+    height: 525px;
     display: block;
     visibility: collapse;
     background-image: url('../img/background.png');
@@ -70,6 +70,19 @@
 }
 
 .rp-inventory-container {
+    margin-top: 10px;
+}
+
+.rp-inventory-container-icon {
+    width: 45px;
+    height: 38px;
+    display: inline-block;
+}
+
+.rp-inventory-container-icon-armor {
+}
+
+.rp-inventory-container-icon-default {
 }
 
 .rp-inventory-container table {
@@ -86,6 +99,148 @@
 .rp-inventory-container table, td, th {
     border: 0px;
     padding: 0px;
+}
+
+.rp-inventory-container-armor {
+    margin-top: 10px;
+    width: 680px;
+}
+
+.rp-inventory-container-armor table {
+    background-image: url('../img/background.png');
+    background-size: 100%;
+    border-spacing: 0px;
+    width: 100%;
+}
+
+.rp-inventory-container-armor table {
+    background-image: url('../img/shapes/armor-bg.jpg');
+    background-repeat: repeat-x;
+    background-color: #22211f;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.rp-inventory-container-armor th {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    height: 25px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.rp-inventory-container-armor table td {
+    height: 36px;
+    border: 0px;
+    padding: 2px;
+    color: #a99877;
+}
+
+.rp-inventory-container-armor table .rp-inventory-header-empty {
+    height: 0px;
+    padding: 0px;
+}
+
+.rp-inventory-col-rs {
+    width: 30px;
+    text-align: center;
+}
+
+ .rp-inventory-col-be {
+    width: 40px;
+    text-align: center;
+}
+
+.rp-inventory-header-rs {
+    width: 30px;
+}
+
+.rp-inventory-header-rs img {
+    margin-top: 4px;
+}
+
+.rp-inventory-header-rs span {
+    display: none;
+}
+
+.rp-inventory-header-rs:hover .rp-inventory-tooltip-rs {
+    display: block;
+    position: absolute;
+    margin-left: -4px;
+    margin-top: -64px;
+    z-index: 1;
+    background-image: url('../img/background.png');
+    border: 1px solid white;
+    padding: 10px;
+    line-height: 14px;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.rp-inventory-armor-display {
+    background-image: url('../img/shapes/female.png');
+    width: 120px;
+    height: 240px;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+}
+
+.rp-inventory-panel-rs {
+    background-image: url('../img/shapes/rs_panel.png');
+    width: 31px;
+    height: 29px;
+    text-align: center;
+    text-indent: -6px;
+    line-height: 20px;
+    display: block;
+    position: absolute;
+    color: #ffffff;
+}
+
+.rp-inventory-panel-rs-ko {
+    top: -10px;
+    left: 48px;
+}
+
+.rp-inventory-panel-rs-br-ru {
+    background-image: url('../img/shapes/rs_panel2.png');
+    width: 47px;
+    top: 50px;
+    left: 40px;
+}
+
+.rp-inventory-panel-rs-ba {
+    top: 110px;
+    left: 48px;
+}
+
+.rp-inventory-panel-rs-la {
+    top: 80px;
+    left: 96px;
+}
+
+.rp-inventory-panel-rs-ra {
+    top: 80px;
+    left: 0px;
+}
+
+.rp-inventory-panel-rs-lb {
+    top: 160px;
+    left: 96px;
+}
+
+.rp-inventory-panel-rs-rb {
+    top: 160px;
+    left: 0px;
+}
+
+.rp-inventory-container-title {
+    background-image: url('../img/shapes/container_title_armor.png');
+    height: 45px;
 }
 
 .rp-inventory-item-slot {
@@ -147,6 +302,7 @@
     line-height: 14px;
     font-size: 11px;
     font-family: Verdana, Geneva, sans-serif;
+    color: #ffffff;
 }
 
 .rp-inventory-item-info-popup-header {
@@ -208,5 +364,11 @@
     padding-left: 10px;
     line-height: 36px;
     height: 36px;
-    background-color: rgba(0, 0, 0, 0.25);
+    display: inline-block;
+    vertical-align: top;
+    font-family: Overlock;
+    font-size: 18px;
+}
+
+.rp-inventory-shape {
 }

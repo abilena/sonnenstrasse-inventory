@@ -53,6 +53,7 @@ function rp_inventory_shortcode($atts, $content) {
     $default_container->owner = $owner;
     $default_container->hosts_container_id = 0;
     $default_container->hosts_container_order = 0;
+    $default_container->hosts_container_type = "default";
     $default_container->icon = "am_koerper.png";
     $default_container->type = "mundane";
     $default_container->price = 0.0;
@@ -93,12 +94,19 @@ function rp_inventory_shortcode($atts, $content) {
     foreach ($container_orders as $hosts_container_order => $hosts_container_id) {
         $container_content_html = "";
         $container_data = $container_ids[$hosts_container_id];
+        $container_type = $container_data->hosts_container_type;
+        $sum_rs = array(0, 0, 0, 0, 0, 0, 0, 0);
+        $sum_be = 0.0;
 
         $content_array = $container_content[$hosts_container_id];
         $max_slot = 1;
         if (!empty($content_array)) {
             $max_slot += max(array_keys($content_array));
         }
+        if ($container_type == "armor") {
+            $max_slot = max($max_slot, 5);
+        }
+
         for ($slot = 0; $slot <= $max_slot; $slot++) {
 
             $icon = $path_url . "/img/empty.png";
@@ -110,6 +118,8 @@ function rp_inventory_shortcode($atts, $content) {
             $weight = "";
             $price = "";
             $visibility = "hidden";
+            $rs = array("", "", "", "", "", "", "", "");
+            $be = "";
             if (array_key_exists($slot, $content_array)) {
                 $content_data = $content_array[$slot];
                 $icon = $path_url . "/img/icons/" . $content_data->icon;
@@ -120,10 +130,20 @@ function rp_inventory_shortcode($atts, $content) {
                 $description = str_replace("\n", "<br>", $content_data->description);
                 $weight = sprintf("%.0f", $content_data->weight);
                 $price = str_replace(".", ",", sprintf("%.2f", $content_data->price));
+                $rs = $content_data->rs;
+                if (!empty($rs)) {
+                    $rs = str_replace("0", "-", $rs);
+                    $rs = explode(";", $rs);
+                    $be = str_replace(".", ",", sprintf("%.2f", $content_data->be));
+                    for ($rs_index = 0; $rs_index < 8; $rs_index++) {
+                        $sum_rs[$rs_index] += $rs[$rs_index];
+                    }
+                    $sum_be += $content_data->be;
+                }
                 $visibility = "visible";
             }
 
-            $tpl_inventory_item = new Template($path_local . "/tpl/inventory_item.html");
+            $tpl_inventory_item = new Template($path_local . "/tpl/inventory_item_" . $container_type . ".html");
             $tpl_inventory_item->set("ContainerId", $hosts_container_id);
             $tpl_inventory_item->set("Slot", $slot);
             $tpl_inventory_item->set("ItemId", $item_id);
@@ -135,13 +155,31 @@ function rp_inventory_shortcode($atts, $content) {
             $tpl_inventory_item->set("Description", $description);
             $tpl_inventory_item->set("Weight", $weight);
             $tpl_inventory_item->set("Price", $price);
+            $tpl_inventory_item->set("RS_KO", $rs[0]);
+            $tpl_inventory_item->set("RS_BR", $rs[1]);
+            $tpl_inventory_item->set("RS_RU", $rs[2]);
+            $tpl_inventory_item->set("RS_BA", $rs[3]);
+            $tpl_inventory_item->set("RS_LA", $rs[4]);
+            $tpl_inventory_item->set("RS_RA", $rs[5]);
+            $tpl_inventory_item->set("RS_LB", $rs[6]);
+            $tpl_inventory_item->set("RS_RB", $rs[7]);
+            $tpl_inventory_item->set("BE", $be);
             $tpl_inventory_item->set("Visibility", $visibility);
             $container_content_html .= $tpl_inventory_item->output();
         }
 
-        $tpl_inventory_container = new Template($path_local . "/tpl/inventory_container.html");
+        $tpl_inventory_container = new Template($path_local . "/tpl/inventory_container_" . $container_type . ".html");
         $tpl_inventory_container->set("ContainerName", $container_data->name);
         $tpl_inventory_container->set("ContainerContent", $container_content_html);
+        $tpl_inventory_container->set("Sum_RS_KO", sprintf("%.0f", $sum_rs[0]));
+        $tpl_inventory_container->set("Sum_RS_BR", sprintf("%.0f", $sum_rs[1]));
+        $tpl_inventory_container->set("Sum_RS_RU", sprintf("%.0f", $sum_rs[2]));
+        $tpl_inventory_container->set("Sum_RS_BA", sprintf("%.0f", $sum_rs[3]));
+        $tpl_inventory_container->set("Sum_RS_LA", sprintf("%.0f", $sum_rs[4]));
+        $tpl_inventory_container->set("Sum_RS_RA", sprintf("%.0f", $sum_rs[5]));
+        $tpl_inventory_container->set("Sum_RS_LB", sprintf("%.0f", $sum_rs[6]));
+        $tpl_inventory_container->set("Sum_RS_RB", sprintf("%.0f", $sum_rs[7]));
+        $tpl_inventory_container->set("Sum_BE", str_replace(".", ",", sprintf("%.2f", $sum_be)));
         $containers_html .= $tpl_inventory_container->output();
     }
 
@@ -179,6 +217,7 @@ function rp_inventory_install() {
         `slot` mediumint(9) NOT NULL,
         `hosts_container_id` mediumint(9) NOT NULL,
         `hosts_container_order` mediumint(9) NOT NULL,
+        `hosts_container_type` tinytext NOT NULL,
         `icon` tinytext NOT NULL,
         `name` tinytext NOT NULL,
         `description` text NOT NULL,
@@ -186,6 +225,8 @@ function rp_inventory_install() {
         `type` tinytext NOT NULL, 
         `price` float NOT NULL,
         `weight` float NOT NULL,
+        `rs` tinytext,
+        `be` float,
 		UNIQUE KEY item_id (item_id)
 		);";
 

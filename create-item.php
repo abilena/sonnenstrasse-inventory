@@ -21,10 +21,12 @@ function rp_inventory_create_item($arguments) {
 
     $container_order = 0;
     $container_id = 0;
+    $container_type = "";
     if ($arguments['is_container'] == "true") {
         $container_id = $wpdb->get_var("SELECT MAX(hosts_container_id) FROM $db_table_name");
         $container_id += 1;
         $container_order = $arguments['container_order'];
+        $container_type = $arguments['container_type'];
     }
 
     $values = array(
@@ -33,13 +35,16 @@ function rp_inventory_create_item($arguments) {
         'slot' => $slot,
         'hosts_container_id' => $container_id,
         'hosts_container_order' => $container_order,
+        'hosts_container_type' => $container_type,
         'icon' => $arguments['icon'],
         'name' => $arguments['name'],
         'description' => $arguments['description'],
         'flavor' => $arguments['flavor'],
         'type' => $arguments['type'],
         'price' => str_replace(",", ".", $arguments['price']),
-        'weight' => str_replace(",", ".", $arguments['weight'])
+        'weight' => str_replace(",", ".", $arguments['weight']),
+        'rs' => str_replace(",", ".", $arguments['rs']),
+        'be' => str_replace(",", ".", $arguments['be'])
     );
     $wpdb->insert($db_table_name, $values);
 

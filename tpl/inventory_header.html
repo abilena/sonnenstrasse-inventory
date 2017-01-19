@@ -48,8 +48,14 @@
         <tr><td>Gewicht (Unzen):</td><td><input id="rp-inventory-create-weight" value="15,7"></input></td></tr>
         <tr><td>Behälter (Ja/Nein):</td><td><input type="checkbox" id="rp-inventory-create-is-container" style="width: 20px"></input></td></tr>
         <tr><td>Behälter-Reihenfolge:</td><td><input id="rp-inventory-create-container-order" value="1"></input></td></tr>
+        <tr><td>Behälter-Typ:</td><td><select id="rp-inventory-create-container-type" style="width: 406px;">
+                        <option value="default" selected>Standard</option>
+                        <option value="armor">Rüstungs-Set</option>
+                    </select></td></tr>
         <tr><td>Beschreibung:</td><td><textarea id="rp-inventory-create-description"></textarea></td></tr>
         <tr><td>Flavor Text:</td><td><textarea id="rp-inventory-create-flavor"></textarea></td></tr>
+        <tr><td>RS:</td><td><input id="rp-inventory-create-rs" value="0;0;0;0;0;0;0;0"></input></td></tr>
+        <tr><td>BE:</td><td><input id="rp-inventory-create-be" value="0,0"></input></td></tr>
     </table>
     <div>
         <div class="rp-inventory-button" onclick="rp_inventory_create_item()">Erstellen</div>

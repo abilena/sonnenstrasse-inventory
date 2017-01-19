@@ -57,8 +57,11 @@ function rp_inventory_create_item()
     var weight = document.getElementById("rp-inventory-create-weight").value;
     var is_container = document.getElementById("rp-inventory-create-is-container").checked;
     var container_order = document.getElementById("rp-inventory-create-container-order").value;
+    var container_type = document.getElementById("rp-inventory-create-container-type").value;
     var description = document.getElementById("rp-inventory-create-description").value;
     var flavor = document.getElementById("rp-inventory-create-flavor").value;
+    var rs = document.getElementById("rp-inventory-create-rs").value;
+    var be = document.getElementById("rp-inventory-create-be").value;
 
     name = encodeURIComponent(name);
     icon = encodeURIComponent(icon);
@@ -67,8 +70,11 @@ function rp_inventory_create_item()
     weight = encodeURIComponent(weight);
     is_container = encodeURIComponent(is_container);
     container_order = encodeURIComponent(container_order);
+    container_type = encodeURIComponent(container_type);
     description = encodeURIComponent(description);
     flavor = encodeURIComponent(flavor);
+    rs = encodeURIComponent(rs);
+    be = encodeURIComponent(be);
 
     var parameters = "name=" + name;
     parameters += "&icon=" + icon;
@@ -77,8 +83,11 @@ function rp_inventory_create_item()
     parameters += "&weight=" + weight;
     parameters += "&is_container=" + is_container;
     parameters += "&container_order=" + container_order;
+    parameters += "&container_type=" + container_type;
     parameters += "&description=" + description;
     parameters += "&flavor=" + flavor;
+    parameters += "&rs=" + rs;
+    parameters += "&be=" + be;
 
     isCreating = true;
 

@@ -106,6 +106,10 @@ function rp_inventory_shortcode($atts, $content) {
         if ($container_type == "armor") {
             $max_slot = max($max_slot, 5);
         }
+        else
+        {
+            $max_slot = (ceil(($max_slot + 1) / 15) * 15) - 1;
+        }
 
         for ($slot = 0; $slot <= $max_slot; $slot++) {
 
@@ -143,14 +147,24 @@ function rp_inventory_shortcode($atts, $content) {
                 $visibility = "visible";
             }
 
+            $popup_class = "";
+            if ($container_type == "default" && ($slot % 15 > 10)) {
+                $popup_class = "rp-inventory-item-info-popup-left";
+            }
+
+            $tpl_inventory_slot = new Template($path_local . "/tpl/inventory_item_slot.html");
+            $tpl_inventory_slot->set("PopupClass", $popup_class);
+            $inventory_slot_html = $tpl_inventory_slot->output();
+
             $tpl_inventory_item = new Template($path_local . "/tpl/inventory_item_" . $container_type . ".html");
+            $tpl_inventory_item->set("SlotContent", $inventory_slot_html);
             $tpl_inventory_item->set("ContainerId", $hosts_container_id);
             $tpl_inventory_item->set("Slot", $slot);
             $tpl_inventory_item->set("ItemId", $item_id);
+            $tpl_inventory_item->set("Owner", $owner);
             $tpl_inventory_item->set("Icon", $icon);
             $tpl_inventory_item->set("Name", $name);
             $tpl_inventory_item->set("Type", $type);
-            $tpl_inventory_item->set("Owner", $owner);
             $tpl_inventory_item->set("Flavor", $flavor);
             $tpl_inventory_item->set("Description", $description);
             $tpl_inventory_item->set("Weight", $weight);

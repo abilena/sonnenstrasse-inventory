@@ -22,12 +22,14 @@ function rp_inventory_swap_item($arguments) {
     $old_slot = $matches1["slot"];
     $old_id = $matches1["id"];
     $old_owner = $matches1["owner"];
+    $old_container_id = 0;
 
     preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $item2, $matches2);
     $new_host = $matches2["host"];
     $new_slot = $matches2["slot"];
     $new_id = $matches2["id"];
     $new_owner = $matches2["owner"];
+    $new_container_id = 0;
 
     $output = "";
     $output .= "item1: $item1\n";
@@ -64,6 +66,7 @@ function rp_inventory_swap_item($arguments) {
         else
         {
             $old_result = $old_results[0];
+            $old_container_id = $old_result->hosts_container_id;
             if ($old_result->owner != $old_owner) $old_valid = 0;
             if ($old_result->show_in_container_id != $old_host) $old_valid = 0;
             if ($old_result->slot != $old_slot) $old_valid = 0;
@@ -89,6 +92,7 @@ function rp_inventory_swap_item($arguments) {
         else
         {
             $new_result = $new_results[0];
+            $new_container_id = $new_result->hosts_container_id;
             if ($new_result->owner != $new_owner) $new_valid = 0;
             if ($new_result->show_in_container_id != $new_host) $new_valid = 0;
             if ($new_result->slot != $new_slot) $new_valid = 0;
@@ -120,6 +124,23 @@ function rp_inventory_swap_item($arguments) {
     $output .= "new_updated: $new_updated\n";
     $output .= "\n";
 
+    if ($new_owner != $old_owner) {
+        if ($old_id > 0) {
+            if ($old_container_id > 0) {
+                if (!rp_inventory_swap_content($old_container_id, $new_owner)) {
+                    $old_updated = 0;
+                }
+            }
+        }
+        if ($new_id > 0) {
+            if ($new_container_id > 0) {
+                if (!rp_inventory_swap_content($new_container_id, $old_owner)) {
+                    $new_updated = 0;
+                }
+            }
+        }
+    }
+
     if($old_valid && $new_valid && $new_updated && $old_updated) {
         $wpdb->query('COMMIT'); // if you come here then well done
         echo("succeeded");
@@ -129,6 +150,30 @@ function rp_inventory_swap_item($arguments) {
         echo("failed\n\n");
         echo($output);
     }
+}
+
+function rp_inventory_swap_content($container_id, $new_owner) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE show_in_container_id=$container_id");
+    if (count($db_results) > 0)
+    {
+        foreach ($db_results as $row_id => $row_data) {
+            if ($row_data->hosts_container_id > 0) {
+                if (!rp_inventory_swap_content($row_data->hosts_container_id, $new_owner)) {
+                    return 0;
+                }
+            }
+        }
+
+        $items_updated = $wpdb->update($db_table_name, array('owner' => $new_owner), array('show_in_container_id' => $container_id));
+        if ($items_updated != count($db_results)) {
+            return 0;
+        }
+    }
+
+    return 1;
 }
 
 

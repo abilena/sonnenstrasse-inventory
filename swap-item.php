@@ -120,26 +120,32 @@ function rp_inventory_swap_item($arguments) {
             $old_updated = $wpdb->update($db_table_name, array('show_in_container_id' => $old_host, 'slot' => $old_slot, 'owner' => $old_owner), array('item_id' => $new_id));
     }
 
-    $output .= "old_updated: $old_updated\n";
-    $output .= "new_updated: $new_updated\n";
-    $output .= "\n";
-
     if ($new_owner != $old_owner) {
         if ($old_id > 0) {
-            if ($old_container_id > 0) {
-                if (!rp_inventory_swap_content($old_container_id, $new_owner)) {
-                    $old_updated = 0;
-                }
+            if (!rp_inventory_swap_content($old_container_id, $new_owner)) {
+                $old_updated = 0;
             }
         }
         if ($new_id > 0) {
-            if ($new_container_id > 0) {
-                if (!rp_inventory_swap_content($new_container_id, $old_owner)) {
-                    $new_updated = 0;
-                }
+            if (!rp_inventory_swap_content($new_container_id, $old_owner)) {
+                $new_updated = 0;
             }
         }
     }
+
+    // prevent recursive move by checking if a container is not in itself
+    if (rp_inventory_is_inside_container($old_id, $old_container_id) > 0) {
+        $old_updated = 0;
+        $output .= "Item must not be placed into itself!\n\n";
+    }
+    if (rp_inventory_is_inside_container($new_id, $new_container_id) > 0) {
+        $new_updated = 0;
+        $output .= "Item must not be placed into itself!\n\n";
+    }
+
+    $output .= "old_updated: $old_updated\n";
+    $output .= "new_updated: $new_updated\n";
+    $output .= "\n";
 
     if($old_valid && $new_valid && $new_updated && $old_updated) {
         $wpdb->query('COMMIT'); // if you come here then well done
@@ -155,6 +161,10 @@ function rp_inventory_swap_item($arguments) {
 function rp_inventory_swap_content($container_id, $new_owner) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    if ($container_id == 0) {
+        return 1;
+    }
 
     $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE show_in_container_id=$container_id");
     if (count($db_results) > 0)
@@ -174,6 +184,42 @@ function rp_inventory_swap_content($container_id, $new_owner) {
     }
 
     return 1;
+}
+
+function rp_inventory_is_inside_container($item_id, $container_id) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    if ($item_id == 0) {
+        return 0;
+    }
+    if ($container_id == 0) {
+        return 0;
+    }
+
+    $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE item_id=$item_id");
+    if (count($db_results) != 1) {
+        return 1;
+    }
+    $db_result = $db_results[0];
+    $show_in_container_id = $db_result->show_in_container_id;
+    if ($show_in_container_id == $container_id) {
+        return 1;
+    }
+
+    while ($show_in_container_id > 0) {
+        $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE hosts_container_id=$show_in_container_id");
+        if (count($db_results) != 1) {
+            return 1;
+        }
+        $db_result = $db_results[0];
+        $show_in_container_id = $db_result->show_in_container_id;
+        if ($show_in_container_id == $container_id) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 

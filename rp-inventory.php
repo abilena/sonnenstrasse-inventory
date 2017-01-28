@@ -11,6 +11,10 @@ Text Domain: rp-inventory
 
 include 'template.class.php';
 
+require_once('inc/rp-inventory-install.php'); 
+
+add_shortcode ('rp-inventory', 'rp_inventory_shortcode');
+
 function rp_inventory_shortcode($atts, $content) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';
@@ -204,70 +208,5 @@ function rp_inventory_shortcode($atts, $content) {
 
 	return $output;
 }
-
-add_shortcode ('rp-inventory', 'rp_inventory_shortcode');
-
-
-
-
-
-
-
-
-// plugin activation/deactivation
-
-// function to create the DB / Options / Defaults					
-function rp_inventory_install() {
-   	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
- 
-	// create the ECPT metabox database table
-	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
-	{
-		$sql = "CREATE TABLE " . $db_table_name . " (
-		`item_id` mediumint(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        `owner` tinytext NOT NULL,
-        `show_in_container_id` mediumint(9) NOT NULL,
-        `slot` mediumint(9) NOT NULL,
-        `hosts_container_id` mediumint(9) NOT NULL,
-        `hosts_container_order` mediumint(9) NOT NULL,
-        `hosts_container_type` tinytext NOT NULL,
-        `icon` tinytext NOT NULL,
-        `name` tinytext NOT NULL,
-        `description` text NOT NULL,
-        `flavor` text NOT NULL,
-        `type` tinytext NOT NULL, 
-        `price` float NOT NULL,
-        `weight` float NOT NULL,
-        `rs` tinytext,
-        `be` float,
-		UNIQUE KEY item_id (item_id)
-		);";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta($sql);
-	}
-}
-
-function rp_inventory_uninstall() {
-    global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
-
-    // delete the database table
-    $wpdb->query("DROP TABLE IF EXISTS " . $db_table_name);
-}
-
-// run the install/uninstall scripts upon plugin activation/deactivation
-register_activation_hook(__FILE__, 'rp_inventory_install');
-register_deactivation_hook(__FILE__, 'rp_inventory_uninstall');
-
-function rp_inventory_css_and_js() {
-    wp_register_style('rp_inventory_css_and_js', plugins_url('inc/rp-inventory.css', __FILE__));
-    wp_enqueue_style('rp_inventory_css_and_js');
-    wp_register_script('rp_inventory_css_and_js', plugins_url('inc/rp-inventory.js', __FILE__));
-    wp_enqueue_script('rp_inventory_css_and_js');
-}
-
-add_action('init', 'rp_inventory_css_and_js');
 
 ?>

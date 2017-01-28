@@ -352,16 +352,20 @@
     text-shadow: 2px 2px #000000;
 }
 
-.rp-inventory-item-trash {
+.rp-inventory-item-poor {
     color: #9d9d9d;
 }
 
-.rp-inventory-item-mundane {
+.rp-inventory-item-common {
     color: #ffffff;
 }
 
 .rp-inventory-item-magic {
     color: #0070ff;
+}
+
+.rp-inventory-item-rare {
+    color: #ffff00;
 }
 
 .rp-inventory-item-epic {

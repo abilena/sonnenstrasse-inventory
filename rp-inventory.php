@@ -59,7 +59,7 @@ function rp_inventory_shortcode($atts, $content) {
     $default_container->hosts_container_order = 0;
     $default_container->hosts_container_type = "default";
     $default_container->icon = "am_koerper.png";
-    $default_container->type = "mundane";
+    $default_container->type = "common";
     $default_container->price = 0.0;
     $default_container->weight = 0.0;
 
@@ -119,7 +119,7 @@ function rp_inventory_shortcode($atts, $content) {
 
             $icon = $path_url . "/img/empty.png";
             $name = "";
-            $type = "mundane";
+            $type = "common";
             $item_id = "0";
             $flavor = "";
             $description = "";

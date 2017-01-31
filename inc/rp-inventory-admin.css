@@ -1,4 +1,8 @@
 
+.rp-inventory-admin h2 {
+    white-space: nowrap;
+}
+
 .rp-inventory-admin-table-buttons {
     text-align: right;
     width: 100%;

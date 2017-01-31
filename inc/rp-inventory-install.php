@@ -73,6 +73,7 @@ function rp_inventory_options() { ?>
 		$options = get_option('rp_inventory'); ?>
 
     <h1>RP Inventory</h1>
+    <div class="rp-inventory-admin">
 <?php
 
     $path_local = plugin_dir_path(__FILE__);
@@ -97,7 +98,13 @@ function rp_inventory_options() { ?>
     if (count($partys) > 0) {
         $heroes_html = "";
         $heroes = rp_inventory_get_heroes($party_id);
+        $hero_id = (array_key_exists("hero_id", $_REQUEST) ? $_REQUEST["hero_id"] : 0);
+        $selected_hero = NULL;
         foreach ($heroes as $row_id => $hero) {
+
+            if ($hero->hero_id == $hero_id) {
+                $selected_hero = $hero;
+            }
 
             $portrait = $hero->portrait;
             if (empty($portrait)) {
@@ -114,10 +121,20 @@ function rp_inventory_options() { ?>
         $tpl_inventory_admin_heroes = new Template($path_local . "../tpl/inventory_admin_heroes.html");
         $tpl_inventory_admin_heroes->set("Heroes", $heroes_html);
         echo ($tpl_inventory_admin_heroes->output());
+
+        if (!empty($selected_hero)) {
+            $tpl_inventory_admin_hero_details = new Template($path_local . "../tpl/inventory_admin_hero_details.html");
+            $tpl_inventory_admin_hero_details->set("Id", $selected_hero->hero_id);
+            $tpl_inventory_admin_hero_details->set("Name", $selected_hero->name);
+            $tpl_inventory_admin_hero_details->set("Portrait", $selected_hero->portrait);
+            $tpl_inventory_admin_hero_details->set("Info", wp_json_encode($selected_hero));
+            echo ($tpl_inventory_admin_hero_details->output());
+        }
     }
 
  ?>
-	<p class="submit">
+    </div>
+    <p class="submit">
 	<input type="submit" name="submit" class="button-primary" value="<?php _e('Update Options', 'rp-inventory'); ?>" />
 	</p>
 	</form>

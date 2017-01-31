@@ -237,5 +237,5 @@ function createNewHero() {
 }
 
 function selectHero(hero_id) {
-    alert(hero_id);
+    reloadScroll("hero_id", hero_id);
 }

@@ -1,0 +1,86 @@
+<table class="rp-inventory-admin-table-partys">
+    <tr>
+        <td>Abenteuergruppen:</td>
+        <td>
+            <select id="rp-inventory-admin-select-party" onchange="getSelectedParty(false)" style="margin-left: 10px; margin-top:0px; min-width: 200px;">
+                [@Partys]
+            </select>
+            <input class="button-primary" type="button" value="Neu" onclick="openPartyDetails(true)"></input>
+            <input class="button-primary" type="button" value="Bearbeiten" onclick="openPartyDetails(false)"></input>
+            <input class="button-primary" type="button" value="Löschen" onclick="deleteParty()"></input>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div class="card" id="rp-inventory-admin-table-party-add" style="display: none;">
+                <div id="rp-inventory-admin-table-party-add-shading"></div>
+                <h2 id="rp-inventory-admin-table-party-add-headline"></h2>
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input id="rp-inventory-admin-create-party-name" value="Gruppe"></input></td>
+                    </tr>
+                    <tr>
+                        <td>In-Game Datum:</td>
+                        <td>
+                            <select id="rp-inventory-admin-create-party-current-day">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                            </select>
+                            <select id="rp-inventory-admin-create-party-current-month" onchange="updateSelectedMonth()">
+                                <option value="1">Praios</option>
+                                <option value="2">Rondra</option>
+                                <option value="3">Efferd</option>
+                                <option value="4">Travia</option>
+                                <option value="5">Boron</option>
+                                <option value="6">Hesinde</option>
+                                <option value="7">Firun</option>
+                                <option value="8">Tsa</option>
+                                <option value="9">Phex</option>
+                                <option value="10">Peraine</option>
+                                <option value="11">Ingerimm</option>
+                                <option value="12">Rahja</option>
+                                <option value="13">Namenlose Tage</option>
+                            </select>
+                            <input id="rp-inventory-admin-create-party-current-year" value="1013"></input> BF
+                            <input class="button-primary" type="button" value="Heute" onclick="gotoCurrentDate()" style="margin-left: 20px;"></input>
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    <input id="rp-inventory-admin-create-party-new" class="button-primary" type="button" value="Erstellen" onclick="addNewParty()"></input>
+                    <input id="rp-inventory-admin-create-party-edit" class="button-primary" type="button" value="Speichern" onclick="editParty()"></input>
+                </p>
+            </div>
+        </td>
+    </tr>
+</table>

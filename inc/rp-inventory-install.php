@@ -4,16 +4,12 @@ require_once('rp-inventory-database.php');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-register_activation_hook(__FILE__, 'rp_inventory_install');
-
 // function to create the DB / Options / Defaults					
 function rp_inventory_install() {
     rp_inventory_create_tables();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-register_deactivation_hook(__FILE__, 'rp_inventory_uninstall');
 
 function rp_inventory_uninstall() {
     rp_inventory_drop_tables();
@@ -24,10 +20,12 @@ function rp_inventory_uninstall() {
 add_action('init', 'rp_inventory_css_and_js');
 
 function rp_inventory_css_and_js() {
-    wp_register_style('rp_inventory_css_and_js', plugins_url('rp-inventory.css', __FILE__));
-    wp_enqueue_style('rp_inventory_css_and_js');
-    wp_register_script('rp_inventory_css_and_js', plugins_url('rp-inventory.js', __FILE__));
-    wp_enqueue_script('rp_inventory_css_and_js');
+    wp_register_style('rp_inventory_css', plugins_url('rp-inventory.css', __FILE__));
+    wp_enqueue_style('rp_inventory_css');
+    wp_register_script('rp_inventory_js', plugins_url('rp-inventory.js', __FILE__));
+    wp_enqueue_script('rp_inventory_js');
+    wp_register_script('rp_inventory_reload_js', plugins_url('rp-inventory-reload.js', __FILE__));
+    wp_enqueue_script('rp_inventory_reload_js');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,12 +56,13 @@ function rp_inventory_add_pages() {
 	add_action("admin_head-$css", 'rp_inventory_css');
 }
 
-function rp_inventory_css() { ?>
-    <style type="text/css">
-    #next-page, #parent-page, #previous-page { float: left; width: 30%; margin-right: 5%; }
-    #next-page { margin-right: 0; }
-    </style>
-<?php 
+function rp_inventory_css() {
+    wp_register_style('rp_inventory_admin_css', plugins_url('rp-inventory-admin.css', __FILE__));
+    wp_enqueue_style('rp_inventory_admin_css');
+    wp_register_script('rp_inventory_admin_js', plugins_url('rp-inventory-admin.js', __FILE__));
+    wp_enqueue_script('rp_inventory_admin_js');
+    wp_register_script('rp_inventory_reload_js', plugins_url('rp-inventory-reload.js', __FILE__));
+    wp_enqueue_script('rp_inventory_reload_js');
 }
 
 // displays the options page content
@@ -74,7 +73,25 @@ function rp_inventory_options() { ?>
 		$options = get_option('rp_inventory'); ?>
 
     <h1>RP Inventory</h1>
-    
+<?php
+
+    $path_local = plugin_dir_path(__FILE__);
+
+    $partys_html = "";
+    $partys = rp_inventory_get_partys();
+    foreach ($partys as $row_id => $party) {
+
+        $tpl_inventory_admin_party = new Template($path_local . "../tpl/inventory_admin_party.html");
+        $tpl_inventory_admin_party->set("Id", $party->party_id);
+        $tpl_inventory_admin_party->set("Name", $party->name);
+        $partys_html .= $tpl_inventory_admin_party->output();
+    }
+
+    $tpl_inventory_admin_partys = new Template($path_local . "../tpl/inventory_admin_partys.html");
+    $tpl_inventory_admin_partys->set("Partys", $partys_html);
+    echo ($tpl_inventory_admin_partys->output());
+
+ ?>
 	<p class="submit">
 	<input type="submit" name="submit" class="button-primary" value="<?php _e('Update Options', 'rp-inventory'); ?>" />
 	</p>

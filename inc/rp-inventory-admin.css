@@ -1,0 +1,45 @@
+.rp-inventory-admin-table-partys {
+}
+
+#rp-inventory-admin-select-party {
+    margin-left: 10px;
+    margin-top: 0px;
+    min-width: 200px;
+}
+
+#rp-inventory-admin-table-party-add {
+    display: none;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+#rp-inventory-admin-create-party-name {
+    width: 241px;
+}
+
+#rp-inventory-admin-create-party-current-day {
+    width: 50px;
+    text-align: right;
+    margin-top: -3px;
+}
+
+#rp-inventory-admin-create-party-current-month {
+    width: 100px;
+    text-align: right;
+    margin-top: -3px;
+}
+
+#rp-inventory-admin-create-party-current-year {
+    width: 80px;
+    text-align: right;
+}
+
+#rp-inventory-admin-table-party-add-shading {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.75);
+}

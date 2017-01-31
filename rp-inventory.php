@@ -13,6 +13,9 @@ include 'template.class.php';
 
 require_once('inc/rp-inventory-install.php'); 
 
+register_deactivation_hook(__FILE__, 'rp_inventory_uninstall');
+register_activation_hook(__FILE__, 'rp_inventory_install');
+
 add_shortcode ('rp-inventory', 'rp_inventory_shortcode');
 
 function rp_inventory_shortcode($atts, $content) {

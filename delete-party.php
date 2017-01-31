@@ -12,6 +12,6 @@ include_once $path . '/wp-includes/pluggable.php';
 
 require_once('inc/rp-inventory-database.php');
 
-echo(rp_inventory_delete_item($_REQUEST["item"]));
+echo(rp_inventory_delete_party($_REQUEST["id"]));
 
 ?>

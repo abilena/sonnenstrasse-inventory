@@ -27,7 +27,7 @@ function getSelectedParty(doShowPartyDetails) {
                 showPartyDetails(false);
             }
             else {
-                reloadScroll("party_id", selectedParty.value);
+                reloadScroll("page=rp-inventory&party_id=" + selectedParty.value);
             }
         }
     };
@@ -234,8 +234,4 @@ function createNewHero() {
     };
     xhttp.open("GET", "../wp-content/plugins/rp-inventory/create-hero.php?party_id=" + selectedParty.value, true);
     xhttp.send();
-}
-
-function selectHero(hero_id) {
-    reloadScroll("hero_id", hero_id);
 }

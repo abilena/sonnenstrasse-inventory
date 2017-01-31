@@ -65,6 +65,73 @@ function rp_inventory_css() {
     wp_enqueue_script('rp_inventory_reload_js');
 }
 
+function rp_inventory_property($hero_id, $property_type, $property_label, $show_detailed) {
+    $path_local = plugin_dir_path(__FILE__);
+    $property_html = "";
+    $property_label = $property_label . ":";
+    $property_edit = "&lt;...&gt;";
+    $properties = rp_inventory_get_properties($hero_id, $property_type);
+    if (count($properties) > 0) {
+        if ($show_detailed) {
+            foreach ($properties as $row_id => $property) {
+                $name = $property->name;
+                if (!empty($property->value)) {
+                    $name .= " " . $property->value;
+                }
+                if (!empty($property->variant)) {
+                    $name .= " (" . $property->variant . ")";
+                }
+                if (!empty($property->info)) {
+                    $name .= " (" . $property->info . ")";
+                }
+
+                $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
+                $tpl_inventory_admin_property->set("Label", $property_label);
+                $tpl_inventory_admin_property->set("GP", $property->gp);
+                $tpl_inventory_admin_property->set("TGP", $property->tgp);
+                $tpl_inventory_admin_property->set("AP", $property->ap);
+                $tpl_inventory_admin_property->set("Name", $name);
+                $tpl_inventory_admin_property->set("Edit", $property_edit);
+                $property_html .= $tpl_inventory_admin_property->output();
+
+                $property_label = "";
+                $property_edit = "";
+            }
+        }
+        else {
+            $sum_gp = 0;
+            $sum_tgb = 0;
+            $sum_ap = 0;
+            foreach ($properties as $row_id => $property) {
+                $sum_gp += $property->gp;
+                $sum_tgp += $property->tgp;
+                $sum_ap += $property->ap;
+            }
+
+            $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
+            $tpl_inventory_admin_property->set("Label", $property_label);
+            $tpl_inventory_admin_property->set("GP", $sum_gp);
+            $tpl_inventory_admin_property->set("TGP", $sum_tgb);
+            $tpl_inventory_admin_property->set("AP", $sum_ap);
+            $tpl_inventory_admin_property->set("Name", "");
+            $tpl_inventory_admin_property->set("Edit", $property_edit);
+            $property_html .= $tpl_inventory_admin_property->output();
+        }
+    }
+    else {
+        $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
+        $tpl_inventory_admin_property->set("Label", $property_label);
+        $tpl_inventory_admin_property->set("GP", "");
+        $tpl_inventory_admin_property->set("TGP", "");
+        $tpl_inventory_admin_property->set("AP", "");
+        $tpl_inventory_admin_property->set("Name", "");
+        $tpl_inventory_admin_property->set("Edit", $property_edit);
+        $property_html .= $tpl_inventory_admin_property->output();
+    }
+
+    return $property_html;
+}
+
 // displays the options page content
 function rp_inventory_options() { ?>	
     <div class="wrap">
@@ -127,6 +194,17 @@ function rp_inventory_options() { ?>
             $tpl_inventory_admin_hero_details->set("Id", $selected_hero->hero_id);
             $tpl_inventory_admin_hero_details->set("Name", $selected_hero->name);
             $tpl_inventory_admin_hero_details->set("Portrait", $selected_hero->portrait);
+            $tpl_inventory_admin_hero_details->set("Race", rp_inventory_property($selected_hero->hero_id, "race", "Rasse", true));
+            $tpl_inventory_admin_hero_details->set("Culture", rp_inventory_property($selected_hero->hero_id, "culture", "Kultur", true));
+            $tpl_inventory_admin_hero_details->set("Profession", rp_inventory_property($selected_hero->hero_id, "profession", "Profession", true));
+            $tpl_inventory_admin_hero_details->set("Vorteile", rp_inventory_property($selected_hero->hero_id, "advantage", "Vorteile", true));
+            $tpl_inventory_admin_hero_details->set("Nachteile", rp_inventory_property($selected_hero->hero_id, "disadvantage", "Nachteile", true));
+            $tpl_inventory_admin_hero_details->set("Eigenschaften", rp_inventory_property($selected_hero->hero_id, "abilities", "Eigenschaften", false));
+            $tpl_inventory_admin_hero_details->set("Basiswerte", rp_inventory_property($selected_hero->hero_id, "basics", "Basiswerte", false));
+            $tpl_inventory_admin_hero_details->set("Talente", rp_inventory_property($selected_hero->hero_id, "skills", "Talente", false));
+            $tpl_inventory_admin_hero_details->set("Zauber", rp_inventory_property($selected_hero->hero_id, "spells", "Zauber", false));
+            $tpl_inventory_admin_hero_details->set("Sonderfertigkeiten", rp_inventory_property($selected_hero->hero_id, "feats", "Sonderfertigkeiten", false));
+
             $tpl_inventory_admin_hero_details->set("Info", wp_json_encode($selected_hero));
             echo ($tpl_inventory_admin_hero_details->output());
         }

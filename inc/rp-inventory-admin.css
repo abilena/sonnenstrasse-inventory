@@ -97,3 +97,35 @@
     user-select: none;
     -o-user-select: none;
 }
+
+.rp-inventory-admin-table-hero {
+    width: 100%;
+}
+
+.rp-inventory-admin-table-hero-label {
+    width: 120px;
+}
+
+.rp-inventory-admin-table-hero-gp {
+    width: 40px;
+    text-align: center;
+}
+
+.rp-inventory-admin-table-hero-tgp {
+    width: 40px;
+    text-align: center;
+}
+
+.rp-inventory-admin-table-hero-ap {
+    width: 40px;
+    text-align: center;
+}
+
+.rp-inventory-admin-table-hero-name {
+    width: 240px;
+}
+
+.rp-inventory-admin-table-hero-edit {
+    width: 30px;
+    text-align: right;
+}

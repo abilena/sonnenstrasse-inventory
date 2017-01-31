@@ -38,13 +38,29 @@ function rp_inventory_create_tables() {
         `birth_month` smallint NOT NULL,
         `birth_day` smallint NOT NULL,
         `birth_place` tinytext NOT NULL,
-        `race` tinytext NOT NULL,
-        `culture` tinytext NOT NULL,
-        `culture_variant` tinytext NOT NULL,
-        `culture_info` tinytext NOT NULL,
-        `profession` tinytext NOT NULL,
-        `profession_variant` tinytext NOT NULL,
 		UNIQUE KEY hero_id (hero_id)
+		);";
+
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		dbDelta($sql);
+	}
+
+    $db_table_name = $wpdb->prefix . 'rp_properties';
+	// create the ECPT metabox database table
+	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
+	{
+		$sql = "CREATE TABLE " . $db_table_name . " (
+		`property_id` mediumint(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		`hero` mediumint(9) NOT NULL,
+        `type` tinytext NOT NULL,
+        `name` tinytext NOT NULL,
+        `variant` tinytext NOT NULL,
+        `info` tinytext NOT NULL,
+        `value` smallint NOT NULL,
+        `gp` smallint NOT NULL,
+        `tgp` smallint NOT NULL,
+        `ap` mediumint NOT NULL,
+		UNIQUE KEY property_id (property_id)
 		);";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -85,6 +101,7 @@ function rp_inventory_drop_tables() {
 
     // delete the database tables
     $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_inventory');
+    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_properties');
     $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_heroes');
     $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_partys');
 }
@@ -218,6 +235,19 @@ function rp_inventory_create_hero($arguments) {
     $wpdb->insert($db_table_name, $values);
 
     $wpdb->query('COMMIT');    
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Properties
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_get_properties($hero_id, $property_type) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_properties';
+    
+    $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE hero=$hero_id AND type='$property_type' ORDER BY name");
+
+    return $db_results;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

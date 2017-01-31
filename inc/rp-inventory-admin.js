@@ -235,3 +235,7 @@ function createNewHero() {
     xhttp.open("GET", "../wp-content/plugins/rp-inventory/create-hero.php?party_id=" + selectedParty.value, true);
     xhttp.send();
 }
+
+function selectHero(hero_id) {
+    alert(hero_id);
+}

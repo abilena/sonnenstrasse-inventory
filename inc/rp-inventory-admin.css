@@ -4,6 +4,10 @@
     width: 100%;
 }
 
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Partys
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 #rp-inventory-admin-select-party {
     margin-left: 10px;
     margin-top: 0px;
@@ -46,4 +50,46 @@
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.75);
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Heroes
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.rp-inventory-admin-table-heroes {
+}
+
+.rp-inventory-admin-hero {
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.rp-inventory-admin-hero-thumbnail {
+    position: relative;
+    top: 0px;
+    width: 81px;
+    height: 84px;
+}
+
+.rp-inventory-admin-hero-thumbnail:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.rp-inventory-admin-hero-thumbnail-name {
+    position: absolute;
+    bottom: 0px;
+    width: 81px;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    color: #fff;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
+    text-align: center;
+    
+    cursor: default;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -o-user-select: none;
 }

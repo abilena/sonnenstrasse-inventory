@@ -18,13 +18,6 @@ function rp_inventory_create_tables() {
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
-
-        $wpdb->insert($db_table_name, array(
-            'name' => 'Gruppe', 
-            'description' => 'Demo Abenteuergruppe', 
-            'current_year' => 1013, 
-            'current_month' => 12,
-            'current_day' => 18));
 	}
 
     $db_table_name = $wpdb->prefix . 'rp_heroes';
@@ -38,6 +31,7 @@ function rp_inventory_create_tables() {
         `name` tinytext NOT NULL,
         `display_name` tinytext NOT NULL,
         `gender` tinytext NOT NULL,
+        `portrait` tinytext NOT NULL,
         `weight` float NOT NULL,
         `height` float NOT NULL,
         `birth_year` smallint NOT NULL,

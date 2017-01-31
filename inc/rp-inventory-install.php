@@ -76,6 +76,7 @@ function rp_inventory_options() { ?>
 <?php
 
     $path_local = plugin_dir_path(__FILE__);
+    $path_url = plugins_url() . "/rp-inventory";
 
     $partys_html = "";
     $partys = rp_inventory_get_partys();
@@ -98,9 +99,15 @@ function rp_inventory_options() { ?>
         $heroes = rp_inventory_get_heroes($party_id);
         foreach ($heroes as $row_id => $hero) {
 
+            $portrait = $hero->portrait;
+            if (empty($portrait)) {
+                $portrait = $path_url . "/img/shapes/" . (($hero->gender == 'female') ? "portrait_female.png" : "portrait_male.png");
+            }
+
             $tpl_inventory_admin_hero = new Template($path_local . "../tpl/inventory_admin_hero.html");
             $tpl_inventory_admin_hero->set("Id", $hero->hero_id);
             $tpl_inventory_admin_hero->set("Name", $hero->name);
+            $tpl_inventory_admin_hero->set("Portrait", $portrait);
             $heroes_html .= $tpl_inventory_admin_hero->output();
         }
 

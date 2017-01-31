@@ -1,12 +1,13 @@
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Partys
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 var isLoading = false;
 var isEditing = false;
 var isCreating = false;
 
 function getSelectedParty(doShowPartyDetails) {
-
-    if (isCreating)
-        return;
 
     var partySelector = document.getElementById("rp-inventory-admin-select-party");
     if (partySelector.selectedIndex < 0)
@@ -20,10 +21,14 @@ function getSelectedParty(doShowPartyDetails) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var party = JSON.parse(this.responseText);
-            setParty(party);
-            if (doShowPartyDetails)
-                showPartyDetails(party == null);
+            if (doShowPartyDetails) {
+                var party = JSON.parse(this.responseText);
+                setParty(party);
+                showPartyDetails(false);
+            }
+            else {
+                reloadScroll("party_id", selectedParty.value);
+            }
         }
     };
     xhttp.open("GET", "../wp-content/plugins/rp-inventory/get-party.php?id=" + selectedParty.value, true);
@@ -203,5 +208,30 @@ function deleteParty() {
         }
     };
     xhttp.open("GET", "../wp-content/plugins/rp-inventory/delete-party.php?id=" + selectedParty.value, true);
+    xhttp.send();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Heroes
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function createNewHero() {
+    
+    var partySelector = document.getElementById("rp-inventory-admin-select-party");
+    if (partySelector.selectedIndex < 0)
+        return;
+
+    var selectedParty = partySelector.options[partySelector.selectedIndex];
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.substring(0, 9).toLowerCase() != "")
+                alert(this.responseText);
+
+            reloadScroll();
+        }
+    };
+    xhttp.open("GET", "../wp-content/plugins/rp-inventory/create-hero.php?party_id=" + selectedParty.value, true);
     xhttp.send();
 }

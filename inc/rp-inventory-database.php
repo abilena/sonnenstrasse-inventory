@@ -198,6 +198,35 @@ function rp_inventory_delete_party($id) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Heroes
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_get_heroes($party_id) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    
+    $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE party=$party_id ORDER BY name");
+
+    return $db_results;
+}
+
+function rp_inventory_create_hero($arguments) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+
+    $wpdb->query('START TRANSACTION');
+
+    $values = array(
+        'party' => $arguments['party_id'], 
+        'creator' => wp_get_current_user()->user_login, 
+        'name' => "Neuer Held"
+    );
+    $wpdb->insert($db_table_name, $values);
+
+    $wpdb->query('COMMIT');    
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Items
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

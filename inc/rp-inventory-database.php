@@ -54,12 +54,12 @@ function rp_inventory_create_tables() {
 		`hero` mediumint(9) NOT NULL,
         `type` tinytext NOT NULL,
         `name` tinytext NOT NULL,
-        `variant` tinytext NOT NULL,
-        `info` tinytext NOT NULL,
-        `value` smallint NOT NULL,
-        `gp` smallint NOT NULL,
-        `tgp` smallint NOT NULL,
-        `ap` mediumint NOT NULL,
+        `variant` tinytext,
+        `info` tinytext,
+        `value` smallint,
+        `gp` smallint,
+        `tgp` mediumint,
+        `ap` mediumint,
 		UNIQUE KEY property_id (property_id)
 		);";
 
@@ -248,6 +248,58 @@ function rp_inventory_get_properties($hero_id, $property_type) {
     $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE hero=$hero_id AND type='$property_type' ORDER BY name");
 
     return $db_results;
+}
+
+function rp_inventory_property_format_cost($cost) {
+    if ($cost == NULL) {
+        return "";
+    } else if ($cost == 0) {
+        return "-";
+    } else {
+        return $cost;
+    }
+}
+
+function rp_inventory_property_parse_cost($value) {
+    if ($value == "") {
+        return NULL;
+    } else if ($value == "-") {
+        return 0;
+    } else {
+        return $value;
+    }
+}
+
+function rp_inventory_edit_property($arguments) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_properties';
+
+    if (empty($arguments['name'])) {
+        return;
+    }
+
+    $wpdb->query('START TRANSACTION');
+
+    $id = $arguments['property_id'];
+    $values = array(
+		'hero' => $arguments['hero'], 
+        'type' => $arguments['type'], 
+        'name' => $arguments['name'], 
+        'variant' => $arguments['variant'], 
+        'info' => $arguments['info'], 
+        'value' => $arguments['value'], 
+        'gp' => rp_inventory_property_parse_cost($arguments['gp']), 
+        'tgp' => rp_inventory_property_parse_cost($arguments['tgp']), 
+        'ap' => rp_inventory_property_parse_cost($arguments['ap'])
+    );
+
+    if ($id > 0) {
+        $wpdb->update($db_table_name, $values, array('property_id' => $arguments['property_id']));
+    } else {
+        $wpdb->insert($db_table_name, $values);
+    }
+
+    $wpdb->query('COMMIT');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,14 +1,14 @@
 <?php
 
-require_once('rp-inventory-database.php'); 
+require_once('rp-inventory-database.php');
 
 function rp_inventory_property($hero_id, $property_type, $property_label, $show_detailed) {
     $path_local = plugin_dir_path(__FILE__);
-    $query = http_build_query(array_merge($_GET, array("property" => $property_type)));
+    $path_url = plugins_url() . "/rp-inventory";
+    $edit_query = http_build_query(array_merge($_GET, array("property" => $property_type, "property_label" => $property_label)));
 
     $property_html = "";
-    $property_label = $property_label . ":";
-    $property_edit = "<a href=\"?$query\">&lt;...&gt;</a>";
+    $property_label = "<a href=\"?$edit_query\"></a> <strong>$property_label:</strong>";
     $properties = rp_inventory_get_properties($hero_id, $property_type);
     if (count($properties) > 0) {
         if ($show_detailed) {
@@ -26,15 +26,14 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
 
                 $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
                 $tpl_inventory_admin_property->set("Label", $property_label);
-                $tpl_inventory_admin_property->set("GP", $property->gp);
-                $tpl_inventory_admin_property->set("TGP", $property->tgp);
-                $tpl_inventory_admin_property->set("AP", $property->ap);
+                $tpl_inventory_admin_property->set("GP", rp_inventory_property_format_cost($property->gp));
+                $tpl_inventory_admin_property->set("TGP", rp_inventory_property_format_cost($property->tgp));
+                $tpl_inventory_admin_property->set("AP", rp_inventory_property_format_cost($property->ap));
                 $tpl_inventory_admin_property->set("Name", $name);
-                $tpl_inventory_admin_property->set("Edit", $property_edit);
+                $tpl_inventory_admin_property->set("BaseUrl", $path_url);
                 $property_html .= $tpl_inventory_admin_property->output();
 
                 $property_label = "";
-                $property_edit = "";
             }
         }
         else {
@@ -53,7 +52,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
             $tpl_inventory_admin_property->set("TGP", $sum_tgb);
             $tpl_inventory_admin_property->set("AP", $sum_ap);
             $tpl_inventory_admin_property->set("Name", "");
-            $tpl_inventory_admin_property->set("Edit", $property_edit);
+            $tpl_inventory_admin_property->set("BaseUrl", $path_url);
             $property_html .= $tpl_inventory_admin_property->output();
         }
     }
@@ -64,7 +63,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
         $tpl_inventory_admin_property->set("TGP", "");
         $tpl_inventory_admin_property->set("AP", "");
         $tpl_inventory_admin_property->set("Name", "");
-        $tpl_inventory_admin_property->set("Edit", $property_edit);
+        $tpl_inventory_admin_property->set("BaseUrl", $path_url);
         $property_html .= $tpl_inventory_admin_property->output();
     }
 
@@ -130,8 +129,9 @@ function rp_inventory_admin_options() { ?>
         echo ($tpl_inventory_admin_heroes->output());
 
         if (!empty($selected_hero)) {
-            $property = (array_key_exists("property", $_REQUEST) ? $_REQUEST["property"] : "");
-            if (empty($property)) {
+            $property_type = (array_key_exists("property", $_REQUEST) ? $_REQUEST["property"] : "");
+            $property_label = (array_key_exists("property_label", $_REQUEST) ? $_REQUEST["property_label"] : "");
+            if (empty($property_type)) {
                 $tpl_inventory_admin_hero_details = new Template($path_local . "../tpl/inventory_admin_hero_details.html");
                 $tpl_inventory_admin_hero_details->set("Id", $selected_hero->hero_id);
                 $tpl_inventory_admin_hero_details->set("Name", $selected_hero->name);
@@ -141,12 +141,49 @@ function rp_inventory_admin_options() { ?>
                 $tpl_inventory_admin_hero_details->set("Profession", rp_inventory_property($selected_hero->hero_id, "profession", "Profession", true));
                 $tpl_inventory_admin_hero_details->set("Vorteile", rp_inventory_property($selected_hero->hero_id, "advantage", "Vorteile", true));
                 $tpl_inventory_admin_hero_details->set("Nachteile", rp_inventory_property($selected_hero->hero_id, "disadvantage", "Nachteile", true));
-                $tpl_inventory_admin_hero_details->set("Eigenschaften", rp_inventory_property($selected_hero->hero_id, "abilities", "Eigenschaften", false));
-                $tpl_inventory_admin_hero_details->set("Basiswerte", rp_inventory_property($selected_hero->hero_id, "basics", "Basiswerte", false));
-                $tpl_inventory_admin_hero_details->set("Talente", rp_inventory_property($selected_hero->hero_id, "skills", "Talente", false));
-                $tpl_inventory_admin_hero_details->set("Zauber", rp_inventory_property($selected_hero->hero_id, "spells", "Zauber", false));
-                $tpl_inventory_admin_hero_details->set("Sonderfertigkeiten", rp_inventory_property($selected_hero->hero_id, "feats", "Sonderfertigkeiten", false));
+                $tpl_inventory_admin_hero_details->set("Eigenschaften", rp_inventory_property($selected_hero->hero_id, "ability", "Eigenschaften", false));
+                $tpl_inventory_admin_hero_details->set("Basiswerte", rp_inventory_property($selected_hero->hero_id, "basic", "Basiswerte", false));
+                $tpl_inventory_admin_hero_details->set("Talente", rp_inventory_property($selected_hero->hero_id, "skill", "Talente", false));
+                $tpl_inventory_admin_hero_details->set("Zauber", rp_inventory_property($selected_hero->hero_id, "spell", "Zauber", false));
+                $tpl_inventory_admin_hero_details->set("Sonderfertigkeiten", rp_inventory_property($selected_hero->hero_id, "feat", "Sonderfertigkeiten", false));
                 echo ($tpl_inventory_admin_hero_details->output());
+            }
+            else {
+                $property_edit_id = (array_key_exists("property_edit", $_REQUEST) ? $_REQUEST["property_edit"] : 0);
+                $properties_html = "";
+                $properties = rp_inventory_get_properties($hero_id, $property_type);
+                foreach ($properties as $row_id => $property) {
+                    $edit_query = http_build_query(array_merge($_GET, array("property_edit" => $property->property_id)));
+                    $edit = ($property_edit_id == $property->property_id) ? "_edit" : "";
+                    $tpl_inventory_admin_hero_property = new Template($path_local . "../tpl/inventory_admin_hero_property" . $edit . ".html");
+                    $tpl_inventory_admin_hero_property->set("Id", $property->property_id);
+                    $tpl_inventory_admin_hero_property->set("Hero", $hero_id);
+                    $tpl_inventory_admin_hero_property->set("Type", $property_type);
+                    $tpl_inventory_admin_hero_property->set("Name", $property->name);
+                    $tpl_inventory_admin_hero_property->set("GP", rp_inventory_property_format_cost($property->gp));
+                    $tpl_inventory_admin_hero_property->set("TGP", rp_inventory_property_format_cost($property->tgp));
+                    $tpl_inventory_admin_hero_property->set("AP", rp_inventory_property_format_cost($property->ap));
+                    $tpl_inventory_admin_hero_property->set("EditQuery", $edit_query);
+                    $properties_html .= $tpl_inventory_admin_hero_property->output();
+                }
+
+                $edit_query = http_build_query(array_merge($_GET, array("property_edit" => 0)));
+                $edit = ($property_edit_id == 0) ? "_edit" : "";
+                $tpl_inventory_admin_hero_property = new Template($path_local . "../tpl/inventory_admin_hero_property" . $edit . ".html");
+                $tpl_inventory_admin_hero_property->set("Id", "0");
+                $tpl_inventory_admin_hero_property->set("Hero", $hero_id);
+                $tpl_inventory_admin_hero_property->set("Type", $property_type);
+                $tpl_inventory_admin_hero_property->set("Name", "");
+                $tpl_inventory_admin_hero_property->set("GP", "");
+                $tpl_inventory_admin_hero_property->set("TGP", "");
+                $tpl_inventory_admin_hero_property->set("AP", "");
+                $tpl_inventory_admin_hero_property->set("EditQuery", $edit_query);
+                $properties_html .= $tpl_inventory_admin_hero_property->output();
+
+                $tpl_inventory_admin_hero_properties = new Template($path_local . "../tpl/inventory_admin_hero_properties.html");
+                $tpl_inventory_admin_hero_properties->set("Label", $property_label);
+                $tpl_inventory_admin_hero_properties->set("Properties", $properties_html);
+                echo ($tpl_inventory_admin_hero_properties->output());
             }
         }
     }

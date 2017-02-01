@@ -235,3 +235,60 @@ function createNewHero() {
     xhttp.open("GET", "../wp-content/plugins/rp-inventory/create-hero.php?party_id=" + selectedParty.value, true);
     xhttp.send();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Properties
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function saveProperty(hero_id, property_type, property_id) {
+    var gp = document.getElementById("rp-inventory-admin-table-property-gp").value;
+    var tgp = document.getElementById("rp-inventory-admin-table-property-tgp").value;
+    var ap = document.getElementById("rp-inventory-admin-table-property-ap").value;
+    var name = document.getElementById("rp-inventory-admin-table-property-name").value;
+    var variant = "";
+    var info = "";
+    var value = "";
+
+    hero_id = encodeURIComponent(hero_id);
+    property_type = encodeURIComponent(property_type);
+    property_id = encodeURIComponent(property_id);
+    name = encodeURIComponent(name);
+    variant = encodeURIComponent(variant);
+    info = encodeURIComponent(info);
+    value = encodeURIComponent(value);
+    gp = encodeURIComponent(gp);
+    tgp = encodeURIComponent(tgp);
+    ap = encodeURIComponent(ap);
+
+    var parameters = "hero=" + hero_id;
+    parameters += "&type=" + property_type;
+    parameters += "&name=" + name;
+    parameters += "&variant=" + variant;
+    parameters += "&info=" + info;
+    parameters += "&value=" + value;
+    parameters += "&gp=" + gp;
+    parameters += "&tgp=" + tgp;
+    parameters += "&ap=" + ap;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.substring(0, 9).toLowerCase() != "")
+                alert(this.responseText);
+
+            var query = document.location.search;
+            if (query.indexOf("property_edit") < 0) {
+                reloadScroll();
+            }
+            else {
+                query = query.replace(new RegExp("\\&property_edit\\=[0-9]+", "ig"), "");
+                reloadScroll(query);
+            }
+        }
+    };
+
+    xhttp.open("POST", "../wp-content/plugins/rp-inventory/edit-property.php?property_id=" + property_id, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("Content-length", parameters.length);
+    xhttp.send(parameters);
+}

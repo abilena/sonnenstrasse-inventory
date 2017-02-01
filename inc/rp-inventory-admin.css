@@ -61,6 +61,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 .rp-inventory-admin-table-heroes {
+    margin-bottom: 10px;
 }
 
 .rp-inventory-admin-hero {
@@ -98,12 +99,15 @@
     -o-user-select: none;
 }
 
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 .rp-inventory-admin-table-hero {
     width: 100%;
 }
 
 .rp-inventory-admin-table-hero-label {
     width: 120px;
+    white-space: nowrap;
 }
 
 .rp-inventory-admin-table-hero-gp {
@@ -125,7 +129,93 @@
     width: 240px;
 }
 
-.rp-inventory-admin-table-hero-edit {
-    width: 30px;
-    text-align: right;
+.rp-inventory-admin-table-hero-label a:before {
+    content: "\f464";
+    top: -1px;
+    color: #82878c;
+    font: 400 20px/1 dashicons;
+    speak: none;
+    display: inline-block;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none!important;
+    vertical-align: top;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Properties
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.rp-inventory-admin-table-properties {
+    margin-bottom: 10px;
+    border-spacing: 2px;
+}
+
+.rp-inventory-admin-table-properties td, .rp-inventory-admin-table-properties th {
+    height: 30px;
+    position: relative;
+    line-height: 30px;
+}
+
+.rp-inventory-admin-table-properties div {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    padding: 1px;
+}
+
+.rp-inventory-admin-table-properties input {
+    width: 100%;
+    position: absolute;
+    left: -1px;
+    top: 0px;
+}
+
+.rp-inventory-admin-table-property-value {
+    width: 40px;
+}
+
+.rp-inventory-admin-table-property-value input {
+    text-align: center;
+}
+
+.rp-inventory-admin-table-property-value div {
+    text-align: center;
+}
+
+.rp-inventory-admin-table-property-name {
+    width: 350px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.rp-inventory-admin-table-property-name div a:before {
+    content: "\f464";
+    top: -2px;
+    color: #82878c;
+    font: 400 20px/1 dashicons;
+    speak: none;
+    display: inline-block;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none!important;
+    vertical-align: middle;
+}
+
+.rp-inventory-admin-table-property-name span a:before {
+    content: "\f147";
+    top: -2px;
+    left: 100%;
+    margin-left: 5px;
+    color: #82878c;
+    font: 400 20px/1 dashicons;
+    speak: none;
+    display: inline-block;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none!important;
+    vertical-align: middle;
 }

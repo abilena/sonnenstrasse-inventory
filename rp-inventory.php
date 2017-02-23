@@ -35,13 +35,15 @@ function rp_inventory_shortcode($atts, $content) {
 	), $atts));
 
 	$title = esc_attr($title);
-    $owner = $name;
-    if (empty($owner) or ($owner == "name")) {
-        $owner = "Gruppe";
+
+    $owner = rp_inventory_get_hero_id_by_name($name);
+
+    if (empty($owner) or ($owner < 0)) {
+        $owner = 0;
     }
 
     // $db_result = $wpdb->get_var("show tables like '$db_table_name'");
-    $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE owner = '$owner' ORDER BY show_in_container_id, slot");
+    $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE owner=$owner ORDER BY show_in_container_id, slot");
 
     $header_content = "";
     if ($owner == "Gruppe") {

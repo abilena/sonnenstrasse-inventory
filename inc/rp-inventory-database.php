@@ -221,6 +221,15 @@ function rp_inventory_get_heroes($party_id) {
     return $db_results;
 }
 
+function rp_inventory_get_hero_id_by_name($name) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    
+    $id = $wpdb->get_var("SELECT hero_id FROM $db_table_name WHERE name='$name'");
+
+    return $id;
+}
+
 function rp_inventory_create_hero($arguments) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_heroes';

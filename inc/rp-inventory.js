@@ -163,6 +163,12 @@ function rp_inventory_click_item(e)
     }
     else {
         swapItem = slot;
+
+        if (swapItem.id == selectedItem.id) {
+            reloadScroll();
+            return;
+        }
+
         slot.style.border="2px solid yellow";
 
         var xhttp = new XMLHttpRequest();

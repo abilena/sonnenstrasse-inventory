@@ -157,6 +157,9 @@ function rp_inventory_click_item(e)
     if (sender.nodeName.toLowerCase() == "img")
         slot = sender.parentNode;
 
+    if (!stringStartsWith(slot.id, "con_"))
+        return;
+
     if (selectedItem == null) {
         selectedItem = slot;
         slot.style.border="2px solid yellow";

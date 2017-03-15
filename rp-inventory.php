@@ -19,8 +19,6 @@ register_activation_hook(__FILE__, 'rp_inventory_install');
 add_shortcode ('rp-inventory', 'rp_inventory_shortcode');
 
 function rp_inventory_shortcode($atts, $content) {
-   	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
 
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -42,8 +40,7 @@ function rp_inventory_shortcode($atts, $content) {
         $owner = 0;
     }
 
-    // $db_result = $wpdb->get_var("show tables like '$db_table_name'");
-    $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE owner=$owner ORDER BY show_in_container_id, slot");
+    $db_result = rp_inventory_get_items($owner);
 
     $header_content = "";
     if ($owner == "Gruppe") {
@@ -210,6 +207,54 @@ function rp_inventory_shortcode($atts, $content) {
     $tpl_inventory->set("HeaderContent", $header_content);
     $tpl_inventory->set("Containers", $containers_html);
     $output .= $tpl_inventory->output();
+
+	return $output;
+}
+
+
+
+
+
+
+
+
+
+add_shortcode ('rp-inventory-merchant', 'rp_inventory_merchant_shortcode');
+
+function rp_inventory_merchant_shortcode($atts, $content) {
+
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+    $path_local = plugin_dir_path(__FILE__);
+    $path_url = plugins_url() . "/rp-inventory";
+
+	extract(shortcode_atts(array(
+		'title' => __('RP Inventory', 'rp-inventory'),
+		'name' => 'name',
+        'style' => 'default'
+	), $atts));
+
+	$title = esc_attr($title);
+    $output = "";
+
+    $owner = rp_inventory_get_hero_id_by_name($name);
+    if (empty($owner) or ($owner < 0)) {
+        $owner = 0;
+    }
+
+    if ($owner > 0) {
+        $hero = rp_inventory_get_hero($owner);
+
+        $tpl_inventory_merchant = new Template($path_local . "/tpl/inventory_merchant.html");
+        $tpl_inventory_merchant->set("Name", $hero->name);
+        $tpl_inventory_merchant->set("Biography", $hero->biography);
+        $tpl_inventory_merchant->set("Flavor", $hero->flavor);
+        $tpl_inventory_merchant->set("Portrait", $hero->portrait);
+        $tpl_inventory_merchant->set("DisplayName", $hero->display_name);
+        $output .= $tpl_inventory_merchant->output();
+
+    }
 
 	return $output;
 }

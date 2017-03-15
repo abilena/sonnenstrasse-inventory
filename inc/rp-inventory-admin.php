@@ -2,6 +2,28 @@
 
 require_once('rp-inventory-database.php');
 
+function rp_inventory_detail($hero_id, $detail_type, $detail_label, $detail_value) {
+    $path_local = plugin_dir_path(__FILE__);
+    $path_url = plugins_url() . "/rp-inventory";
+    $edit_query = http_build_query(array_merge($_GET, array("detail" => $detail_type, "detail_label" => $detail_label)));
+
+    $detail_html = "";
+    $detail_label = "<a href=\"?$edit_query\"></a> <strong>$detail_label:</strong>";
+
+    $newlinepos = strpos($detail_value, "\n");
+    if ($newlinepos > 0) {
+        $detail_value = substr($detail_value, 0, $newlinepos) . " (...)";
+    }
+
+    $tpl_inventory_admin_detail = new Template($path_local . "../tpl/inventory_admin_detail.html");
+    $tpl_inventory_admin_detail->set("Label", $detail_label);
+    $tpl_inventory_admin_detail->set("Value", $detail_value);
+    $tpl_inventory_admin_detail->set("BaseUrl", $path_url);
+    $detail_html .= $tpl_inventory_admin_detail->output();
+
+    return $detail_html;
+}
+
 function rp_inventory_property($hero_id, $property_type, $property_label, $show_detailed) {
     $path_local = plugin_dir_path(__FILE__);
     $path_url = plugins_url() . "/rp-inventory";
@@ -129,26 +151,31 @@ function rp_inventory_admin_options() { ?>
         echo ($tpl_inventory_admin_heroes->output());
 
         if (!empty($selected_hero)) {
+            $detail_type = (array_key_exists("detail", $_REQUEST) ? $_REQUEST["detail"] : "");
+            $detail_label = (array_key_exists("detail_label", $_REQUEST) ? $_REQUEST["detail_label"] : "");
             $property_type = (array_key_exists("property", $_REQUEST) ? $_REQUEST["property"] : "");
             $property_label = (array_key_exists("property_label", $_REQUEST) ? $_REQUEST["property_label"] : "");
-            if (empty($property_type)) {
-                $tpl_inventory_admin_hero_details = new Template($path_local . "../tpl/inventory_admin_hero_details.html");
-                $tpl_inventory_admin_hero_details->set("Id", $selected_hero->hero_id);
-                $tpl_inventory_admin_hero_details->set("Name", $selected_hero->name);
-                $tpl_inventory_admin_hero_details->set("Portrait", $selected_hero->portrait);
-                $tpl_inventory_admin_hero_details->set("Race", rp_inventory_property($selected_hero->hero_id, "race", "Rasse", true));
-                $tpl_inventory_admin_hero_details->set("Culture", rp_inventory_property($selected_hero->hero_id, "culture", "Kultur", true));
-                $tpl_inventory_admin_hero_details->set("Profession", rp_inventory_property($selected_hero->hero_id, "profession", "Profession", true));
-                $tpl_inventory_admin_hero_details->set("Vorteile", rp_inventory_property($selected_hero->hero_id, "advantage", "Vorteile", true));
-                $tpl_inventory_admin_hero_details->set("Nachteile", rp_inventory_property($selected_hero->hero_id, "disadvantage", "Nachteile", true));
-                $tpl_inventory_admin_hero_details->set("Eigenschaften", rp_inventory_property($selected_hero->hero_id, "ability", "Eigenschaften", false));
-                $tpl_inventory_admin_hero_details->set("Basiswerte", rp_inventory_property($selected_hero->hero_id, "basic", "Basiswerte", false));
-                $tpl_inventory_admin_hero_details->set("Talente", rp_inventory_property($selected_hero->hero_id, "skill", "Talente", false));
-                $tpl_inventory_admin_hero_details->set("Zauber", rp_inventory_property($selected_hero->hero_id, "spell", "Zauber", false));
-                $tpl_inventory_admin_hero_details->set("Sonderfertigkeiten", rp_inventory_property($selected_hero->hero_id, "feat", "Sonderfertigkeiten", false));
-                echo ($tpl_inventory_admin_hero_details->output());
+
+            if (!empty($detail_type)) {
+
+                $detail_value = rp_inventory_get_detail($hero_id, $detail_type);
+                $tpl_inventory_admin_hero_detail = new Template($path_local . "../tpl/inventory_admin_hero_detail_edit.html");
+                $tpl_inventory_admin_hero_detail->set("Hero", $hero_id);
+                $tpl_inventory_admin_hero_detail->set("Type", $detail_type);
+                $tpl_inventory_admin_hero_detail->set("Label", $detail_label);
+
+                if ($detail_type == "biography" || $detail_type == "flavor") {
+                    $tpl_inventory_admin_hero_detail->set("InputElement", "<textarea id=\"rp-inventory-admin-table-detail\">" . $detail_value . "</textarea>");
+                }
+                else {
+                    $tpl_inventory_admin_hero_detail->set("InputElement", "<input id=\"rp-inventory-admin-table-detail\" value=\"" . $detail_value . "\"></input>");
+                }
+
+                echo ($tpl_inventory_admin_hero_detail->output());
+                                
             }
-            else {
+            else if (!empty($property_type)) {
+
                 $property_edit_id = (array_key_exists("property_edit", $_REQUEST) ? $_REQUEST["property_edit"] : 0);
                 $properties_html = "";
                 $properties = rp_inventory_get_properties($hero_id, $property_type);
@@ -183,7 +210,29 @@ function rp_inventory_admin_options() { ?>
                 $tpl_inventory_admin_hero_properties = new Template($path_local . "../tpl/inventory_admin_hero_properties.html");
                 $tpl_inventory_admin_hero_properties->set("Label", $property_label);
                 $tpl_inventory_admin_hero_properties->set("Properties", $properties_html);
-                echo ($tpl_inventory_admin_hero_properties->output());
+                echo ($tpl_inventory_admin_hero_properties->output());                
+            }
+            else {
+
+                $tpl_inventory_admin_hero_details = new Template($path_local . "../tpl/inventory_admin_hero_details.html");
+                $tpl_inventory_admin_hero_details->set("Id", $selected_hero->hero_id);
+                $tpl_inventory_admin_hero_details->set("Heading", $selected_hero->name);
+                $tpl_inventory_admin_hero_details->set("Name", rp_inventory_detail($selected_hero->hero_id, "name", "Kurzname", $selected_hero->name));
+                $tpl_inventory_admin_hero_details->set("DisplayName", rp_inventory_detail($selected_hero->hero_id, "display_name", "Name", $selected_hero->display_name));
+                $tpl_inventory_admin_hero_details->set("Biography", rp_inventory_detail($selected_hero->hero_id, "biography", "Biografie", $selected_hero->biography));
+                $tpl_inventory_admin_hero_details->set("Flavor", rp_inventory_detail($selected_hero->hero_id, "flavor", "Flavor", $selected_hero->flavor));
+                $tpl_inventory_admin_hero_details->set("Portrait", rp_inventory_detail($selected_hero->hero_id, "portrait", "Portrait", $selected_hero->portrait));
+                $tpl_inventory_admin_hero_details->set("Race", rp_inventory_property($selected_hero->hero_id, "race", "Rasse", true));
+                $tpl_inventory_admin_hero_details->set("Culture", rp_inventory_property($selected_hero->hero_id, "culture", "Kultur", true));
+                $tpl_inventory_admin_hero_details->set("Profession", rp_inventory_property($selected_hero->hero_id, "profession", "Profession", true));
+                $tpl_inventory_admin_hero_details->set("Vorteile", rp_inventory_property($selected_hero->hero_id, "advantage", "Vorteile", true));
+                $tpl_inventory_admin_hero_details->set("Nachteile", rp_inventory_property($selected_hero->hero_id, "disadvantage", "Nachteile", true));
+                $tpl_inventory_admin_hero_details->set("Eigenschaften", rp_inventory_property($selected_hero->hero_id, "ability", "Eigenschaften", false));
+                $tpl_inventory_admin_hero_details->set("Basiswerte", rp_inventory_property($selected_hero->hero_id, "basic", "Basiswerte", false));
+                $tpl_inventory_admin_hero_details->set("Talente", rp_inventory_property($selected_hero->hero_id, "skill", "Talente", false));
+                $tpl_inventory_admin_hero_details->set("Zauber", rp_inventory_property($selected_hero->hero_id, "spell", "Zauber", false));
+                $tpl_inventory_admin_hero_details->set("Sonderfertigkeiten", rp_inventory_property($selected_hero->hero_id, "feat", "Sonderfertigkeiten", false));
+                echo ($tpl_inventory_admin_hero_details->output());
             }
         }
     }

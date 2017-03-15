@@ -1,3 +1,20 @@
+
+
+@font-face {
+	font-family: Mason;
+	src: url("../fonts/mason.ttf");
+}
+@font-face {
+	font-family: Andalus;
+	src: url("../fonts/andalus.ttf");
+}
+@font-face {
+    font-family: GentiumBasic;
+    src: url("../fonts/gentium.basic.regular.ttf");
+}
+
+
+
 .rp-inventory {
 	padding: 0px;
     padding-left: 10px;
@@ -84,10 +101,21 @@
 .rp-inventory-container-icon-default {
 }
 
+/*
 .rp-inventory-container {
     margin-top: 10px;
     width: 660px;
     position: relative;
+}
+*/
+
+.rp-inventory-container {
+    margin-top: 10px;
+	width: 666px;
+	border: solid 7px;
+	border-image: url(../img/border.png) 7 7 7 7;
+	background-color: rgb(18, 17, 15); 
+	background: url(../img/background.png) repeat;
 }
 
 .rp-inventory-container-content {
@@ -383,4 +411,115 @@
 }
 
 .rp-inventory-shape {
+}
+
+
+
+
+/* ******************************************************************************** */
+/* *** Merchant ******************************************************************* */
+/* ******************************************************************************** */
+
+
+.rp-inventory-container .rp-inventory-container-table {
+	border-spacing: 10px;
+}
+.rp-inventory-container .rp-inventory-container-table tr td {
+    vertical-align: top;
+}
+
+.rp-inventory-container-parchment {
+	display: inline-block;
+	float: left;
+}
+.rp-inventory-parchment {
+	position: relative;
+	width: 325px;
+	min-height: 350px;
+	padding: 60px 0px 75px 0px;
+	background-image: url("../img/parchment.top.png"), url("../img/parchment.bottom.png"), url("../img/parchment.mid.png");
+	background-repeat: no-repeat, no-repeat, repeat-y;
+	background-position: left top, left bottom, left top;
+	background-clip: border-box, border-box, content-box;
+}
+.rp-inventory-parchment-crest-dragon {
+	position: absolute;
+	top: -10px;
+	height: 100px;
+	width: 325px;
+	background: url("../img/crests/dragon.png") center top no-repeat;
+}
+.rp-inventory-parchment-content {
+	padding: 0px 35px 0px 35px;
+	text-align: center;
+	font-family: GentiumBasic;
+	font-size: 10pt;
+	line-height: 11pt;
+    color: #000;
+}
+.rp-inventory-parchment-content h1 {
+	position: relative;
+	padding: 16px 0px 16px 0px;
+	background-image: url("../img/heading.top.png"), url("../img/heading.bottom.png"), url("../img/heading.mid.png");
+	background-repeat: no-repeat, no-repeat, repeat-y;
+	background-position: left top, left bottom, left top;
+	background-clip: border-box, border-box, content-box;
+				
+	color: #56442b;
+				
+	font-family: Andalus;
+	font-size: 22px;
+	font-weight: bold;
+	line-height: 25px;
+/*	
+	font-family: Mason;
+	font-size: 24px;
+	font-weight: bold;
+	line-height: 24px;
+*/
+}
+.rp-inventory-parchment-content h1:before, .rp-inventory-parchment-content h1:after {
+	content: "";
+	height: 4px;
+	display: block;
+}
+.rp-inventory-parchment-content hr {
+	position: relative;
+	height: 16px;
+	width: 100%;
+	background: url("../img/heading.line.png") center center no-repeat;
+	border: none;
+}
+
+.rp-inventory-container-portrait {
+    display: inline-block;
+    position: relative;
+	top: 4px;
+	border: solid 7px;
+	border-image: url("../img/border.png") 7 7 7 7;
+}
+.rp-inventory-portrait-huge {
+    width: 290px;
+    height: 430px;
+    background-image: url("../img/default-portrait.jpg");
+    background-size: cover;
+}
+.rp-inventory-portrait-frame {
+    width: 290px;
+    height: 430px;
+    background-image: url("../img/image.frame.png");
+    position: absolute;
+    top: 0px;
+}
+.rp-inventory-portrait-name {
+    height: 56px;
+    padding-top: 5px;
+    line-height: 50px;
+    text-align: center;
+                
+    color: #56442b;
+                
+    font-family: Andalus;
+    font-size: 18px;
+    font-weight: bold;
 }

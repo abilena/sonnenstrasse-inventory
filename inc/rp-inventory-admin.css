@@ -105,6 +105,10 @@
     width: 100%;
 }
 
+.rp-inventory-admin-table-hero-details {
+    margin-bottom: 20px;
+}
+
 .rp-inventory-admin-table-hero-label {
     width: 120px;
     white-space: nowrap;
@@ -127,6 +131,8 @@
 
 .rp-inventory-admin-table-hero-name {
     width: 240px;
+    max-width: 420px;
+    overflow-x: hidden;
 }
 
 .rp-inventory-admin-table-hero-label a:before {
@@ -208,6 +214,61 @@
     content: "\f147";
     top: -2px;
     left: 100%;
+    margin-left: 5px;
+    color: #82878c;
+    font: 400 20px/1 dashicons;
+    speak: none;
+    display: inline-block;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none!important;
+    vertical-align: middle;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Details
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.rp-inventory-admin-table-details {
+    margin-bottom: 10px;
+    border-spacing: 2px;
+}
+
+.rp-inventory-admin-table-details td {
+    height: 30px;
+    position: relative;
+    line-height: 30px;
+}
+
+.rp-inventory-admin-table-detail-name {
+    width: 150px;
+    text-align: left;
+    padding-left: 5px;
+    vertical-align: top;
+}
+
+.rp-inventory-admin-table-detail-value {
+    width: 350px;
+    vertical-align: top;
+}
+
+.rp-inventory-admin-table-detail-value input {
+    width: 320px;
+}
+
+.rp-inventory-admin-table-detail-value textarea {
+    width: 320px;
+    height: 200px;
+}
+
+.rp-inventory-admin-table-detail-value span {
+    float: right;
+}
+
+.rp-inventory-admin-table-detail-value span a:before {
+    content: "\f147";
+    top: -2px;
     margin-left: 5px;
     color: #82878c;
     font: 400 20px/1 dashicons;

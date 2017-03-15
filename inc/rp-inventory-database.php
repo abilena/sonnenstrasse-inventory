@@ -38,6 +38,8 @@ function rp_inventory_create_tables() {
         `birth_month` smallint NOT NULL,
         `birth_day` smallint NOT NULL,
         `birth_place` tinytext NOT NULL,
+        `biography` text NOT NULL,
+        `flavor` text NOT NULL,
 		UNIQUE KEY hero_id (hero_id)
 		);";
 
@@ -221,6 +223,15 @@ function rp_inventory_get_heroes($party_id) {
     return $db_results;
 }
 
+function rp_inventory_get_hero($hero_id) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    
+    $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE hero_id=$hero_id");
+
+    return $db_results[0];
+}
+
 function rp_inventory_get_hero_id_by_name($name) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_heroes';
@@ -312,8 +323,68 @@ function rp_inventory_edit_property($arguments) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Details
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_get_detail($hero_id, $detail_type) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+
+    $detail_value = $wpdb->get_var("SELECT $detail_type FROM $db_table_name WHERE hero_id=$hero_id");
+
+    return $detail_value;
+}
+
+function rp_inventory_edit_detail($arguments) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+
+    $wpdb->query('START TRANSACTION');
+
+    $id = $arguments['hero'];
+    $type = $arguments['type'];
+    $value = $arguments['value'];
+    $updated = FALSE;
+
+    $hero = rp_inventory_get_hero($id);
+    if (empty($hero))
+    {
+        $output .= "A hero with id $id was not found in table!\n";
+        $output .= "\n";
+    }
+    else {
+        $old_value = rp_inventory_get_detail($id, $type);
+        if ($old_value === $value) {
+            $updated = 1;
+        }
+        else {
+            $updated = $wpdb->update($db_table_name, array($type => $value), array('hero_id' => $id));
+        }
+    }
+
+    if ($updated === 1)
+    {
+        $wpdb->query('COMMIT'); // if you come here then well done
+        return "succeeded";
+    }
+    else {
+        $wpdb->query('ROLLBACK'); // // something went wrong, Rollback
+        return "failed\n\n" . $output;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Items
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_get_items($owner_id) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE owner=$owner_id ORDER BY show_in_container_id, slot");
+
+    return $db_result;
+}
 
 function rp_inventory_create_item($arguments) {
    	global $wpdb;

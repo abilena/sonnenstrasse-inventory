@@ -292,3 +292,42 @@ function saveProperty(hero_id, property_type, property_id) {
     xhttp.setRequestHeader("Content-length", parameters.length);
     xhttp.send(parameters);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Details
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function saveDetail(hero_id, detail_type) {
+    var detail_value = document.getElementById("rp-inventory-admin-table-detail").value;
+
+    hero_id = encodeURIComponent(hero_id);
+    detail_type = encodeURIComponent(detail_type);
+    detail_value = encodeURIComponent(detail_value);
+
+    var parameters = "hero=" + hero_id;
+    parameters += "&type=" + detail_type;
+    parameters += "&value=" + detail_value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.substring(0, 9).toLowerCase() != "succeeded")
+                alert(this.responseText);
+
+            var query = document.location.search;
+            if (query.indexOf("detail") < 0) {
+                reloadScroll();
+            }
+            else {
+                query = query.replace(new RegExp("\\&detail\\=[A-Za-z_]+", "ig"), "");
+                query = query.replace(new RegExp("\\&detail_label\\=[A-Za-z_]+", "ig"), "");
+                reloadScroll(query);
+            }
+        }
+    };
+
+    xhttp.open("POST", "../wp-content/plugins/rp-inventory/edit-detail.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("Content-length", parameters.length);
+    xhttp.send(parameters);    
+}

@@ -18,13 +18,8 @@ function rp_inventory_merchant_html($name) {
         $hero = rp_inventory_get_hero($owner);
 
         $tpl_inventory_merchant = new Template($path_local . "../tpl/inventory_merchant.html");
-        $tpl_inventory_merchant->set("Name", $hero->name);
-        $tpl_inventory_merchant->set("Biography", $hero->biography);
-        $tpl_inventory_merchant->set("Flavor", $hero->flavor);
-        $tpl_inventory_merchant->set("Portrait", $hero->portrait);
-        $tpl_inventory_merchant->set("DisplayName", $hero->display_name);
+        $tpl_inventory_merchant->setObject($hero);
         $output .= $tpl_inventory_merchant->output();
-
     }
 
 	return $output;

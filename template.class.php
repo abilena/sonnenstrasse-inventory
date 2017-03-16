@@ -11,6 +11,15 @@ class Template {
     public function set($key, $value) {
         $this->values[$key] = $value;
     }
+
+    public function setObject($object) {
+        $array = (array)$object;
+        foreach ($array as $key => $value) {
+            $key = ucwords($key, "_");
+            $key = str_replace("_", "", $key);
+            $this->set($key, $value);
+        }
+    }
   
     public function output() {
         if (!file_exists($this->file)) {

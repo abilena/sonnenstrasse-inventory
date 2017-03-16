@@ -15,8 +15,6 @@ function rp_inventory_hero_html($name) {
         $owner = 0;
     }
 
-    echo("Hero: '" . $name . "' (id: " . $owner . ")<br>");
-
     if ($owner == 0) {
         $output .= "<i>unknown hero '$name' </i>";
     }

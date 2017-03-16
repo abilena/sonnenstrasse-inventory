@@ -390,9 +390,11 @@ function rp_inventory_create_item($arguments) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';
 
+    $owner = $arguments['owner'];
+
     $wpdb->query('START TRANSACTION');
 
-    $slot = $wpdb->get_var("SELECT MAX(slot) FROM $db_table_name WHERE owner='Gruppe' AND show_in_container_id=0");
+    $slot = $wpdb->get_var("SELECT MAX(slot) FROM $db_table_name WHERE owner='$owner' AND show_in_container_id=0");
     $slot += 1;
 
     $container_order = 0;
@@ -406,7 +408,7 @@ function rp_inventory_create_item($arguments) {
     }
 
     $values = array(
-        'owner' => "Gruppe", 
+        'owner' => $owner, 
         'show_in_container_id' => 0,
         'slot' => $slot,
         'hosts_container_id' => $container_id,

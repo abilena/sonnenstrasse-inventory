@@ -31,7 +31,7 @@ function rp_inventory_shortcode($atts, $content) {
 
 	extract(shortcode_atts(array(
 		'title' => __('RP Inventory', 'rp-inventory'),
-		'name' => 'name',
+		'name' => '',
         'style' => 'default'
 	), $atts));
 
@@ -51,7 +51,7 @@ function rp_inventory_merchant_shortcode($atts, $content) {
 
 	extract(shortcode_atts(array(
 		'title' => __('RP Inventory', 'rp-inventory'),
-		'name' => 'name',
+		'name' => '',
         'style' => 'default'
 	), $atts));
 

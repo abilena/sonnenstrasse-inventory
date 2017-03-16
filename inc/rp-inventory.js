@@ -40,7 +40,7 @@ function rp_inventory_create_item_icon_close()
     popup.style.visibility = "collapse";
 }
 
-function rp_inventory_create_item()
+function rp_inventory_create_item(owner)
 {
     if (isCreating)
     {
@@ -63,6 +63,7 @@ function rp_inventory_create_item()
     var rs = document.getElementById("rp-inventory-create-rs").value;
     var be = document.getElementById("rp-inventory-create-be").value;
 
+    owner = encodeURIComponent(owner);
     name = encodeURIComponent(name);
     icon = encodeURIComponent(icon);
     type = encodeURIComponent(type);
@@ -76,7 +77,8 @@ function rp_inventory_create_item()
     rs = encodeURIComponent(rs);
     be = encodeURIComponent(be);
 
-    var parameters = "name=" + name;
+    var parameters = "owner=" + owner;
+    parameters += "&name=" + name;
     parameters += "&icon=" + icon;
     parameters += "&type=" + type;
     parameters += "&price=" + price;

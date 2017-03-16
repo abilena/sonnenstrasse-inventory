@@ -1,6 +1,6 @@
 <?php
 
-function rp_inventory_itemcontainer_html($owner, $container, $contained_items, $hosts_container_id) {
+function rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id) {
 
     $path_local = plugin_dir_path(__FILE__);
     $path_url = plugins_url() . "/rp-inventory";
@@ -67,6 +67,7 @@ function rp_inventory_itemcontainer_html($owner, $container, $contained_items, $
 
         $tpl_inventory_slot = new Template($path_local . "../tpl/inventory_item_slot.html");
         $tpl_inventory_slot->set("PopupClass", $popup_class);
+        $tpl_inventory_slot->set("OnClick", ($is_admin || $is_owner) ? "rp_inventory_click_item(event)" : "");
         $inventory_slot_html = $tpl_inventory_slot->output();
 
         $tpl_inventory_item = new Template($path_local . "../tpl/inventory_item_" . $container_type . ".html");

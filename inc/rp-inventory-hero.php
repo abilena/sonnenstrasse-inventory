@@ -19,11 +19,13 @@ function rp_inventory_hero_html($name) {
         $output .= "<i>unknown hero '$name' </i>";
     }
     else {
+        $hero = rp_inventory_get_hero($owner);
         $db_result = rp_inventory_get_items($owner);
 
         $header_content = "";
 
         $is_admin = user_can(wp_get_current_user(), 'administrator');
+        $is_owner = ($hero->creator == wp_get_current_user()->user_login);
 
         if ($is_admin) {
             $icon_files = get_all_files($path_local . "../img/icons/");
@@ -83,7 +85,7 @@ function rp_inventory_hero_html($name) {
 
             $container = $container_ids[$hosts_container_id];
             $contained_items = $container_content[$hosts_container_id];
-            $container_html = rp_inventory_itemcontainer_html($owner, $container, $contained_items, $hosts_container_id);
+            $container_html = rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id);
 
             $containers_html .= $container_html;
         }

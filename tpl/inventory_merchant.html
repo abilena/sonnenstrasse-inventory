@@ -1,5 +1,19 @@
 <div class="rp-inventory-container">
 	<table class="rp-inventory-container-table">
+        <tr>
+            <td>
+			    <div class="rp-inventory-banner">
+				    <div class="rp-inventory-portrait-small" style="background-image: url('[@Portrait]');">
+					    <div class="rp-inventory-portrait-small-frame"></div>
+				    </div>
+				    <div class="rp-inventory-banner-heading">[@DisplayName]</div>
+				    <div class="rp-inventory-banner-subheading">[@Name]</div>
+				    <a onclick="rp_inventory_toggle_merchant('rp-inventory-merchant-[@Id]');"></a>
+			    </div>
+            </td>
+        </tr>
+    </table>
+	<table class="rp-inventory-container-table" id="rp-inventory-merchant-[@Id]" style="display: none;">
 		<tr>
 			<td>
 				<div class="rp-inventory-container-parchment">
@@ -17,8 +31,8 @@
 			<td>
 				<div class="rp-inventory-container-portrait">
                     <div class="rp-inventory-portrait-huge" style="background-image: url('[@Portrait]');"></div>
-					<div class="rp-inventory-portrait-frame">
-						<div class="rp-inventory-portrait-name">[@Name]</div>
+					<div class="rp-inventory-portrait-huge-frame">
+						<div class="rp-inventory-portrait-huge-name">[@Name]</div>
 					</div>
 				</div>
 			</td>

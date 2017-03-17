@@ -428,6 +428,82 @@
     vertical-align: top;
 }
 
+.rp-inventory-banner {
+	position: relative;
+	height: 160px;
+}
+			
+.rp-inventory-portrait-small {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	width: 150px;
+	height: 150px;
+	background: url("../img/portrait.default.jpg");
+	background-size: 150px;
+	background-position-y: -10px;
+}
+			
+.rp-inventory-portrait-small-frame {
+	width: 150px;
+	height: 150px;
+	background: url("../img/portrait.small.frame.png");
+}
+			
+.rp-inventory-banner-heading {
+    position: absolute;
+    top: 30px;
+    left: 155px;
+    height: 70px;
+    width: 475px;
+    background-image: url("../img/banner.heading.png");
+    line-height: 74px;
+    text-indent: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Andalus;
+}
+					
+.rp-inventory-banner-subheading {
+    position: absolute;
+    top: 105px;
+    left: 155px;
+    height: 20px;
+    width: 475px;
+    line-height: 20px;
+    text-indent: 20px;
+    font-size: 14px;
+    font-family: Andalus;
+    font-style: italic;
+}
+			
+.rp-inventory-banner a {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	height: 43px;
+	width: 43px;
+	background-image: url("../img/button.tick.png");
+    cursor: pointer;
+}
+
+.rp-inventory-banner a:before {
+	content: "\f147";
+	height: 43px;
+	width: 43px;
+	color: rgba(255,255,255,.5);
+	font: 400 20px/1 dashicons;
+	speak: none;
+	display: inline-block;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none!important;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 43px;
+}
+
 .rp-inventory-container-parchment {
 	display: inline-block;
 	float: left;
@@ -501,17 +577,17 @@
 .rp-inventory-portrait-huge {
     width: 290px;
     height: 430px;
-    background-image: url("../img/default-portrait.jpg");
+    background-image: url("../img/portrait.default.jpg");
     background-size: cover;
 }
-.rp-inventory-portrait-frame {
+.rp-inventory-portrait-huge-frame {
     width: 290px;
     height: 430px;
     background-image: url("../img/image.frame.png");
     position: absolute;
     top: 0px;
 }
-.rp-inventory-portrait-name {
+.rp-inventory-portrait-huge-name {
     height: 56px;
     padding-top: 5px;
     line-height: 50px;

@@ -3,13 +3,15 @@
 // Merchant show/hide
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function rp_inventory_toggle_merchant(merchant)
+function rp_inventory_toggle_merchant(expander, merchant)
 {
     var merchant = document.getElementById(merchant);
     if (merchant.style.display == "block") {
         merchant.style.display = "none";
+        expander.className = "rp-inventory-banner-expander-default";
     } else {
         merchant.style.display = "block";
+        expander.className = "rp-inventory-banner-expander-pressed";
     }
 }
 

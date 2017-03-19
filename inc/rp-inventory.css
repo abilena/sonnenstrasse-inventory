@@ -479,8 +479,8 @@
 			
 .rp-inventory-banner a {
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
+	bottom: 5px;
+	right: 5px;
 	height: 43px;
 	width: 43px;
 	background-image: url("../img/button.tick.png");
@@ -488,7 +488,6 @@
 }
 
 .rp-inventory-banner a:before {
-	content: "\f147";
 	height: 43px;
 	width: 43px;
 	color: rgba(255,255,255,.5);
@@ -502,6 +501,14 @@
 	vertical-align: middle;
 	text-align: center;
 	line-height: 43px;
+}
+
+.rp-inventory-banner-expander-default:before {
+	content: "\f347";
+}
+
+.rp-inventory-banner-expander-pressed:before {
+	content: "\f343";
 }
 
 .rp-inventory-container-parchment {

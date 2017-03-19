@@ -27,6 +27,7 @@ function rp_inventory_css_and_js() {
     wp_enqueue_script('rp_inventory_js');
     wp_register_script('rp_inventory_reload_js', plugins_url('rp-inventory-reload.js', __FILE__));
     wp_enqueue_script('rp_inventory_reload_js');
+    wp_enqueue_style('dashicons');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

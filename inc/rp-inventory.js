@@ -15,6 +15,117 @@ function rp_inventory_toggle_merchant(expander, merchant)
     }
 }
 
+function rp_inventory_toggle_equipment_display(container_name) {
+    var container = document.getElementById(container_name);
+    if (container.className == "rp-inventory-equipment-grid") {
+        container.className = "rp-inventory-equipment-list";
+    }
+    else {
+        container.className = "rp-inventory-equipment-grid";
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Merchant prev/next
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_merchant_heroselector_prev(container_name) {
+    rp_inventory_merchant_heroselector_move(container_name, -1);
+}
+
+function rp_inventory_merchant_heroselector_next(container_name) {
+    rp_inventory_merchant_heroselector_move(container_name, +1);
+}
+
+function rp_inventory_merchant_heroselector_move(container_name, delta) {
+    var container = document.getElementById(container_name);
+    var children = document.querySelectorAll('#' + container_name + ' .rp-inventory-container-heroselector');
+
+    var oldSelectedIndex = parseInt(container.dataset.selectedIndex);
+    var newSelectedIndex = (oldSelectedIndex + delta);
+    newSelectedIndex = (children.length + newSelectedIndex) % (children.length);
+
+    children.item(oldSelectedIndex).style.display = "none";
+    children.item(newSelectedIndex).style.display = "block";
+
+    container.dataset.selectedIndex = newSelectedIndex;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Merchant selection
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_select_item(e, owner_id)
+{
+    if (!e)
+        e = window.event;
+    var sender = e.srcElement || e.target;
+
+    var ownerElement = document.getElementById(owner_id);
+    var selectedItems = ownerElement.dataset.selectedItem;
+    var selectedItemsList = selectedItems.split(',').filter(s => s != "");
+
+    var slot = sender;
+    if (sender.nodeName.toLowerCase() == "img")
+        slot = sender.parentNode;
+
+    if (!stringStartsWith(slot.id, "con_"))
+        return;
+
+    var index = selectedItemsList.indexOf(slot.id);
+    if (index < 0) {
+        slot.style.border="2px solid yellow";
+        selectedItemsList.push(slot.id);
+        selectedItems = selectedItemsList.join(",");
+        ownerElement.dataset.selectedItem = selectedItems;
+    }
+    else {
+        slot.style.border="2px solid black";
+        selectedItemsList.splice(index, 1);
+        selectedItems = selectedItemsList.join(",");
+        ownerElement.dataset.selectedItem = selectedItems;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Merchant buy/sell
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function rp_inventory_transfer_items(transaction, merchant_id, hero_id) {
+    
+    var ownerElement = document.getElementById('rp-inventory-equipment-of-' + hero_id);
+    var selectedItems = ownerElement.dataset.selectedItem;
+
+    var merchant = rp_inventory_transfer_get_select_owner(merchant_id, 'merchant');
+    var hero = rp_inventory_transfer_get_select_owner(merchant_id, 'hero');
+    
+    if (!confirm("Are you sure you want to " + transaction + " these items?"))
+        return;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.substring(0, 9).toLowerCase() != "succeeded")
+                alert(this.responseText);
+
+            reloadScroll();
+        }
+    };
+    xhttp.open("GET", "wp-content/plugins/rp-inventory/" + transaction + "-items.php?hero=" + hero + "&merchant=" + merchant + "&items=" + selectedItems, true);
+    xhttp.send();
+}
+
+function rp_inventory_transfer_get_select_owner(merchant_id, owner_type) {
+
+    var container_name = 'rp-inventory-merchantcontainer-' + merchant_id + '-' + owner_type;
+    var merchantcontainer = document.getElementById(container_name);
+    var selectedIndex = merchantcontainer.dataset.selectedIndex;
+    var children = document.querySelectorAll('#' + container_name + ' .rp-inventory-container-heroselector');
+    var selectedOwner = children.item(selectedIndex);
+    var ownerId = selectedOwner.dataset.heroId;
+    return ownerId;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Item creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,8 +238,11 @@ function rp_inventory_create_item(owner)
 // Item deletion
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function rp_inventory_delete_item()
+function rp_inventory_delete_item(owner_id)
 {
+    var ownerElement = document.getElementById(owner_id);
+    var selectedItem = document.getElementById(ownerElement.dataset.selectedItem);
+
     if (selectedItem == null)
     {
         alert("No item is selected.");
@@ -159,16 +273,17 @@ function rp_inventory_delete_item()
 // Item swapping
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var selectedItem = null;
-var swapItem = null;
-
-function rp_inventory_click_item(e)
+function rp_inventory_click_item(e, owner_id)
 {
     if (!e)
         e = window.event;
     var sender = e.srcElement || e.target;
 
-    if (swapItem != null)
+    var ownerElement = document.getElementById(owner_id);
+    var selectedItem = document.getElementById(ownerElement.dataset.selectedItem);
+    var swappedItem = document.getElementById(ownerElement.dataset.swappedItem);
+
+    if (swappedItem != null)
         return;
 
     var slot = sender;
@@ -181,16 +296,18 @@ function rp_inventory_click_item(e)
     if (selectedItem == null) {
         selectedItem = slot;
         slot.style.border="2px solid yellow";
+        ownerElement.dataset.selectedItem = selectedItem.id;
     }
     else {
-        swapItem = slot;
+        swappedItem = slot;
 
-        if (swapItem.id == selectedItem.id) {
+        if (swappedItem.id == selectedItem.id) {
             reloadScroll();
             return;
         }
 
         slot.style.border="2px solid yellow";
+        ownerElement.dataset.swappedItem = swappedItem.id;
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -201,7 +318,7 @@ function rp_inventory_click_item(e)
                 reloadScroll();
             }
         };
-        xhttp.open("GET", "wp-content/plugins/rp-inventory/swap-item.php?item1=" + selectedItem.id + "&item2=" + swapItem.id, true);
+        xhttp.open("GET", "wp-content/plugins/rp-inventory/swap-item.php?item1=" + selectedItem.id + "&item2=" + swappedItem.id, true);
         xhttp.send();
     }
 }
@@ -300,10 +417,10 @@ function populateFiles()
         selectElement.appendChild(optionElement);
 
         var borderSunkenElement = document.createElement("div");
-        borderSunkenElement.setAttribute("class", "rp-inventory-item-border-sunken");
+        borderSunkenElement.setAttribute("class", "rp-inventory-equipment-item-slot-border");
         borderSunkenElement.setAttribute("style", "display: inline-block;");
         var borderSelectElement = document.createElement("div");
-        borderSelectElement.setAttribute("class", "rp-inventory-item-slot-border-select");
+        borderSelectElement.setAttribute("class", "rp-inventory-equipment-item-slot-select");
         borderSelectElement.setAttribute("id", "rp-inventory-preview-icon-" + fileName);
         borderSelectElement.onclick = function() { selectClickedIcon(); };
         var imageElement = document.createElement("img");

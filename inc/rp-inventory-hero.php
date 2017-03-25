@@ -24,6 +24,7 @@ function rp_inventory_hero_html($name) {
 
         $header_content = "";
 
+        $is_user = is_user_logged_in();
         $is_admin = user_can(wp_get_current_user(), 'administrator');
         $is_owner = ($hero->creator == wp_get_current_user()->user_login);
 
@@ -81,13 +82,15 @@ function rp_inventory_hero_html($name) {
 
         $output = "";
         $containers_html = "";
+        $index = 0;
         foreach ($container_orders as $hosts_container_order => $hosts_container_id) {
 
             $container = $container_ids[$hosts_container_id];
             $contained_items = $container_content[$hosts_container_id];
-            $container_html = rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id);
+            $container_html = rp_inventory_itemcontainer_html($owner, FALSE, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index);
 
             $containers_html .= $container_html;
+            $index++;
         }
 
         $tpl_inventory = new Template($path_local . "../tpl/inventory.html");

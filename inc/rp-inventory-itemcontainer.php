@@ -1,6 +1,6 @@
 <?php
 
-function rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id) {
+function rp_inventory_itemcontainer_html($owner, $is_merchant, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index) {
 
     $path_local = plugin_dir_path(__FILE__);
     $path_url = plugins_url() . "/rp-inventory";
@@ -21,7 +21,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $containe
     }
     else
     {
-        $max_slot = (ceil(($max_slot + 1) / 15) * 15) - 1;
+        $max_slot = max(48, (ceil(($max_slot + 1) / 7) * 7) - 1);
     }
 
     for ($slot = 0; $slot <= $max_slot; $slot++) {
@@ -61,19 +61,30 @@ function rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $containe
         }
 
         $popup_class = "";
-        if ($container_type == "default" && ($slot % 15 > 10)) {
-            $popup_class = "rp-inventory-item-info-popup-left";
+        if ($is_merchant) {
+            if ($is_owner) {
+                $popup_class = "rp-inventory-item-info-popup-left";                
+            }
+        } else {
+            if ($container_type == "default" && ($index % 2 == 1)) {
+                $popup_class = "rp-inventory-item-info-popup-left";
+            }
         }
 
         $tpl_inventory_slot = new Template($path_local . "../tpl/inventory_item_slot.html");
         $tpl_inventory_slot->set("PopupClass", $popup_class);
-        $tpl_inventory_slot->set("OnClick", ($is_admin || $is_owner) ? "rp_inventory_click_item(event)" : "");
+        if ($is_merchant) {
+            $tpl_inventory_slot->set("OnClick", ($is_user && ($item_id > 0)) ? "rp_inventory_select_item(event, 'rp-inventory-equipment-of-$owner')" : "");
+        } else {
+            $tpl_inventory_slot->set("OnClick", ($is_admin || $is_owner) ? "rp_inventory_click_item(event, 'rp-inventory-equipment-of-$owner')" : "");
+        }
         $inventory_slot_html = $tpl_inventory_slot->output();
 
         $tpl_inventory_item = new Template($path_local . "../tpl/inventory_item_" . $container_type . ".html");
         $tpl_inventory_item->set("SlotContent", $inventory_slot_html);
         $tpl_inventory_item->set("ContainerId", $hosts_container_id);
         $tpl_inventory_item->set("Slot", $slot);
+        $tpl_inventory_item->set("IsEmpty", (($name == "") ? "rp-inventory-container-slot-empty" : ""));
         $tpl_inventory_item->set("ItemId", $item_id);
         $tpl_inventory_item->set("Owner", $owner);
         $tpl_inventory_item->set("Icon", $icon);
@@ -97,6 +108,8 @@ function rp_inventory_itemcontainer_html($owner, $is_admin, $is_owner, $containe
     }
 
     $tpl_inventory_container = new Template($path_local . "../tpl/inventory_container_" . $container_type . ".html");
+    $tpl_inventory_container->set("OwnerId", $owner);
+    $tpl_inventory_container->set("ContainerId", $container->item_id);
     $tpl_inventory_container->set("ContainerName", $container->name);
     $tpl_inventory_container->set("ContainerContent", $container_content_html);
     $tpl_inventory_container->set("Sum_RS_KO", sprintf("%.0f", $sum_rs[0]));

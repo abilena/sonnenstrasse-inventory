@@ -1,5 +1,5 @@
 <div class="rp-inventory-button" onclick="rp_inventory_create_item_popup()">Erstellen</div>
-<div class="rp-inventory-button" onclick="rp_inventory_delete_item()">Löschen</div>
+<div class="rp-inventory-button" onclick="rp_inventory_delete_item('rp-inventory-equipment-of-[@Owner]')">Löschen</div>
 <div class="rp-inventory-popup-create" id="rp-inventory-popup-create">
     <input style="display: none;" id="rp-inventory-create-icon-all-files" value="[@IconsList]"></input>
     <table>
@@ -10,10 +10,10 @@
         <tr><td>Preview:</td><td><table style="margin-bottom: 10px;">
             <tr>
                 <td class="rp-inventory-item-slot">
-                    <div class="rp-inventory-item-border-sunken">
-                        <div class="rp-inventory-item-slot-border-select">
+                    <div class="rp-inventory-equipment-item-slot-border">
+                        <div class="rp-inventory-equipment-item-slot-select">
                             <img class="rp-inventory-item-icon" id="rp-inventory-preview-icon" src="wp-content/plugins/rp-inventory/img/empty.png">
-                        </div><!-- rp-inventory-item-slot-border-select -->
+                        </div><!-- rp-inventory-equipment-item-slot-select -->
                     </div><!-- rp-inventory-item-border-sunken -->
                 </td><!-- rp-inventory-item-slot -->
                 <td>

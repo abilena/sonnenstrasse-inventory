@@ -26,6 +26,7 @@ function rp_inventory_create_tables() {
 	{
 		$sql = "CREATE TABLE " . $db_table_name . " (
 		`hero_id` mediumint(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		`hero_type` tinytext NOT NULL,
 		`party` mediumint(9) NOT NULL,
         `creator` tinytext NOT NULL,
         `name` tinytext NOT NULL,
@@ -40,6 +41,7 @@ function rp_inventory_create_tables() {
         `birth_place` tinytext NOT NULL,
         `biography` text NOT NULL,
         `flavor` text NOT NULL,
+        `gold` float NOT NULL,
 		UNIQUE KEY hero_id (hero_id)
 		);";
 
@@ -257,6 +259,19 @@ function rp_inventory_create_hero($arguments) {
     $wpdb->query('COMMIT');    
 }
 
+function rp_inventory_get_my_heroes() {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    
+    $user = wp_get_current_user()->user_login;
+
+    $db_results = $wpdb->get_results("SELECT hero_id FROM $db_table_name WHERE (creator='$user' OR creator='') AND (hero_type='hero' OR hero_type='shared')");
+
+    $heroes = array_map(function($hero) { return $hero->hero_id; }, $db_results);
+
+    return $heroes;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Properties
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,6 +392,15 @@ function rp_inventory_edit_detail($arguments) {
 // Items
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function rp_inventory_get_item($item_id) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE item_id=$item_id");
+
+    return $db_result[0];
+}
+
 function rp_inventory_get_items($owner_id) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';
@@ -479,6 +503,127 @@ function rp_inventory_delete_item($item) {
         $wpdb->query('ROLLBACK'); // // something went wrong, Rollback
         return "failed\n\n" . $output;
     }
+}
+
+function rp_inventory_buy_items($hero_id, $merchant_id, $items) {
+
+    return rp_inventory_transfer_items($merchant_id, $hero_id, $items);
+}
+
+function rp_inventory_sell_items($hero_id, $merchant_id, $items) {
+
+    return rp_inventory_transfer_items($hero_id, $merchant_id, $items);
+}
+
+
+function rp_inventory_transfer_items($from_hero_id, $to_hero_id, $items) {
+   	global $wpdb;
+    $db_table_name_items = $wpdb->prefix . 'rp_inventory';
+    $db_table_name_heroes = $wpdb->prefix . 'rp_heroes';
+
+    $buyer = rp_inventory_get_hero($to_hero_id);
+    $seller = rp_inventory_get_hero($from_hero_id);
+    $itemsList = array();
+    $failed = FALSE;
+
+    if (empty($buyer)) {
+        $output .= "Invalid buyer!\n";
+        $failed = TRUE;
+    }
+    else if (empty($seller)) {
+        $output .= "Invalid seller!\n";
+        $failed = TRUE;
+    }
+    else {
+        $hasContainers = FALSE;
+        $total_price = 0;
+        $itemSplits = explode(",", $items);
+        foreach ($itemSplits as $index => $itemSplit) {
+            preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $itemSplit, $matches);
+            $old_id = $matches["id"];
+
+            $item = rp_inventory_get_item($old_id);
+
+            if (empty($item) || ($item->owner != $seller->hero_id)) {
+                $output .= "Invalid item: $old_id!\n";
+                $failed = TRUE;
+            }
+
+            array_push($itemsList, $item);
+        }
+
+        $itemsList = rp_inventory_expand_containers($itemsList);
+        print_r($itemsList);
+
+        foreach ($itemsList as $index => $item) {
+            $total_price += $item->price;
+        }
+
+        if ($buyer->gold < $total_price) {
+            $output .= "Insufficient gold!\n";
+            $failed = TRUE;
+        }
+    }
+
+    if (!$failed) {
+        
+        $wpdb->query('START TRANSACTION');
+
+        $updated = 0;
+        foreach ($itemsList as $index => $item) {
+            $updated += $wpdb->update($db_table_name_items, array('owner' => $buyer->hero_id), array('item_id' => $item->item_id));
+        }
+
+        if ($updated != sizeof($itemsList)) {
+            $output .= "Failed to update items!\n";
+            $failed = TRUE;
+        }
+
+        $new_gold_buyer = $buyer->gold - $total_price;
+        $new_gold_seller = $seller->gold + $total_price;
+        $updated = $wpdb->update($db_table_name_heroes, array('gold' => $new_gold_buyer), array('hero_id' => $buyer->hero_id));
+        $updated = $wpdb->update($db_table_name_heroes, array('gold' => $new_gold_seller), array('hero_id' => $seller->hero_id));
+    }
+
+    if (!$failed)
+    {
+        $wpdb->query('COMMIT'); // if you come here then well done
+        return "succeeded";
+    }
+    else {
+        $wpdb->query('ROLLBACK'); // // something went wrong, Rollback
+        return "failed\n\n" . $output;
+    }
+}
+
+function rp_inventory_expand_containers($itemsList) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    
+    $new_items = array();
+    foreach ($itemsList as $index => $item) {
+        if ($item->hosts_container_id > 0) {
+            $container_id = $item->hosts_container_id;
+            $contained_items = $wpdb->get_results("SELECT * FROM $db_table_name WHERE show_in_container_id=$container_id");
+            if (!empty($contained_items)) {
+                rp_inventory_expand_containers($contained_items);
+                $new_items = array_merge_unique($new_items, $contained_items); 
+            }
+        }
+    }
+
+    return array_merge_unique($itemsList, $new_items);
+}
+
+function array_merge_unique($array1, $array2) {
+    $result = array_merge(array(), $array1);
+    foreach ($array2 as $key2 => $value2) {
+        foreach ($result as $key1 => $value1) {
+            if (array_search($value, $result) === FALSE)
+                array_push($result, $value);
+        }
+    }
+    return $result;
 }
 
 ?>

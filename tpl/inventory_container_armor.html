@@ -1,66 +1,70 @@
-    <div class="rp-inventory-container">
-        <div class="rp-inventory-container-title">
-            <div class="rp-inventory-container-icon rp-inventory-container-icon-armor"></div>
-            <div class="rp-inventory-container-name">[@ContainerName]</div>
-        </div><!-- rp-inventory-container-title -->
-        <div class="rp-inventory-container-content">
-            <table>
-                <thead>
-                    <tr>
-                        <th><!-- Icon Slot --></th>
-                        <th style="width: 150px; text-align: left; padding-left: 10px;">Name</th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ko.png" alt="Ko"><span class="rp-inventory-tooltip-rs">Kopf</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_br.png" alt="Br"><span class="rp-inventory-tooltip-rs">Brust</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ru.png" alt="Ru"><span class="rp-inventory-tooltip-rs">R&uuml;cken</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ba.png" alt="Ba"><span class="rp-inventory-tooltip-rs">Bauch</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_la.png" alt="LA"><span class="rp-inventory-tooltip-rs">Linker Arm</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ra.png" alt="RA"><span class="rp-inventory-tooltip-rs">Rechter Arm</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_lb.png" alt="LB"><span class="rp-inventory-tooltip-rs">Linkes Bein</span></span></th>
-                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_rb.png" alt="RB"><span class="rp-inventory-tooltip-rs">Rechtes Bein</span></span></th>
-                        <th class="rp-inventory-col-be"><span class="rp-inventory-header-rs">gBE<span class="rp-inventory-tooltip-rs">Gesamt-Behinderung</span></span></th>
-                        <th style="width: 200px;"><!-- Image Slot --></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="rp-inventory-header-empty"><!-- Icon Slot --></td>
-                        <td class="rp-inventory-header-empty"><!-- Name --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-KO --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-BR --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-RU --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-BA --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-LA --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-RA --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-LB --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-RB --></td>
-                        <td class="rp-inventory-header-empty"><!-- RS-BE --></td>
-                        <td class="rp-inventory-header-empty" style="text-align: center;" rowspan="7"><div class="rp-inventory-armor-display">
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-ko">[@Sum_RS_KO]</div>
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-br-ru">[@Sum_RS_BR]|[@Sum_RS_RU]</div>
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-ba">[@Sum_RS_BA]</div>
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-la">[@Sum_RS_LA]</div>
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-ra">[@Sum_RS_RA]</div>
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-lb">[@Sum_RS_LB]</div>
-                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-rb">[@Sum_RS_RB]</div>
-                        </div></td>
-                    </tr>
-[@ContainerContent]
-                    <tr>
-                        <th><!-- Icon Slot --></th>
-                        <th><!-- Name --></tdh>
-                        <th>[@Sum_RS_KO]</th>
-                        <th>[@Sum_RS_BR]</th>
-                        <th>[@Sum_RS_RU]</th>
-                        <th>[@Sum_RS_BA]</th>
-                        <th>[@Sum_RS_LA]</th>
-                        <th>[@Sum_RS_RA]</th>
-                        <th>[@Sum_RS_LB]</th>
-                        <th>[@Sum_RS_RB]</th>
-                        <th>[@Sum_BE]</th>
-                        <th><!-- Armor Display --></th>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="rp-inventory-container-bottom"></div>
+	<div style="width: 100%">
+        <div class="rp-inventory-container-equipment rp-inventory-border">
+			<div class="rp-inventory-equipment rp-inventory-equipment-merchant">
+				<div class="rp-inventory-equipment-list" id="rp-inventory-equipment-container-[@OwnerId]-[@ContainerId]">
+					<h2>[@ContainerName]</h2>
+					<div class="rp-inventory-equipment-items">
+                        <div class="rp-inventory-container-armorset">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><!-- Icon Slot --></th>
+                                        <th style="width: 150px; text-align: left; padding-left: 10px;">Name</th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ko.png" alt="Ko"><span class="rp-inventory-tooltip-rs">Kopf</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_br.png" alt="Br"><span class="rp-inventory-tooltip-rs">Brust</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ru.png" alt="Ru"><span class="rp-inventory-tooltip-rs">R&uuml;cken</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ba.png" alt="Ba"><span class="rp-inventory-tooltip-rs">Bauch</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_la.png" alt="LA"><span class="rp-inventory-tooltip-rs">Linker Arm</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_ra.png" alt="RA"><span class="rp-inventory-tooltip-rs">Rechter Arm</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_lb.png" alt="LB"><span class="rp-inventory-tooltip-rs">Linkes Bein</span></span></th>
+                                        <th class="rp-inventory-col-rs"><span class="rp-inventory-header-rs"><img src="wp-content/plugins/rp-inventory/img/shapes/zone_rb.png" alt="RB"><span class="rp-inventory-tooltip-rs">Rechtes Bein</span></span></th>
+                                        <th class="rp-inventory-col-be"><span class="rp-inventory-header-rs">gBE<span class="rp-inventory-tooltip-rs">Gesamt-Behinderung</span></span></th>
+                                        <th style="width: 200px;"><!-- Image Slot --></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="rp-inventory-header-empty"><!-- Icon Slot --></td>
+                                        <td class="rp-inventory-header-empty"><!-- Name --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-KO --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-BR --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-RU --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-BA --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-LA --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-RA --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-LB --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-RB --></td>
+                                        <td class="rp-inventory-header-empty"><!-- RS-BE --></td>
+                                        <td class="rp-inventory-header-empty" style="text-align: center;" rowspan="7"><div class="rp-inventory-armor-display">
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-ko">[@Sum_RS_KO]</div>
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-br-ru">[@Sum_RS_BR]|[@Sum_RS_RU]</div>
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-ba">[@Sum_RS_BA]</div>
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-la">[@Sum_RS_LA]</div>
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-ra">[@Sum_RS_RA]</div>
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-lb">[@Sum_RS_LB]</div>
+                                            <div class="rp-inventory-panel-rs rp-inventory-panel-rs-rb">[@Sum_RS_RB]</div>
+                                        </div></td>
+                                    </tr>
+                [@ContainerContent]
+                                    <tr>
+                                        <th><!-- Icon Slot --></th>
+                                        <th><!-- Name --></tdh>
+                                        <th>[@Sum_RS_KO]</th>
+                                        <th>[@Sum_RS_BR]</th>
+                                        <th>[@Sum_RS_RU]</th>
+                                        <th>[@Sum_RS_BA]</th>
+                                        <th>[@Sum_RS_LA]</th>
+                                        <th>[@Sum_RS_RA]</th>
+                                        <th>[@Sum_RS_LB]</th>
+                                        <th>[@Sum_RS_RB]</th>
+                                        <th>[@Sum_BE]</th>
+                                        <th><!-- Armor Display --></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+					</div>
+				</div>
+            </div>
         </div>
-    </div><!-- rp-inventory-container -->
+	</div>

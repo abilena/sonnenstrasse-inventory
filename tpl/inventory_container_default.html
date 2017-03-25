@@ -1,10 +1,14 @@
-    <div class="rp-inventory-container">
-        <div class="rp-inventory-container-title">
-            <div class="rp-inventory-container-icon rp-inventory-container-icon-default"></div>
-            <div class="rp-inventory-container-name">[@ContainerName]</div>
-        </div><!-- rp-inventory-container-title -->
-        <div class="rp-inventory-container-content">
-[@ContainerContent]
-            <div class="rp-inventory-container-bottom"></div>
+    <div class="rp-inventory-container-block">
+        <div class="rp-inventory-container-equipment rp-inventory-border">
+			<div class="rp-inventory-equipment rp-inventory-equipment-merchant">
+				<div class="rp-inventory-equipment-grid" id="rp-inventory-equipment-container-[@OwnerId]-[@ContainerId]">
+					<a class="rp-inventory-equipment-display-button" onclick="rp_inventory_toggle_equipment_display('rp-inventory-equipment-container-[@OwnerId]-[@ContainerId]');"></a>
+					<h2>[@ContainerName]</h2>
+					<div class="rp-inventory-equipment-items">
+                        [@ContainerContent]
+					</div>
+				</div>
+            </div>
         </div>
-    </div><!-- rp-inventory-container -->
+    </div>
+

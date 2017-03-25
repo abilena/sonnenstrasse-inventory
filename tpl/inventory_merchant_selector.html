@@ -1,0 +1,34 @@
+            <div class="rp-inventory-container-heroselector" id="rp-inventory-heroselector-[@MerchantId]-[@OwnerType]-[@HeroId]" style="display: [@Display];" data-hero-id="[@HeroId]">
+                <div class="rp-inventory-container-merchant rp-inventory-container-equipment rp-inventory-border" style="min-height: 158px;">
+                    <div class="rp-inventory-container-merchant-details">
+                        <div class="rp-inventory-container-merchant-details-button rp-inventory-container-merchant-details-button-prev [@ButtonsEnabled]">
+                            <div class="rp-inventory-container-merchant-details-portrait-frame">
+                                <a onclick="rp_inventory_merchant_heroselector_prev('rp-inventory-merchantcontainer-[@MerchantId]-[@OwnerType]');"></a>
+                            </div>
+                        </div>
+                        <div class="rp-inventory-container-merchant-details-portrait">
+                            <div class="rp-inventory-container-merchant-details-portrait-frame">
+                                <div class="rp-inventory-container-merchant-details-portrait-image" style="background-image: url('[@Portrait]');"></div>
+                            </div>
+                        </div>
+                        <div class="rp-inventory-container-merchant-details-button rp-inventory-container-merchant-details-button-next [@ButtonsEnabled]">
+                            <div class="rp-inventory-container-merchant-details-portrait-frame">
+                                <a onclick="rp_inventory_merchant_heroselector_next('rp-inventory-merchantcontainer-[@MerchantId]-[@OwnerType]');"></a>
+                            </div>
+                        </div>
+                        <div class="rp-inventory-container-merchant-details-info">
+                            <div class="rp-inventory-container-merchant-details-info-content">
+                                <div class="rp-inventory-container-merchant-details-info-content-name">[@Name]</div>
+                                <div class="rp-inventory-container-merchant-details-info-content-gold rp-inventory-equipment-item-price">[@Gold]</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rp-inventory-container-merchant-actions">
+                        <div class="rp-inventory-container-merchant-actions-of-[@OwnerType]">
+                            <div class="rp-inventory-container-merchant-action rp-inventory-container-merchant-action-buy"><a onclick="rp_inventory_transfer_items('buy', '[@MerchantId]', '[@HeroId]');"></a></div>
+                            <div class="rp-inventory-container-merchant-action rp-inventory-container-merchant-action-sell"><a onclick="rp_inventory_transfer_items('sell', '[@MerchantId]', '[@HeroId]');"></a></div>
+                        </div>
+                    </div>
+                </div>
+                [@Equipment]
+            </div>

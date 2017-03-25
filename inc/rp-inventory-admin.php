@@ -219,9 +219,11 @@ function rp_inventory_admin_options() { ?>
                 $tpl_inventory_admin_hero_details->set("Heading", $selected_hero->name);
                 $tpl_inventory_admin_hero_details->set("Name", rp_inventory_detail($selected_hero->hero_id, "name", "Kurzname", $selected_hero->name));
                 $tpl_inventory_admin_hero_details->set("DisplayName", rp_inventory_detail($selected_hero->hero_id, "display_name", "Name", $selected_hero->display_name));
+                $tpl_inventory_admin_hero_details->set("HeroType", rp_inventory_detail($selected_hero->hero_id, "hero_type", "Typ", $selected_hero->hero_type));
                 $tpl_inventory_admin_hero_details->set("Biography", rp_inventory_detail($selected_hero->hero_id, "biography", "Biografie", $selected_hero->biography));
                 $tpl_inventory_admin_hero_details->set("Flavor", rp_inventory_detail($selected_hero->hero_id, "flavor", "Flavor", $selected_hero->flavor));
                 $tpl_inventory_admin_hero_details->set("Portrait", rp_inventory_detail($selected_hero->hero_id, "portrait", "Portrait", $selected_hero->portrait));
+                $tpl_inventory_admin_hero_details->set("Gold", rp_inventory_detail($selected_hero->hero_id, "gold", "Gold", $selected_hero->gold));
                 $tpl_inventory_admin_hero_details->set("Race", rp_inventory_property($selected_hero->hero_id, "race", "Rasse", true));
                 $tpl_inventory_admin_hero_details->set("Culture", rp_inventory_property($selected_hero->hero_id, "culture", "Kultur", true));
                 $tpl_inventory_admin_hero_details->set("Profession", rp_inventory_property($selected_hero->hero_id, "profession", "Profession", true));

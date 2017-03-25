@@ -1,47 +1,39 @@
-<div class="rp-inventory-container">
-	<table class="rp-inventory-container-table">
-        <tr>
-            <td>
-			    <div class="rp-inventory-banner">
-				    <div class="rp-inventory-portrait-small" style="background-image: url('[@Portrait]');">
-					    <div class="rp-inventory-portrait-small-frame"></div>
-				    </div>
-				    <div class="rp-inventory-banner-heading">[@DisplayName]</div>
-				    <div class="rp-inventory-banner-subheading">[@Name]</div>
-				    <a class="rp-inventory-banner-expander-default" onclick="rp_inventory_toggle_merchant(this, 'rp-inventory-merchant-[@Id]');"></a>
-			    </div>
-            </td>
-        </tr>
-    </table>
-	<table class="rp-inventory-container-table" id="rp-inventory-merchant-[@Id]" style="display: none;">
-		<tr>
-			<td>
-				<div class="rp-inventory-container-parchment">
-					<div class="rp-inventory-parchment">
-						<div class="rp-inventory-parchment-crest-dragon"></div>
-						<div class="rp-inventory-parchment-content">
-							<h1>[@DisplayName]</h1>
-							[@Biography]
-							<hr>
-							<i>[@Flavor]</i>
-						</div>
-					</div>
-				</div>
-			</td>
-			<td>
-				<div class="rp-inventory-container-portrait">
-                    <div class="rp-inventory-portrait-huge" style="background-image: url('[@Portrait]');"></div>
-					<div class="rp-inventory-portrait-huge-frame">
-						<div class="rp-inventory-portrait-huge-name">[@Name]</div>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			</td>
-			<td>
-			</td>
-		</tr>
-	</table>
+<div class="rp-inventory-container rp-inventory-border">
+    <div class="rp-inventory-banner">
+        <div class="rp-inventory-portrait-small" style="background-image: url('[@Portrait]');">
+            <div class="rp-inventory-portrait-small-frame"></div>
+        </div>
+        <div class="rp-inventory-banner-heading">[@DisplayName]</div>
+        <div class="rp-inventory-banner-subheading">[@Name]</div>
+        <a class="rp-inventory-banner-expander-default" onclick="rp_inventory_toggle_merchant(this, 'rp-inventory-merchant-[@HeroId]');"></a>
+    </div>
+    <div class="rp-inventory-merchant-content" id="rp-inventory-merchant-[@HeroId]" style="display: none;">
+        <div class="rp-inventory-container-block">
+            <div class="rp-inventory-container-parchment">
+                <div class="rp-inventory-parchment">
+                    <div class="rp-inventory-parchment-crest-dragon"></div>
+                    <div class="rp-inventory-parchment-content">
+                        <h1>[@DisplayName]</h1>
+                        [@Biography]
+                        <hr>
+                        <i>[@Flavor]</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rp-inventory-container-block">
+            <div class="rp-inventory-container-portrait rp-inventory-border">
+                <div class="rp-inventory-portrait-huge" style="background-image: url('[@Portrait]');"></div>
+                <div class="rp-inventory-portrait-frame">
+                    <div class="rp-inventory-portrait-name">[@Name]</div>
+                </div>
+            </div>
+        </div>
+        <div class="rp-inventory-container-block" id="rp-inventory-merchantcontainer-[@HeroId]-merchant" data-selected-index="0">
+            [@Merchants]
+        </div>
+        <div class="rp-inventory-container-block" id="rp-inventory-merchantcontainer-[@HeroId]-hero" data-selected-index="0">
+            [@Heroes]
+        </div>
+    </div>
 </div>

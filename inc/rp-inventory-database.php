@@ -553,7 +553,6 @@ function rp_inventory_transfer_items($from_hero_id, $to_hero_id, $items) {
         }
 
         $itemsList = rp_inventory_expand_containers($itemsList);
-        print_r($itemsList);
 
         foreach ($itemsList as $index => $item) {
             $total_price += $item->price;

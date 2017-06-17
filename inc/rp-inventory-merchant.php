@@ -20,7 +20,7 @@ function rp_inventory_merchant_html($name) {
         $merchant_html = rp_inventory_merchant_details("merchant", $merchant_id, array(0 => $merchant_id));
         $hero_html = rp_inventory_merchant_details("hero", $merchant_id, $heroes);
 
-        $tpl_inventory_merchant = new Template($path_local . "../tpl/inventory_merchant.html");
+        $tpl_inventory_merchant = new RPInventory\Template($path_local . "../tpl/inventory_merchant.html");
         $tpl_inventory_merchant->setObject($merchant);
         $tpl_inventory_merchant->set("Merchants", $merchant_html);
         $tpl_inventory_merchant->set("Heroes", $hero_html);
@@ -42,7 +42,7 @@ function rp_inventory_merchant_details($owner_type, $merchant_id, $owners) {
 
         $equipment_html = rp_inventory_merchant_items($owner_id, ($owner_id != $merchant_id));
 
-        $tpl_inventory_merchant_selector = new Template($path_local . "../tpl/inventory_merchant_selector.html");
+        $tpl_inventory_merchant_selector = new RPInventory\Template($path_local . "../tpl/inventory_merchant_selector.html");
         $tpl_inventory_merchant_selector->setObject($hero);
         $tpl_inventory_merchant_selector->set("Display", (($index == 0) ? "block" : "none"));
         $tpl_inventory_merchant_selector->set("ButtonsEnabled", "rp-inventory-heroselector-container-button-" . (($owner_type == "hero") ? "enabled" : "disabled"));
@@ -124,7 +124,7 @@ function rp_inventory_merchant_items($owner_id, $is_owner) {
         $index++;
     }
 
-    $tpl_inventory_merchant_equipment = new Template($path_local . "../tpl/inventory_containers_all.html");
+    $tpl_inventory_merchant_equipment = new RPInventory\Template($path_local . "../tpl/inventory_containers_all.html");
     $tpl_inventory_merchant_equipment->set("OwnerId", $owner_id);
     $tpl_inventory_merchant_equipment->set("Content", $containers_html);
     $output .= $tpl_inventory_merchant_equipment->output();

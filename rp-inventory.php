@@ -9,8 +9,7 @@ Author URI: https://profiles.wordpress.org/Klemens#content-plugins
 Text Domain: rp-inventory
 */ 
 
-include 'template.class.php';
-
+require_once('inc/template.class.php');
 require_once('inc/rp-inventory-install.php'); 
 require_once('inc/rp-inventory-hero.php'); 
 require_once('inc/rp-inventory-merchant.php'); 

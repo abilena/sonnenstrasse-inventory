@@ -29,10 +29,10 @@ function rp_inventory_hero_html($name) {
         $is_owner = ($hero->creator == wp_get_current_user()->user_login);
 
         if ($is_admin) {
-            $icon_files = get_all_files($path_local . "../img/icons/");
+            $icon_files = RPInventory\get_all_files($path_local . "../img/icons/");
             $icon_files_html = implode(":", $icon_files);
 
-            $tpl_inventory_header = new Template($path_local . "../tpl/inventory_header.html");
+            $tpl_inventory_header = new RPInventory\Template($path_local . "../tpl/inventory_header.html");
             $tpl_inventory_header->set("Owner", $owner);
             $tpl_inventory_header->set("IconsList", $icon_files_html);
             $header_content .= $tpl_inventory_header->output();
@@ -93,7 +93,7 @@ function rp_inventory_hero_html($name) {
             $index++;
         }
 
-        $tpl_inventory = new Template($path_local . "../tpl/inventory.html");
+        $tpl_inventory = new RPInventory\Template($path_local . "../tpl/inventory.html");
         $tpl_inventory->set("HeaderContent", $header_content);
         $tpl_inventory->set("Containers", $containers_html);
         $output .= $tpl_inventory->output();

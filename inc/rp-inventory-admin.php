@@ -15,7 +15,7 @@ function rp_inventory_detail($hero_id, $detail_type, $detail_label, $detail_valu
         $detail_value = substr($detail_value, 0, $newlinepos) . " (...)";
     }
 
-    $tpl_inventory_admin_detail = new Template($path_local . "../tpl/inventory_admin_detail.html");
+    $tpl_inventory_admin_detail = new RPInventory\Template($path_local . "../tpl/inventory_admin_detail.html");
     $tpl_inventory_admin_detail->set("Label", $detail_label);
     $tpl_inventory_admin_detail->set("Value", $detail_value);
     $tpl_inventory_admin_detail->set("BaseUrl", $path_url);
@@ -46,7 +46,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
                     $name .= " (" . $property->info . ")";
                 }
 
-                $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
+                $tpl_inventory_admin_property = new RPInventory\Template($path_local . "../tpl/inventory_admin_property.html");
                 $tpl_inventory_admin_property->set("Label", $property_label);
                 $tpl_inventory_admin_property->set("GP", rp_inventory_property_format_cost($property->gp));
                 $tpl_inventory_admin_property->set("TGP", rp_inventory_property_format_cost($property->tgp));
@@ -68,7 +68,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
                 $sum_ap += $property->ap;
             }
 
-            $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
+            $tpl_inventory_admin_property = new RPInventory\Template($path_local . "../tpl/inventory_admin_property.html");
             $tpl_inventory_admin_property->set("Label", $property_label);
             $tpl_inventory_admin_property->set("GP", $sum_gp);
             $tpl_inventory_admin_property->set("TGP", $sum_tgb);
@@ -79,7 +79,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
         }
     }
     else {
-        $tpl_inventory_admin_property = new Template($path_local . "../tpl/inventory_admin_property.html");
+        $tpl_inventory_admin_property = new RPInventory\Template($path_local . "../tpl/inventory_admin_property.html");
         $tpl_inventory_admin_property->set("Label", $property_label);
         $tpl_inventory_admin_property->set("GP", "");
         $tpl_inventory_admin_property->set("TGP", "");
@@ -111,14 +111,14 @@ function rp_inventory_admin_options() { ?>
     $party_id = (array_key_exists("party_id", $_REQUEST) ? $_REQUEST["party_id"] : ((count($partys) > 0) ? $partys[0]->party_id : 0));
     foreach ($partys as $row_id => $party) {
 
-        $tpl_inventory_admin_party = new Template($path_local . "../tpl/inventory_admin_party.html");
+        $tpl_inventory_admin_party = new RPInventory\Template($path_local . "../tpl/inventory_admin_party.html");
         $tpl_inventory_admin_party->set("Id", $party->party_id);
         $tpl_inventory_admin_party->set("Name", $party->name);
         $tpl_inventory_admin_party->set("Selected", ($party->party_id == $party_id) ? "selected" : "");
         $partys_html .= $tpl_inventory_admin_party->output();
     }
 
-    $tpl_inventory_admin_partys = new Template($path_local . "../tpl/inventory_admin_partys.html");
+    $tpl_inventory_admin_partys = new RPInventory\Template($path_local . "../tpl/inventory_admin_partys.html");
     $tpl_inventory_admin_partys->set("Partys", $partys_html);
     echo ($tpl_inventory_admin_partys->output());
 
@@ -138,7 +138,7 @@ function rp_inventory_admin_options() { ?>
                 $portrait = $path_url . "/img/shapes/" . (($hero->gender == 'female') ? "portrait_female.png" : "portrait_male.png");
             }
 
-            $tpl_inventory_admin_hero = new Template($path_local . "../tpl/inventory_admin_hero.html");
+            $tpl_inventory_admin_hero = new RPInventory\Template($path_local . "../tpl/inventory_admin_hero.html");
             $tpl_inventory_admin_hero->set("Party", $party_id);
             $tpl_inventory_admin_hero->set("Id", $hero->hero_id);
             $tpl_inventory_admin_hero->set("Name", $hero->name);
@@ -146,7 +146,7 @@ function rp_inventory_admin_options() { ?>
             $heroes_html .= $tpl_inventory_admin_hero->output();
         }
 
-        $tpl_inventory_admin_heroes = new Template($path_local . "../tpl/inventory_admin_heroes.html");
+        $tpl_inventory_admin_heroes = new RPInventory\Template($path_local . "../tpl/inventory_admin_heroes.html");
         $tpl_inventory_admin_heroes->set("Heroes", $heroes_html);
         echo ($tpl_inventory_admin_heroes->output());
 
@@ -159,7 +159,7 @@ function rp_inventory_admin_options() { ?>
             if (!empty($detail_type)) {
 
                 $detail_value = rp_inventory_get_detail($hero_id, $detail_type);
-                $tpl_inventory_admin_hero_detail = new Template($path_local . "../tpl/inventory_admin_hero_detail_edit.html");
+                $tpl_inventory_admin_hero_detail = new RPInventory\Template($path_local . "../tpl/inventory_admin_hero_detail_edit.html");
                 $tpl_inventory_admin_hero_detail->set("Hero", $hero_id);
                 $tpl_inventory_admin_hero_detail->set("Type", $detail_type);
                 $tpl_inventory_admin_hero_detail->set("Label", $detail_label);
@@ -182,7 +182,7 @@ function rp_inventory_admin_options() { ?>
                 foreach ($properties as $row_id => $property) {
                     $edit_query = http_build_query(array_merge($_GET, array("property_edit" => $property->property_id)));
                     $edit = ($property_edit_id == $property->property_id) ? "_edit" : "";
-                    $tpl_inventory_admin_hero_property = new Template($path_local . "../tpl/inventory_admin_hero_property" . $edit . ".html");
+                    $tpl_inventory_admin_hero_property = new RPInventory\Template($path_local . "../tpl/inventory_admin_hero_property" . $edit . ".html");
                     $tpl_inventory_admin_hero_property->set("Id", $property->property_id);
                     $tpl_inventory_admin_hero_property->set("Hero", $hero_id);
                     $tpl_inventory_admin_hero_property->set("Type", $property_type);
@@ -196,7 +196,7 @@ function rp_inventory_admin_options() { ?>
 
                 $edit_query = http_build_query(array_merge($_GET, array("property_edit" => 0)));
                 $edit = ($property_edit_id == 0) ? "_edit" : "";
-                $tpl_inventory_admin_hero_property = new Template($path_local . "../tpl/inventory_admin_hero_property" . $edit . ".html");
+                $tpl_inventory_admin_hero_property = new RPInventory\Template($path_local . "../tpl/inventory_admin_hero_property" . $edit . ".html");
                 $tpl_inventory_admin_hero_property->set("Id", "0");
                 $tpl_inventory_admin_hero_property->set("Hero", $hero_id);
                 $tpl_inventory_admin_hero_property->set("Type", $property_type);
@@ -207,14 +207,14 @@ function rp_inventory_admin_options() { ?>
                 $tpl_inventory_admin_hero_property->set("EditQuery", $edit_query);
                 $properties_html .= $tpl_inventory_admin_hero_property->output();
 
-                $tpl_inventory_admin_hero_properties = new Template($path_local . "../tpl/inventory_admin_hero_properties.html");
+                $tpl_inventory_admin_hero_properties = new RPInventory\Template($path_local . "../tpl/inventory_admin_hero_properties.html");
                 $tpl_inventory_admin_hero_properties->set("Label", $property_label);
                 $tpl_inventory_admin_hero_properties->set("Properties", $properties_html);
                 echo ($tpl_inventory_admin_hero_properties->output());                
             }
             else {
 
-                $tpl_inventory_admin_hero_details = new Template($path_local . "../tpl/inventory_admin_hero_details.html");
+                $tpl_inventory_admin_hero_details = new RPInventory\Template($path_local . "../tpl/inventory_admin_hero_details.html");
                 $tpl_inventory_admin_hero_details->set("Id", $selected_hero->hero_id);
                 $tpl_inventory_admin_hero_details->set("Heading", $selected_hero->name);
                 $tpl_inventory_admin_hero_details->set("Name", rp_inventory_detail($selected_hero->hero_id, "name", "Kurzname", $selected_hero->name));

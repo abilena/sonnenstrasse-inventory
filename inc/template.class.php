@@ -53,6 +53,7 @@ function get_all_files($path) {
             }
         }
     }
+    sort($all_files);
     return $all_files;
 }
 

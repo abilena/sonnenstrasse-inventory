@@ -1,4 +1,6 @@
 
+var rp_inventory_baseuri = "/wp-content/plugins/rp-inventory2";
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Merchant show/hide
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +113,7 @@ function rp_inventory_transfer_items(transaction, merchant_id, hero_id) {
             reloadScroll();
         }
     };
-    xhttp.open("GET", "wp-content/plugins/rp-inventory/" + transaction + "-items.php?hero=" + hero + "&merchant=" + merchant + "&items=" + selectedItems, true);
+    xhttp.open("GET", rp_inventory_baseuri + "/" + transaction + "-items.php?hero=" + hero + "&merchant=" + merchant + "&items=" + selectedItems, true);
     xhttp.send();
 }
 
@@ -228,9 +230,8 @@ function rp_inventory_create_item(owner)
         }
     };
 
-    xhttp.open("POST", "wp-content/plugins/rp-inventory/create-item.php", true);
+    xhttp.open("POST", rp_inventory_baseuri + "/create-item.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.setRequestHeader("Content-length", parameters.length);
     xhttp.send(parameters);
 }
 
@@ -250,7 +251,7 @@ function rp_inventory_delete_item(owner_id)
     }
     else
     {
-        var itemName = selectedItem.parentElement.parentElement.parentElement.children[1].children[0].children[0].children[0].innerHTML;
+        var itemName = selectedItem.children[1].children[0].innerHTML;
 
         if (!confirm("Are you sure you want to delete " + itemName + "?"))
             return;
@@ -264,7 +265,7 @@ function rp_inventory_delete_item(owner_id)
                 reloadScroll();
             }
         };
-        xhttp.open("GET", "wp-content/plugins/rp-inventory/delete-item.php?item=" + selectedItem.id, true);
+        xhttp.open("GET", rp_inventory_baseuri + "/delete-item.php?item=" + selectedItem.id, true);
         xhttp.send();
     }
 }
@@ -318,7 +319,7 @@ function rp_inventory_click_item(e, owner_id)
                 reloadScroll();
             }
         };
-        xhttp.open("GET", "wp-content/plugins/rp-inventory/swap-item.php?item1=" + selectedItem.id + "&item2=" + swappedItem.id, true);
+        xhttp.open("GET", rp_inventory_baseuri + "/swap-item.php?item1=" + selectedItem.id + "&item2=" + swappedItem.id, true);
         xhttp.send();
     }
 }
@@ -425,7 +426,7 @@ function populateFiles()
         borderSelectElement.onclick = function() { selectClickedIcon(); };
         var imageElement = document.createElement("img");
         imageElement.setAttribute("class", "rp-inventory-item-icon");
-        imageElement.setAttribute("src", "wp-content/plugins/rp-inventory/img/icons/" + folder + fileName);
+        imageElement.setAttribute("src", rp_inventory_baseuri + "/img/icons/" + folder + fileName);
         borderSelectElement.appendChild(imageElement);
         borderSunkenElement.appendChild(borderSelectElement);
         divElement.appendChild(borderSunkenElement);
@@ -442,7 +443,7 @@ function selectIcon()
     file += fileName;
 
     var imageElement = document.getElementById("rp-inventory-preview-icon");
-    imageElement.src = "wp-content/plugins/rp-inventory/img/icons/" + file;
+    imageElement.src = rp_inventory_baseuri + "/img/icons/" + file;
 
     var borderSelectElement = document.getElementById("rp-inventory-preview-icon-" + fileName);
     borderSelectElement.style.border = "2px solid yellow";

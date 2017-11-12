@@ -34,6 +34,7 @@
 
 
 .rp-inventory-header {
+    margin-bottom: 8px;
 }
 
 .rp-inventory-popup-create {
@@ -150,11 +151,57 @@
     display: inline-table;
 }
 
-.rp-inventory-container-armorset table {
-    background-size: 100%;
-    border-spacing: 0px;
-    width: 100%;
+
+/*	-==========================- TABLET -==========================-  */
+@media only screen and (min-width:640px) {
+	.rp-inventory-container-armorset table {
+        background-size: 100%;
+        border-spacing: 0px;
+        width: 100%;
+    }
+
+    .rp-inventory-container-armorset table .rp-inventory-col-name {
+        width: 160px;
+    }
+
+    .rp-inventory-container-armorset table .rp-inventory-col-img {
+        width: 200px;
+    }
+
+    .rp-inventory-item-name {
+        width: 150px;
+    }
 }
+
+/*	-==========================- MOBILE -==========================-  */
+@media only screen and (min-width:240px) and (max-width:639px) {
+	.rp-inventory-container-armorset table {
+        background-size: 100%;
+        border-spacing: 0px;
+        width: 300px;
+    }
+
+    .rp-inventory-container-armorset table .rp-inventory-col-name {
+        width: 130px;
+    }
+
+    .rp-inventory-container-armorset table .rp-inventory-col-rs {
+        display: none;
+    }
+
+    .rp-inventory-container-armorset table .rp-inventory-col-be {
+        display: none;
+    }
+
+    .rp-inventory-container-armorset table .rp-inventory-col-img {
+        width: 128px;
+    }
+
+    .rp-inventory-item-name {
+        width: 120px;
+    }
+}
+
 
 .rp-inventory-container-armorset table {
     font-size: 11px;
@@ -379,7 +426,6 @@
 .rp-inventory-item-name {
     padding-left: 5px;
     padding-right: 5px;
-    width: 150px;
     display: inline-block;
     overflow: hidden;
 }
@@ -632,27 +678,18 @@
 }
 
 .rp-inventory-container-equipment {
-    background-image: url('../img/inventory.top.png'), url('../img/inventory.bottom.png'), url('../img/inventory.mid.png');
-    background-repeat: no-repeat, no-repeat, repeat-y;
-    background-position: left top, left bottom, left top;
-    background-clip: border-box, border-box, content-box;
-    border: 0px;
-    padding-top: 25px;
-    padding-bottom: 35px;
-    min-height: 344px;
+    margin: 0px 5px 20px 5px;
 }
 
 .rp-inventory-equipment {
     position: relative;
-    padding-left: 12px;
-    padding-right: 12px;
 }
-      
+
 .rp-inventory-equipment div a:before {
     position: absolute;
-    top: 0px;
-    right: 25px;
-	height: 20px;
+    top: 6px;
+    right: 5px;
+	height: 18px;
 	width: 20px;
 	color: white;
 	padding-top: 1px;
@@ -686,6 +723,11 @@
 }
 
 .rp-inventory-equipment h2 {
+    border-width: 4px 0px 4px 0px;
+    border-style: solid;
+    border-color: black;
+    border-image: url(../img/inventory.border.png) 4 4 4 4;
+    background-image: url(../img/background.heading.png);
     margin: 0px;
     color: white;
     font-family: Verdana, Geneva, sans-serif;
@@ -695,12 +737,11 @@
     min-height: 24px;
     text-align: center;
     text-transform: uppercase;
-    border-top: 0px;
-    border-bottom: 9px solid transparent;
-	border-image: url("../img/separator.png") 9;
 }
 .rp-inventory-equipment-items {
-    margin-top: 10px;
+    border-top: 16px solid black;
+    border-image: url(../img/background.edge.png) 16 0 0 0;
+    background-image: url(../img/background.png);
     font-size: 0px;
     line-height: 0px;
 }

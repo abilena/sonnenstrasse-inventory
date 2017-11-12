@@ -94,6 +94,7 @@ function rp_inventory_hero_html($name) {
         }
 
         $tpl_inventory = new RPInventory\Template($path_local . "../tpl/inventory.html");
+        $tpl_inventory->set("PluginBaseUri", $path_url);
         $tpl_inventory->set("HeaderContent", $header_content);
         $tpl_inventory->set("Containers", $containers_html);
         $output .= $tpl_inventory->output();

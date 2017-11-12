@@ -25,6 +25,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
         $max_slot = max(48, (ceil(($max_slot + 1) / 7) * 7) - 1);
     }
 
+    $count_empty = 0;
     for ($slot = 0; $slot <= $max_slot; $slot++) {
 
         $icon = $path_url . "/img/empty.png";
@@ -61,6 +62,13 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
             $visibility = "visible";
         }
 
+        $is_empty = "";
+        if ($name == "")
+        {
+            $is_empty = (($count_empty > 0) ? "rp-inventory-container-slot-empty" : "");
+            $count_empty++;
+        }
+
         $popup_class = "";
         if ($is_merchant) {
             if ($is_owner) {
@@ -85,7 +93,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
         $tpl_inventory_item->set("SlotContent", $inventory_slot_html);
         $tpl_inventory_item->set("ContainerId", $hosts_container_id);
         $tpl_inventory_item->set("Slot", $slot);
-        $tpl_inventory_item->set("IsEmpty", (($name == "") ? "rp-inventory-container-slot-empty" : ""));
+        $tpl_inventory_item->set("IsEmpty", $is_empty);
         $tpl_inventory_item->set("ItemId", $item_id);
         $tpl_inventory_item->set("Owner", $owner);
         $tpl_inventory_item->set("Icon", $icon);

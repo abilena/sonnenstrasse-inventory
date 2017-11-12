@@ -107,7 +107,9 @@ function rp_inventory_itemcontainer_html($owner, $is_merchant, $is_user, $is_adm
         $container_content_html .= $tpl_inventory_item->output();
     }
 
+    global $rp_inventory_index;
     $tpl_inventory_container = new RPInventory\Template($path_local . "../tpl/inventory_container_" . $container_type . ".html");
+    $tpl_inventory_container->set("ShortcodeId", $rp_inventory_index);
     $tpl_inventory_container->set("OwnerId", $owner);
     $tpl_inventory_container->set("ContainerId", $container->item_id);
     $tpl_inventory_container->set("ContainerName", $container->name);

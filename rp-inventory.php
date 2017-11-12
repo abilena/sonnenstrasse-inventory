@@ -14,6 +14,8 @@ require_once('inc/rp-inventory-install.php');
 require_once('inc/rp-inventory-hero.php'); 
 require_once('inc/rp-inventory-merchant.php'); 
 
+$rp_inventory_index = 0;
+
 register_deactivation_hook(__FILE__, 'rp_inventory_uninstall');
 register_activation_hook(__FILE__, 'rp_inventory_install');
 
@@ -27,6 +29,9 @@ function rp_inventory_shortcode($atts, $content) {
 
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
+
+    global $rp_inventory_index;
+    $rp_inventory_index++;
 
 	extract(shortcode_atts(array(
 		'title' => __('RP Inventory', 'rp-inventory'),
@@ -47,6 +52,9 @@ function rp_inventory_merchant_shortcode($atts, $content) {
 
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
+
+    global $rp_inventory_index;
+    $rp_inventory_index++;
 
 	extract(shortcode_atts(array(
 		'title' => __('RP Inventory', 'rp-inventory'),

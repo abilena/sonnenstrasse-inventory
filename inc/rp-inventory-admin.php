@@ -60,7 +60,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
         }
         else {
             $sum_gp = 0;
-            $sum_tgb = 0;
+            $sum_tgp = 0;
             $sum_ap = 0;
             foreach ($properties as $row_id => $property) {
                 $sum_gp += $property->gp;
@@ -71,7 +71,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
             $tpl_inventory_admin_property = new RPInventory\Template($path_local . "../tpl/inventory_admin_property.html");
             $tpl_inventory_admin_property->set("Label", $property_label);
             $tpl_inventory_admin_property->set("GP", $sum_gp);
-            $tpl_inventory_admin_property->set("TGP", $sum_tgb);
+            $tpl_inventory_admin_property->set("TGP", $sum_tgp);
             $tpl_inventory_admin_property->set("AP", $sum_ap);
             $tpl_inventory_admin_property->set("Name", "");
             $tpl_inventory_admin_property->set("BaseUrl", $path_url);

@@ -156,6 +156,36 @@
 }
 
 
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table {
+    background-size: 100%;
+    border-spacing: 0px;
+    width: 300px;
+}
+
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-name {
+    width: 130px;
+}
+
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-rs {
+    display: none;
+}
+
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-be {
+    display: none;
+}
+
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-img {
+    width: 128px;
+}
+
+.rp-inventory-container-heroselector .rp-inventory-item-name {
+    width: 120px;
+}
+
+
+
+
+
 .rp-inventory-container-armorset table {
     font-size: 11px;
     font-family: Verdana, Geneva, sans-serif;
@@ -922,4 +952,3 @@
 .rp-inventory-container-merchant-actions:hover a:before {
     color: white;
 }
-

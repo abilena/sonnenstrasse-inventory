@@ -92,6 +92,45 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
     return $property_html;
 }
 
+function rp_inventory_equipment($hero_id, $name)
+{
+    $path_local = plugin_dir_path(__FILE__);
+    $path_url = plugins_url() . "/rp-inventory";
+
+    rp_inventory_get_item_containers($hero_id, $name, $container_ids, $container_content, $container_orders);
+
+    $header_content = "";
+    $tpl_inventory_header = new RPInventory\Template($path_local . "../tpl/inventory_admin_header.html");
+    $tpl_inventory_header->set("Owner", $hero_id);
+    $tpl_inventory_header->set("PluginBaseUri", $path_url);
+    $header_content .= $tpl_inventory_header->output();
+
+    $containers_html = "";
+    $index = 0;
+    foreach ($container_orders as $hosts_container_order => $hosts_container_id) {
+
+        $container = $container_ids[$hosts_container_id];
+        $contained_items = $container_content[$hosts_container_id];
+        $container_html = rp_inventory_itemcontainer_html($hero_id, TRUE, FALSE, TRUE, TRUE, TRUE, $container, $contained_items, $hosts_container_id, $index);
+
+        $containers_html .= $container_html;
+        $index++;
+    }
+
+    $tpl_inventory = new RPInventory\Template($path_local . "../tpl/inventory.html");
+    $tpl_inventory->set("PluginBaseUri", $path_url);
+    $tpl_inventory->set("HeaderContent", "");
+    $tpl_inventory->set("Containers", $containers_html);
+    $tpl_inventory_html = $tpl_inventory->output();
+
+    $tpl_inventory_equipment = new RPInventory\Template($path_local . "../tpl/inventory_admin_equipment.html");
+    $tpl_inventory_equipment->set("Buttons", $header_content);
+    $tpl_inventory_equipment->set("Equipment", $tpl_inventory_html);
+    $output = $tpl_inventory_equipment->output();
+    
+    return $output;
+}
+
 // displays the options page content
 function rp_inventory_admin_options() { ?>	
     <div class="wrap">
@@ -235,6 +274,8 @@ function rp_inventory_admin_options() { ?>
                 $tpl_inventory_admin_hero_details->set("Zauber", rp_inventory_property($selected_hero->hero_id, "spell", "Zauber", false));
                 $tpl_inventory_admin_hero_details->set("Sonderfertigkeiten", rp_inventory_property($selected_hero->hero_id, "feat", "Sonderfertigkeiten", false));
                 echo ($tpl_inventory_admin_hero_details->output());
+
+                echo (rp_inventory_equipment($selected_hero->hero_id, $selected_hero->name));
             }
         }
     }

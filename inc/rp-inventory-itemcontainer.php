@@ -1,10 +1,11 @@
 <?php
 
-function rp_inventory_itemcontainer_html($owner, $is_merchant, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index) {
+function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index) {
 
     $path_local = plugin_dir_path(__FILE__);
     $path_url = plugins_url() . "/rp-inventory";
 
+    $template_prefix = $is_admin_page ? "_admin" : "";
     $output = "";
 
     $container_content_html = "";
@@ -71,7 +72,7 @@ function rp_inventory_itemcontainer_html($owner, $is_merchant, $is_user, $is_adm
             }
         }
 
-        $tpl_inventory_slot = new RPInventory\Template($path_local . "../tpl/inventory_item_slot.html");
+        $tpl_inventory_slot = new RPInventory\Template($path_local . "../tpl/inventory" . $template_prefix . "_item_slot.html");
         $tpl_inventory_slot->set("PopupClass", $popup_class);
         if ($is_merchant) {
             $tpl_inventory_slot->set("OnClick", ($is_user && ($item_id > 0)) ? "rp_inventory_select_item(event, 'rp-inventory-equipment-of-$owner')" : "");
@@ -80,7 +81,7 @@ function rp_inventory_itemcontainer_html($owner, $is_merchant, $is_user, $is_adm
         }
         $inventory_slot_html = $tpl_inventory_slot->output();
 
-        $tpl_inventory_item = new RPInventory\Template($path_local . "../tpl/inventory_item_" . $container_type . ".html");
+        $tpl_inventory_item = new RPInventory\Template($path_local . "../tpl/inventory" . $template_prefix . "_item_" . $container_type . ".html");
         $tpl_inventory_item->set("SlotContent", $inventory_slot_html);
         $tpl_inventory_item->set("ContainerId", $hosts_container_id);
         $tpl_inventory_item->set("Slot", $slot);
@@ -108,7 +109,7 @@ function rp_inventory_itemcontainer_html($owner, $is_merchant, $is_user, $is_adm
     }
 
     global $rp_inventory_index;
-    $tpl_inventory_container = new RPInventory\Template($path_local . "../tpl/inventory_container_" . $container_type . ".html");
+    $tpl_inventory_container = new RPInventory\Template($path_local . "../tpl/inventory" . $template_prefix . "_container_" . $container_type . ".html");
     $tpl_inventory_container->set("ShortcodeId", $rp_inventory_index);
     $tpl_inventory_container->set("OwnerId", $owner);
     $tpl_inventory_container->set("ContainerId", $container->item_id);

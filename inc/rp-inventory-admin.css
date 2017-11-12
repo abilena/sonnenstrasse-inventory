@@ -280,3 +280,69 @@
     text-decoration: none!important;
     vertical-align: middle;
 }
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Equipment
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.rp-inventory-container-slot-empty {
+    display: none;
+}
+
+.rp-inventory-equipment-item-text, .rp-inventory-equipment-item-price {
+    color: black;
+}
+
+.rp-inventory-popup-create {
+    position: absolute;
+    z-index: 100;
+    display: block;
+    visibility: collapse;
+    text-align: left;
+}
+
+.rp-inventory-popup-create select {
+    width: 402px;
+}
+
+.rp-inventory-popup-create textarea {
+    height: 100px;
+    width: 400px;
+}
+
+.rp-inventory-popup-create table input {
+    width: 402px;
+}
+
+.rp-inventory-popup-create-icon {
+    position: absolute;
+    left: 10px;
+    top: 60px;
+    z-index: 110;
+    display: block;
+    visibility: collapse;
+    padding: 10px;
+}
+
+.rp-inventory-popup-create-icon-list {
+    width: 100%;
+    height: 375px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+}
+
+#rp-inventory-create-folder, #rp-inventory-create-subfolder {
+    width: 200px;
+}
+
+.rp-inventory-item-border-sunken {
+    background: url("../img/background.png") repeat;
+}
+
+.rp-inventory-item-name {
+    position: relative;
+    top: -4px;    
+    height: 34px;
+    font-weight: bold;
+}

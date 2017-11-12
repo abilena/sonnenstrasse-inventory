@@ -333,8 +333,9 @@ var prevFileName = null;
 
 function populateFolders()
 {
-    var icons_str = document.getElementById("rp-inventory-create-icon-all-files").value;
-    icons_list = icons_str.split(":");
+    //var icons_str = document.getElementById("rp-inventory-create-icon-all-files").value;
+    //icons_list = icons_str.split(":");
+    icons_list = icons;
 
     var selectElement = document.getElementById("rp-inventory-create-folder");
 

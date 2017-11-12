@@ -410,6 +410,53 @@ function rp_inventory_get_items($owner_id) {
     return $db_result;
 }
 
+function rp_inventory_get_item_containers($owner_id, $owner_name, &$container_ids, &$container_content, &$container_orders)
+{
+    $db_result = rp_inventory_get_items($owner_id);
+
+    $default_container = new stdClass();
+    $default_container->name = $owner_name;
+    $default_container->item_id = 0;
+    $default_container->owner = $owner_id;
+    $default_container->hosts_container_id = 0;
+    $default_container->hosts_container_order = 0;
+    $default_container->hosts_container_type = "default";
+    $default_container->icon = "am_koerper.png";
+    $default_container->type = "common";
+    $default_container->price = 0.0;
+    $default_container->weight = 0.0;
+
+    $container_ids = array(0 => $default_container);
+    $container_content = array(0 => array());
+    $container_orders = array(0 => 0);
+
+    // enumerate all containers
+    foreach ($db_result as $row_id => $row_data) {
+        $row_data->name = stripslashes($row_data->name);
+        $row_data->icon = stripslashes($row_data->icon);
+        $row_data->description = stripslashes($row_data->description);
+        $row_data->flavor = stripslashes($row_data->flavor);
+
+        if ($row_data->hosts_container_id > 0) {
+            $container_ids[$row_data->hosts_container_id] = $row_data;
+            $container_content[$row_data->hosts_container_id] = array();
+            $container_orders[$row_data->hosts_container_order] = $row_data->hosts_container_id;
+        }
+    }
+    ksort($container_orders);
+
+    foreach ($db_result as $row_id => $row_data) {
+        $show_in_container_id = $row_data->show_in_container_id;
+        if (!array_key_exists($show_in_container_id, $container_ids)) {
+            $show_in_container_id = 0;
+        }
+
+        $content_array = $container_content[$show_in_container_id];
+        $content_array[$row_data->slot] = $row_data;
+        $container_content[$show_in_container_id] = $content_array;
+    }
+}
+
 function rp_inventory_create_item($arguments) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';

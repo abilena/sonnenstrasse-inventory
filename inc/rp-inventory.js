@@ -307,7 +307,8 @@ function selectIcon()
     imageElement.src = rp_inventory_baseuri + "/img/icons/" + file;
 
     var borderSelectElement = document.getElementById("rp-inventory-preview-icon-" + fileName);
-    borderSelectElement.style.border = "2px solid yellow";
+    if (borderSelectElement != null)
+        borderSelectElement.style.border = "2px solid yellow";
 
     if (prevFileName) {
         borderSelectElement = document.getElementById("rp-inventory-preview-icon-" + prevFileName);

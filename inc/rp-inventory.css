@@ -113,17 +113,10 @@
         width: 100%;
     }
 
-    .rp-inventory-container-armorset table .rp-inventory-col-name {
-        width: 160px;
-    }
-
-    .rp-inventory-container-armorset table .rp-inventory-col-img {
-        width: 200px;
-    }
-
-    .rp-inventory-item-name {
-        width: 150px;
-    }
+    .rp-inventory-container-equipment-wide { width: 630px; }
+    .rp-inventory-container-armorset table .rp-inventory-col-name { width: 160px; }
+    .rp-inventory-container-armorset table .rp-inventory-col-img { width: 200px; }
+    .rp-inventory-item-name { width: 150px; }
 }
 
 /*	-==========================- MOBILE -==========================-  */
@@ -134,25 +127,13 @@
         width: 300px;
     }
 
-    .rp-inventory-container-armorset table .rp-inventory-col-name {
-        width: 130px;
-    }
+    .rp-inventory-container-equipment-wide { width: 301px; }
+    .rp-inventory-container-armorset table .rp-inventory-col-name { width: 130px; }
+    .rp-inventory-container-armorset table .rp-inventory-col-img { width: 128px; }
+    .rp-inventory-container-armorset table .rp-inventory-col-rs { display: none; }
+    .rp-inventory-container-armorset table .rp-inventory-col-be { display: none; }
+    .rp-inventory-item-name { width: 120px; }
 
-    .rp-inventory-container-armorset table .rp-inventory-col-rs {
-        display: none;
-    }
-
-    .rp-inventory-container-armorset table .rp-inventory-col-be {
-        display: none;
-    }
-
-    .rp-inventory-container-armorset table .rp-inventory-col-img {
-        width: 128px;
-    }
-
-    .rp-inventory-item-name {
-        width: 120px;
-    }
 }
 
 
@@ -162,26 +143,12 @@
     width: 300px;
 }
 
-.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-name {
-    width: 130px;
-}
-
-.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-rs {
-    display: none;
-}
-
-.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-be {
-    display: none;
-}
-
-.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-img {
-    width: 128px;
-}
-
-.rp-inventory-container-heroselector .rp-inventory-item-name {
-    width: 120px;
-}
-
+.rp-inventory-container-heroselector .rp-inventory-container-equipment-wide { width: 301px; }
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-name { width: 130px; }
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-img { width: 128px; }
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-rs { display: none; }
+.rp-inventory-container-heroselector .rp-inventory-container-armorset table .rp-inventory-col-be { display: none; }
+.rp-inventory-container-heroselector .rp-inventory-item-name { width: 120px; }
 
 
 

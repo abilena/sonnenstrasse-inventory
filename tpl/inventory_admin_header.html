@@ -2,63 +2,89 @@
 <input class="button-primary" type="button" value="Erstellen" onclick="rp_inventory_create_item_popup()"></input>
 <input class="button-primary" type="button" value="Löschen" onclick="rp_inventory_delete_item('rp-inventory-equipment-of-[@Owner]')"></input>
 <div class="rp-inventory-popup-create card" id="rp-inventory-popup-create">
-    <table>
-        <colgroup>
-            <col width="200">
-            <col width="400">
-        </colgroup>
-        <tr><td>Preview:</td><td><table style="margin-bottom: 10px;">
-            <tr>
-                <td class="rp-inventory-item-slot">
-                    <div class="rp-inventory-equipment-item-slot-border">
-                        <div class="rp-inventory-equipment-item-slot-select">
-                            <img class="rp-inventory-item-icon" id="rp-inventory-preview-icon" src="[@PluginBaseUri]/img/empty.png">
-                        </div><!-- rp-inventory-equipment-item-slot-select -->
-                    </div><!-- rp-inventory-item-border-sunken -->
-                </td><!-- rp-inventory-item-slot -->
-                <td>
-                    <div class="rp-inventory-item-border-sunken">
-                        <div class="rp-inventory-item-name"><span id="rp-inventory-preview-name" class="rp-inventory-item-name-text rp-inventory-item-common"></span></div>
-                    </div><!-- rp-inventory-item-border-sunken -->
-                </td>
-                <td>
-                    <input class="button-primary" style="width: 100px; margin-left: 10px;" type="button" value="Icon Ändern" onclick="rp_inventory_create_item_icon_popup()"></input>
-                    <div class="rp-inventory-popup-create-icon card" id="rp-inventory-popup-create-icon">
-                        <div>
-                            <select id="rp-inventory-create-folder" onchange="populateSubFolders()"></select>
-                            <select id="rp-inventory-create-subfolder" style="margin-left: 2px;" onchange="populateFiles()"></select>
-                            <select id="rp-inventory-create-icon-file" style="margin-left: 2px; visibility: hidden;" onchange="selectIcon()"></select>
+    <h2 class="nav-tab-wrapper">
+        <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-general')" id="rp-inventory-popup-create-tablink-general" class="nav-tab nav-tab-active">Allgemein</a>
+        <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-description')" id="rp-inventory-popup-create-tablink-description" class="nav-tab">Beschreibung</a>
+        <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-armor')" id="rp-inventory-popup-create-tablink-armor" class="nav-tab">Rüstung</a>
+        <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-weapon')" id="rp-inventory-popup-create-tablink-weapon" class="nav-tab">Waffe</a>
+    </h2>
+
+    <div id="rp-inventory-popup-create-tab-general" class="rp-inventory-popup-create-tabcontent">
+        <table>
+            <colgroup>
+                <col width="200">
+                <col width="400">
+            </colgroup>
+            <tr><td>Preview:</td><td><table style="margin-bottom: 10px;">
+                <tr>
+                    <td class="rp-inventory-item-slot">
+                        <div class="rp-inventory-equipment-item-slot-border">
+                            <div class="rp-inventory-equipment-item-slot-select">
+                                <img class="rp-inventory-item-icon" id="rp-inventory-preview-icon" src="[@PluginBaseUri]/img/empty.png">
+                            </div><!-- rp-inventory-equipment-item-slot-select -->
+                        </div><!-- rp-inventory-item-border-sunken -->
+                    </td><!-- rp-inventory-item-slot -->
+                    <td>
+                        <div class="rp-inventory-item-border-sunken">
+                            <div class="rp-inventory-item-name"><span id="rp-inventory-preview-name" class="rp-inventory-item-name-text rp-inventory-item-common"></span></div>
+                        </div><!-- rp-inventory-item-border-sunken -->
+                    </td>
+                    <td>
+                        <input class="button-primary" style="width: 100px; margin-left: 10px;" type="button" value="Icon Ändern" onclick="rp_inventory_create_item_icon_popup()"></input>
+                        <div class="rp-inventory-popup-create-icon card" id="rp-inventory-popup-create-icon">
+                            <div>
+                                <select id="rp-inventory-create-folder" onchange="populateSubFolders()"></select>
+                                <select id="rp-inventory-create-subfolder" style="margin-left: 2px;" onchange="populateFiles()"></select>
+                                <select id="rp-inventory-create-icon-file" style="margin-left: 2px; visibility: hidden;" onchange="selectIcon()"></select>
+                            </div>
+                            <div class="rp-inventory-popup-create-icon-list rp-inventory-item-border-sunken" id="rp-inventory-popup-create-icon-list"></div>
+                            <div>
+                                <input class="button-primary" style="width: 100px; margin-left: 10px;" type="button" value="Auswählen" onclick="rp_inventory_create_item_icon_close()"></input>
+                            </div>
                         </div>
-                        <div class="rp-inventory-popup-create-icon-list rp-inventory-item-border-sunken" id="rp-inventory-popup-create-icon-list"></div>
-                        <div>
-                            <input class="button-primary" style="width: 100px; margin-left: 10px;" type="button" value="Schliessen" onclick="rp_inventory_create_item_icon_close()"></input>
-                        </div>
-                    </div>
-                </td>
-            </tr>        
-        </table></td></tr>
-        <tr><td>Name:</td><td><input id="rp-inventory-create-name" value="" onchange="updateItemText()"></input></td></tr>
-        <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" onchange="updateItemText()">
-                        <option value="poor">Schlecht</option>
-                        <option value="common" selected>Gewöhnlich</option>
-                        <option value="magic">Magisch</option>
-                        <option value="rare">Selten</option>
-                        <option value="epic">Episch</option>
-                    </select></td></tr>
-        <tr><td>Preis (Dukaten):</td><td><input id="rp-inventory-create-price" value="1,5"></input></td></tr>
-        <tr><td>Gewicht (Unzen):</td><td><input id="rp-inventory-create-weight" value="15,7"></input></td></tr>
-        <tr><td>Behälter (Ja/Nein):</td><td><input type="checkbox" id="rp-inventory-create-is-container" style="width: 20px"></input></td></tr>
-        <tr><td>Behälter-Reihenfolge:</td><td><input id="rp-inventory-create-container-order" value="1"></input></td></tr>
-        <tr><td>Behälter-Typ:</td><td><select id="rp-inventory-create-container-type">
-                        <option value="default" selected>Standard</option>
-                        <option value="armor">Rüstungs-Set</option>
-                    </select></td></tr>
-        <tr><td>Beschreibung:</td><td><textarea id="rp-inventory-create-description"></textarea></td></tr>
-        <tr><td>Flavor Text:</td><td><textarea id="rp-inventory-create-flavor"></textarea></td></tr>
-        <tr><td>RS:</td><td><input id="rp-inventory-create-rs" value="0;0;0;0;0;0;0;0"></input></td></tr>
-        <tr><td>BE:</td><td><input id="rp-inventory-create-be" value="0,0"></input></td></tr>
-    </table>
-    <div>
+                    </td>
+                </tr>        
+            </table></td></tr>
+            <tr><td>Name:</td><td><input id="rp-inventory-create-name" value="" onchange="updateItemText()"></input></td></tr>
+            <tr><td>Qualität:</td><td><select id="rp-inventory-create-type" onchange="updateItemText()">
+                            <option value="poor">Schlecht</option>
+                            <option value="common" selected>Gewöhnlich</option>
+                            <option value="magic">Magisch</option>
+                            <option value="rare">Selten</option>
+                            <option value="epic">Episch</option>
+                        </select></td></tr>
+            <tr><td>Preis (Dukaten):</td><td><input id="rp-inventory-create-price" value="1,5"></input></td></tr>
+            <tr><td>Gewicht (Unzen):</td><td><input id="rp-inventory-create-weight" value="15,7"></input></td></tr>
+            <tr><td>Behälter (Ja/Nein):</td><td><input type="checkbox" id="rp-inventory-create-is-container" style="width: 20px"></input></td></tr>
+            <tr><td>Behälter-Reihenfolge:</td><td><input id="rp-inventory-create-container-order" value="1"></input></td></tr>
+            <tr><td>Behälter-Typ:</td><td><select id="rp-inventory-create-container-type">
+                            <option value="default" selected>Standard</option>
+                            <option value="armor">Rüstungs-Set</option>
+                        </select></td></tr>
+        </table>
+    </div>
+    <div id="rp-inventory-popup-create-tab-description" class="rp-inventory-popup-create-tabcontent">
+        <table>
+            <colgroup>
+                <col width="200">
+                <col width="400">
+            </colgroup>
+            <tr><td>Beschreibung:</td><td><textarea id="rp-inventory-create-description"></textarea></td></tr>
+            <tr><td>Flavor Text:</td><td><textarea id="rp-inventory-create-flavor"></textarea></td></tr>
+        </table>
+    </div>
+    <div id="rp-inventory-popup-create-tab-armor" class="rp-inventory-popup-create-tabcontent">
+        <table>
+            <colgroup>
+                <col width="200">
+                <col width="400">
+            </colgroup>
+            <tr><td>RS:</td><td><input id="rp-inventory-create-rs" value="0;0;0;0;0;0;0;0"></input></td></tr>
+            <tr><td>BE:</td><td><input id="rp-inventory-create-be" value="0,0"></input></td></tr>
+        </table>
+    </div>
+    <div id="rp-inventory-popup-create-tab-weapon" class="rp-inventory-popup-create-tabcontent"></div>
+    <div class="rp-inventory-popup-create-buttons">
         <input class="button-primary" type="button" value="Erstellen" onclick="rp_inventory_create_item('[@Owner]')"></input>
         <input class="button-primary" type="button" value="Schliessen" onclick="rp_inventory_create_item_close()"></input>
     </div>

@@ -285,6 +285,17 @@
 // Equipment
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+.rp-inventory-popup-create-tabcontent {
+    padding-top: 10px;
+    display: none;
+}
+
+.rp-inventory-popup-create-buttons {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;    
+}
+
 .rp-inventory-container-slot-empty {
     display: none;
 }
@@ -299,6 +310,8 @@
     display: block;
     visibility: collapse;
     text-align: left;
+    height: 550px;
+    width: 500px;
 }
 
 .rp-inventory-popup-create select {
@@ -306,12 +319,16 @@
 }
 
 .rp-inventory-popup-create textarea {
-    height: 100px;
+    height: 200px;
     width: 400px;
 }
 
 .rp-inventory-popup-create table input {
     width: 402px;
+}
+
+.rp-inventory-item-border-sunken {
+    background: url("../img/background.png") repeat;
 }
 
 .rp-inventory-popup-create-icon {
@@ -330,14 +347,11 @@
     margin-top: 10px;
     margin-bottom: 10px;
     overflow-y: scroll;
+    background: none;
 }
 
 #rp-inventory-create-folder, #rp-inventory-create-subfolder {
     width: 200px;
-}
-
-.rp-inventory-item-border-sunken {
-    background: url("../img/background.png") repeat;
 }
 
 .rp-inventory-item-name {

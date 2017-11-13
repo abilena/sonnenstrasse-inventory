@@ -331,3 +331,170 @@ function saveDetail(hero_id, detail_type) {
     xhttp.setRequestHeader("Content-length", parameters.length);
     xhttp.send(parameters);    
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Equipment
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var isCreating = false;
+var wasCreated = false;
+
+function rp_inventory_create_item_popup()
+{
+    var popup = document.getElementById("rp-inventory-popup-create");
+    if (popup.style.visibility == "visible")
+        return;
+
+    var tab = document.getElementById("rp-inventory-popup-create-tablink-general");
+    selectTab(tab, "rp-inventory-popup-create-tab-general");
+
+    wasCreated = false;
+    popup.style.visibility = "visible";
+
+    if (icons_list == null) 
+        populateFolders();
+}
+
+function rp_inventory_create_item_close()
+{
+    var popup = document.getElementById("rp-inventory-popup-create");
+    popup.style.visibility = "collapse";
+
+    if (wasCreated)
+        reloadScroll();
+}
+
+function rp_inventory_create_item_icon_popup()
+{
+    var popup = document.getElementById("rp-inventory-popup-create-icon");
+    popup.style.visibility = "visible";
+}
+
+function rp_inventory_create_item_icon_close()
+{
+    var popup = document.getElementById("rp-inventory-popup-create-icon");
+    popup.style.visibility = "collapse";
+}
+
+function rp_inventory_create_item(owner)
+{
+    if (isCreating)
+    {
+        alert("Item creation still pending");
+        return;
+    }
+
+    var name = document.getElementById("rp-inventory-create-name").value;
+    var icon = document.getElementById("rp-inventory-create-folder").value + "/";
+    icon += document.getElementById("rp-inventory-create-subfolder").value + "/";
+    icon += document.getElementById("rp-inventory-create-icon-file").value;
+    var type = document.getElementById("rp-inventory-create-type").value;
+    var price = document.getElementById("rp-inventory-create-price").value;
+    var weight = document.getElementById("rp-inventory-create-weight").value;
+    var is_container = document.getElementById("rp-inventory-create-is-container").checked;
+    var container_order = document.getElementById("rp-inventory-create-container-order").value;
+    var container_type = document.getElementById("rp-inventory-create-container-type").value;
+    var description = document.getElementById("rp-inventory-create-description").value;
+    var flavor = document.getElementById("rp-inventory-create-flavor").value;
+    var rs = document.getElementById("rp-inventory-create-rs").value;
+    var be = document.getElementById("rp-inventory-create-be").value;
+
+    owner = encodeURIComponent(owner);
+    name = encodeURIComponent(name);
+    icon = encodeURIComponent(icon);
+    type = encodeURIComponent(type);
+    price = encodeURIComponent(price);
+    weight = encodeURIComponent(weight);
+    is_container = encodeURIComponent(is_container);
+    container_order = encodeURIComponent(container_order);
+    container_type = encodeURIComponent(container_type);
+    description = encodeURIComponent(description);
+    flavor = encodeURIComponent(flavor);
+    rs = encodeURIComponent(rs);
+    be = encodeURIComponent(be);
+
+    var parameters = "owner=" + owner;
+    parameters += "&name=" + name;
+    parameters += "&icon=" + icon;
+    parameters += "&type=" + type;
+    parameters += "&price=" + price;
+    parameters += "&weight=" + weight;
+    parameters += "&is_container=" + is_container;
+    parameters += "&container_order=" + container_order;
+    parameters += "&container_type=" + container_type;
+    parameters += "&description=" + description;
+    parameters += "&flavor=" + flavor;
+    parameters += "&rs=" + rs;
+    parameters += "&be=" + be;
+
+    isCreating = true;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            isCreating = false;
+            wasCreated = true;
+        }
+    };
+
+    xhttp.open("POST", rp_inventory_baseuri + "/create-item.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(parameters);
+}
+
+function rp_inventory_delete_item(owner_id)
+{
+    var ownerElement = document.getElementById(owner_id);
+    var selectedItem = document.getElementById(ownerElement.dataset.selectedItem);
+
+    if (selectedItem == null)
+    {
+        alert("No item is selected.");
+        return;
+    }
+    else
+    {
+        var itemName = selectedItem.children[1].children[0].innerHTML;
+
+        if (!confirm("Are you sure you want to delete " + itemName + "?"))
+            return;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (this.responseText.substring(0, 9).toLowerCase() != "succeeded")
+                    alert(this.responseText);
+
+                reloadScroll();
+            }
+        };
+        xhttp.open("GET", rp_inventory_baseuri + "/delete-item.php?item=" + selectedItem.id, true);
+        xhttp.send();
+    }
+}
+
+function selectTab(currentTarget, tab_id) {
+    
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("rp-inventory-popup-create-tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("nav-tab");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" nav-tab-active", "");
+    }
+
+    var tab = document.getElementById(tab_id);
+    tab.style.display = "block";
+    currentTarget.className += " nav-tab-active";
+
+    return false;
+
+}
+

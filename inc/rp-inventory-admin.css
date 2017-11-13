@@ -306,12 +306,13 @@
 
 .rp-inventory-popup-create {
     position: absolute;
+    left: -1px;
     z-index: 100;
     display: block;
     visibility: collapse;
     text-align: left;
     height: 550px;
-    width: 500px;
+    width: 550px;
 }
 
 .rp-inventory-popup-create select {
@@ -359,4 +360,8 @@
     top: -4px;    
     height: 34px;
     font-weight: bold;
+}
+
+.rp-inventory-popup-edit #rp-inventory-popup-create-tablink-container {
+    display: none;
 }

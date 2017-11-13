@@ -1,10 +1,12 @@
 <div id="rp-inventory-equipment-of-[@Owner]" data-selected-item="" data-swapped-item=""></div>
-<input class="button-primary" type="button" value="Erstellen" onclick="rp_inventory_create_item_popup()"></input>
+<input class="button-primary" type="button" value="Neu" onclick="rp_inventory_create_item_popup('rp-inventory-equipment-of-[@Owner]')"></input>
+<input class="button-primary" type="button" value="Bearbeiten" onclick="rp_inventory_edit_item_popup('rp-inventory-equipment-of-[@Owner]')"></input>
 <input class="button-primary" type="button" value="Löschen" onclick="rp_inventory_delete_item('rp-inventory-equipment-of-[@Owner]')"></input>
 <div class="rp-inventory-popup-create card" id="rp-inventory-popup-create">
     <h2 class="nav-tab-wrapper">
         <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-general')" id="rp-inventory-popup-create-tablink-general" class="nav-tab nav-tab-active">Allgemein</a>
         <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-description')" id="rp-inventory-popup-create-tablink-description" class="nav-tab">Beschreibung</a>
+        <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-container')" id="rp-inventory-popup-create-tablink-container" class="nav-tab">Behälter</a>
         <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-armor')" id="rp-inventory-popup-create-tablink-armor" class="nav-tab">Rüstung</a>
         <a href="#" onclick="return selectTab(this, 'rp-inventory-popup-create-tab-weapon')" id="rp-inventory-popup-create-tablink-weapon" class="nav-tab">Waffe</a>
     </h2>
@@ -55,12 +57,6 @@
                         </select></td></tr>
             <tr><td>Preis (Dukaten):</td><td><input id="rp-inventory-create-price" value="1,5"></input></td></tr>
             <tr><td>Gewicht (Unzen):</td><td><input id="rp-inventory-create-weight" value="15,7"></input></td></tr>
-            <tr><td>Behälter (Ja/Nein):</td><td><input type="checkbox" id="rp-inventory-create-is-container" style="width: 20px"></input></td></tr>
-            <tr><td>Behälter-Reihenfolge:</td><td><input id="rp-inventory-create-container-order" value="1"></input></td></tr>
-            <tr><td>Behälter-Typ:</td><td><select id="rp-inventory-create-container-type">
-                            <option value="default" selected>Standard</option>
-                            <option value="armor">Rüstungs-Set</option>
-                        </select></td></tr>
         </table>
     </div>
     <div id="rp-inventory-popup-create-tab-description" class="rp-inventory-popup-create-tabcontent">
@@ -71,6 +67,20 @@
             </colgroup>
             <tr><td>Beschreibung:</td><td><textarea id="rp-inventory-create-description"></textarea></td></tr>
             <tr><td>Flavor Text:</td><td><textarea id="rp-inventory-create-flavor"></textarea></td></tr>
+        </table>
+    </div>
+    <div id="rp-inventory-popup-create-tab-container" class="rp-inventory-popup-create-tabcontent">
+        <table>
+            <colgroup>
+                <col width="200">
+                <col width="400">
+            </colgroup>
+            <tr><td>Behälter (Ja/Nein):</td><td><input type="checkbox" id="rp-inventory-create-is-container" style="width: 20px"></input></td></tr>
+            <tr><td>Behälter-Reihenfolge:</td><td><input id="rp-inventory-create-container-order" value="1"></input></td></tr>
+            <tr><td>Behälter-Typ:</td><td><select id="rp-inventory-create-container-type">
+                            <option value="default" selected>Standard</option>
+                            <option value="armor">Rüstungs-Set</option>
+                        </select></td></tr>
         </table>
     </div>
     <div id="rp-inventory-popup-create-tab-armor" class="rp-inventory-popup-create-tabcontent">

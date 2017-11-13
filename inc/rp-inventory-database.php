@@ -500,6 +500,56 @@ function rp_inventory_create_item($arguments) {
     $wpdb->query('COMMIT');
 }
 
+function rp_inventory_edit_item($arguments)
+{
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    $item = $arguments["item"];
+    preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $item, $matches);
+    $host = $matches["host"];
+    $slot = $matches["slot"];
+    $id = $matches["id"];
+    $owner = $matches["owner"];
+
+    $output = "";
+    $output .= "item: $item\n";
+    $output .= "host: $host\n";
+    $output .= "slot: $slot\n";
+    $output .= "id: $id\n";
+    $output .= "owner: $owner\n";
+    $output .= "\n";
+
+    $updated = 0;
+    $wpdb->query('START TRANSACTION');
+
+    if ($id > 0)
+    {
+        $values = array(
+            'icon' => $arguments['icon'],
+            'name' => $arguments['name'],
+            'description' => $arguments['description'],
+            'flavor' => $arguments['flavor'],
+            'type' => $arguments['type'],
+            'price' => str_replace(",", ".", $arguments['price']),
+            'weight' => str_replace(",", ".", $arguments['weight']),
+            'rs' => str_replace(",", ".", $arguments['rs']),
+            'be' => str_replace(",", ".", $arguments['be'])
+        );
+        $updated = $wpdb->update($db_table_name, $values, array('item_id' => $id));
+    }
+
+    if ($updated == 1)
+    {
+        $wpdb->query('COMMIT'); // if you come here then well done
+        return "succeeded";
+    }
+    else {
+        $wpdb->query('ROLLBACK'); // // something went wrong, Rollback
+        return "failed\n\n" . $output;
+    }
+}
+
 function rp_inventory_delete_item($item) {
    	global $wpdb;
     $db_table_name = $wpdb->prefix . 'rp_inventory';
@@ -550,6 +600,43 @@ function rp_inventory_delete_item($item) {
         $wpdb->query('ROLLBACK'); // // something went wrong, Rollback
         return "failed\n\n" . $output;
     }
+}
+
+function rp_inventory_get_selected_item($item) {
+   	global $wpdb;
+    $db_table_name = $wpdb->prefix . 'rp_inventory';
+
+    preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $item, $matches);
+    $host = $matches["host"];
+    $slot = $matches["slot"];
+    $id = $matches["id"];
+    $owner = $matches["owner"];
+
+    $output = "";
+    $output .= "item: $item\n";
+    $output .= "host: $host\n";
+    $output .= "slot: $slot\n";
+    $output .= "id: $id\n";
+    $output .= "owner: $owner\n";
+    $output .= "\n";
+
+    if ($id > 0)
+    {
+        $item_record = rp_inventory_get_item($id);
+        if (!empty($item_record))
+        {
+            $item_record->name = stripslashes($item_record->name);
+            $item_record->description = stripslashes($item_record->description);
+            $item_record->flavor = stripslashes($item_record->flavor);
+            $item_record->price = str_replace(".", ",", $item_record->price);
+            $item_record->weight = str_replace(".", ",", $item_record->weight);
+            $item_record->rs = str_replace(".", ",", $item_record->rs);
+            $item_record->be = str_replace(".", ",", $item_record->be);
+            return wp_json_encode($item_record);
+        }
+    }
+
+    return "failed\n\n" . $output;
 }
 
 function rp_inventory_buy_items($hero_id, $merchant_id, $items) {

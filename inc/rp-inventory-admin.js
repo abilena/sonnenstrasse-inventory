@@ -339,11 +339,76 @@ function saveDetail(hero_id, detail_type) {
 var isCreating = false;
 var wasCreated = false;
 
-function rp_inventory_create_item_popup()
+function rp_inventory_create_item_popup(owner_id)
+{
+    var ownerElement = document.getElementById(owner_id);
+    var selectedItem = document.getElementById(ownerElement.dataset.selectedItem);
+    if (selectedItem != null)
+    {
+        ownerElement.dataset.selectedItem = null;
+        ownerElement.dataset.swappedItem = null;
+        selectedItem.style.border="2px solid black";
+    }
+
+    rp_inventory_show_create_item_popup("new");
+}
+
+function rp_inventory_edit_item_popup(owner_id)
+{
+    var ownerElement = document.getElementById(owner_id);
+    var selectedItem = document.getElementById(ownerElement.dataset.selectedItem);
+    if (selectedItem == null)
+        return;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.substring(0, 9).toLowerCase() == "false")
+                alert(this.responseText);
+
+            rp_inventory_show_create_item_popup("edit");
+            rp_inventory_fill_create_item_popup(this.responseText);
+        }
+    };
+
+    xhttp.open("GET", rp_inventory_baseuri + "/get-item.php?item=" + selectedItem.id, true);
+    xhttp.send();
+}
+
+function rp_inventory_fill_create_item_popup(responseText)
+{
+    var item = JSON.parse(responseText);
+    
+    var splits = item.icon.split("/");
+    document.getElementById("rp-inventory-create-folder").value = decodeURIComponent(splits[0]);
+    document.getElementById("rp-inventory-create-subfolder").value = decodeURIComponent(splits[1]);
+    populateFiles();
+    document.getElementById("rp-inventory-create-icon-file").value = decodeURIComponent(splits[2]);
+    selectIcon();
+
+    document.getElementById("rp-inventory-create-name").value = decodeURIComponent(item.name);
+    document.getElementById("rp-inventory-create-type").value = decodeURIComponent(item.type);
+    updateItemText();
+
+    document.getElementById("rp-inventory-create-price").value = decodeURIComponent(item.price);
+    document.getElementById("rp-inventory-create-weight").value = decodeURIComponent(item.weight);
+    document.getElementById("rp-inventory-create-description").value = decodeURIComponent(item.description);
+    document.getElementById("rp-inventory-create-flavor").value = decodeURIComponent(item.flavor);
+    document.getElementById("rp-inventory-create-rs").value = decodeURIComponent(item.rs);
+    document.getElementById("rp-inventory-create-be").value = decodeURIComponent(item.be);
+
+}
+
+function rp_inventory_show_create_item_popup(action)
 {
     var popup = document.getElementById("rp-inventory-popup-create");
     if (popup.style.visibility == "visible")
         return;
+
+    popup.className = "rp-inventory-popup-create card rp-inventory-popup-" + action;
+
+    var inventory = document.getElementsByClassName("rp-inventory")[0];
+    inventory.style.visibility = "hidden";
 
     var tab = document.getElementById("rp-inventory-popup-create-tablink-general");
     selectTab(tab, "rp-inventory-popup-create-tab-general");
@@ -359,6 +424,9 @@ function rp_inventory_create_item_close()
 {
     var popup = document.getElementById("rp-inventory-popup-create");
     popup.style.visibility = "collapse";
+
+    var inventory = document.getElementsByClassName("rp-inventory")[0];
+    inventory.style.visibility = "visible";
 
     if (wasCreated)
         reloadScroll();
@@ -382,6 +450,13 @@ function rp_inventory_create_item(owner)
     {
         alert("Item creation still pending");
         return;
+    }
+
+    var action = "create-item.php";
+    var ownerElement = document.getElementById("rp-inventory-equipment-of-" + owner);
+    var selectedItem = document.getElementById(ownerElement.dataset.selectedItem);
+    if (selectedItem != null) {
+        action = "edit-item.php?item=" + selectedItem.id;
     }
 
     var name = document.getElementById("rp-inventory-create-name").value;
@@ -432,12 +507,15 @@ function rp_inventory_create_item(owner)
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.substring(0, 9).toLowerCase() != "succeeded")
+                alert(this.responseText);
+
             isCreating = false;
             wasCreated = true;
         }
     };
 
-    xhttp.open("POST", rp_inventory_baseuri + "/create-item.php", true);
+    xhttp.open("POST", rp_inventory_baseuri + "/" + action, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(parameters);
 }

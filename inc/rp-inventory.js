@@ -303,7 +303,9 @@ function rp_inventory_click_item(e, owner_id)
         swappedItem = slot;
 
         if (swappedItem.id == selectedItem.id) {
-            reloadScroll();
+            ownerElement.dataset.selectedItem = null;
+            ownerElement.dataset.swappedItem = null;
+            slot.style.border="2px solid black";
             return;
         }
 

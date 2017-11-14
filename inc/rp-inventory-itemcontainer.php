@@ -116,16 +116,20 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
         $container_content_html .= $tpl_inventory_item->output();
     }
 
+    $text_be = "Keine Rüstungsgewöhnung";
     $rs_gewoehnung = 0;
     $sonderfertigkeiten = rp_inventory_get_properties($owner, "feat");
     foreach ($sonderfertigkeiten as $sonderfertigkeit)
     {
         if (strpos($sonderfertigkeit->name, "Rüstungsgewöhnung III") === 0) {
             $rs_gewoehnung = max($rs_gewoehnung, 2);
+            $text_be = $sonderfertigkeit->name;
         } else if (strpos($sonderfertigkeit->name, "Rüstungsgewöhnung II") === 0) {
             $rs_gewoehnung = max($rs_gewoehnung, 1);
+            $text_be = $sonderfertigkeit->name;
         } else if (strpos($sonderfertigkeit->name, "Rüstungsgewöhnung I") === 0) {
             $rs_gewoehnung = max($rs_gewoehnung, 1);
+            $text_be = $sonderfertigkeit->name;
         }
     }
     $real_be = max(0, round($sum_be) - $rs_gewoehnung);
@@ -147,6 +151,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
     $tpl_inventory_container->set("Sum_RS_RB", sprintf("%.0f", $sum_rs[7]));
     $tpl_inventory_container->set("Sum_BE", str_replace(".", ",", sprintf("%.2f", $sum_be)));
     $tpl_inventory_container->set("Real_BE", sprintf("%.0f", $real_be));
+    $tpl_inventory_container->set("Text_BE", $text_be);
     $output .= $tpl_inventory_container->output();
 
     return $output;

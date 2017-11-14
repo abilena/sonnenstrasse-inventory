@@ -290,6 +290,17 @@
     left: 0px;
 }
 
+.rp-inventory-panel-rs-be {
+    background-image: url('../img/shapes/rs_panel2.png');
+    width: 47px;
+    text-align: center;
+    position: relative;
+    top: 4px;
+    left: 5px;
+    margin: auto;
+    font-weight: normal;
+}
+
 .rp-inventory-container-title {
     background-image: url('../img/shapes/container_title_armor.png');
     height: 45px;

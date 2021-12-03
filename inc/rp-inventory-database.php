@@ -3,7 +3,7 @@
 function rp_inventory_create_tables() {
    	global $wpdb;
 
-    $db_table_name = $wpdb->prefix . 'rp_partys';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
 	// create the ECPT metabox database table
 	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
 	{
@@ -20,7 +20,7 @@ function rp_inventory_create_tables() {
 		dbDelta($sql);
 	}
 
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
 	// create the ECPT metabox database table
 	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
 	{
@@ -49,7 +49,7 @@ function rp_inventory_create_tables() {
 		dbDelta($sql);
 	}
 
-    $db_table_name = $wpdb->prefix . 'rp_properties';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_properties';
 	// create the ECPT metabox database table
 	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
 	{
@@ -71,7 +71,7 @@ function rp_inventory_create_tables() {
 		dbDelta($sql);
 	}
 
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 	// create the ECPT metabox database table
 	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
 	{
@@ -104,10 +104,10 @@ function rp_inventory_drop_tables() {
     global $wpdb;
 
     // delete the database tables
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_inventory');
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_properties');
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_heroes');
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'rp_partys');
+    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_inventory');
+    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_properties');
+    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_heroes');
+    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_partys');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +116,7 @@ function rp_inventory_drop_tables() {
 
 function rp_inventory_get_partys() {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_partys';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
     
     $db_results = $wpdb->get_results("SELECT * FROM $db_table_name ORDER BY name");
 
@@ -125,7 +125,7 @@ function rp_inventory_get_partys() {
 
 function rp_inventory_get_party($id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_partys';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
     
     if ($id > 0)
     {
@@ -139,7 +139,7 @@ function rp_inventory_get_party($id) {
 
 function rp_inventory_create_party($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_partys';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
 
     $wpdb->query('START TRANSACTION');
 
@@ -156,7 +156,7 @@ function rp_inventory_create_party($arguments) {
 
 function rp_inventory_edit_party($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_partys';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
 
     $wpdb->query('START TRANSACTION');
 
@@ -173,7 +173,7 @@ function rp_inventory_edit_party($arguments) {
 
 function rp_inventory_delete_party($id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_partys';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
 
     $output = "";
     $output .= "id: $id\n";
@@ -218,7 +218,7 @@ function rp_inventory_delete_party($id) {
 
 function rp_inventory_get_heroes($party_id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
     
     $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE party=$party_id ORDER BY name");
 
@@ -227,7 +227,7 @@ function rp_inventory_get_heroes($party_id) {
 
 function rp_inventory_get_hero($hero_id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
     
     $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE hero_id=$hero_id");
 
@@ -236,7 +236,7 @@ function rp_inventory_get_hero($hero_id) {
 
 function rp_inventory_get_hero_id_by_name($name) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
     
     $id = $wpdb->get_var("SELECT hero_id FROM $db_table_name WHERE name='$name'");
 
@@ -245,7 +245,7 @@ function rp_inventory_get_hero_id_by_name($name) {
 
 function rp_inventory_create_hero($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
 
     $wpdb->query('START TRANSACTION');
 
@@ -261,7 +261,7 @@ function rp_inventory_create_hero($arguments) {
 
 function rp_inventory_get_my_heroes() {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
     
     $user = wp_get_current_user()->user_login;
 
@@ -278,7 +278,7 @@ function rp_inventory_get_my_heroes() {
 
 function rp_inventory_get_properties($hero_id, $property_type) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_properties';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_properties';
     
     $db_results = $wpdb->get_results("SELECT * FROM $db_table_name WHERE hero=$hero_id AND type='$property_type' ORDER BY name");
 
@@ -307,7 +307,7 @@ function rp_inventory_property_parse_cost($value) {
 
 function rp_inventory_edit_property($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_properties';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_properties';
 
     if (empty($arguments['name'])) {
         return;
@@ -343,7 +343,7 @@ function rp_inventory_edit_property($arguments) {
 
 function rp_inventory_get_detail($hero_id, $detail_type) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
 
     $detail_value = $wpdb->get_var("SELECT $detail_type FROM $db_table_name WHERE hero_id=$hero_id");
 
@@ -352,7 +352,7 @@ function rp_inventory_get_detail($hero_id, $detail_type) {
 
 function rp_inventory_edit_detail($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_heroes';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
 
     $wpdb->query('START TRANSACTION');
 
@@ -394,7 +394,7 @@ function rp_inventory_edit_detail($arguments) {
 
 function rp_inventory_get_item($item_id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE item_id=$item_id");
 
@@ -403,7 +403,7 @@ function rp_inventory_get_item($item_id) {
 
 function rp_inventory_get_items($owner_id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     $db_result = $wpdb->get_results("SELECT * FROM $db_table_name WHERE owner=$owner_id ORDER BY show_in_container_id, slot");
 
@@ -459,7 +459,7 @@ function rp_inventory_get_item_containers($owner_id, $owner_name, &$container_id
 
 function rp_inventory_create_item($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     $owner = $arguments['owner'];
 
@@ -503,7 +503,7 @@ function rp_inventory_create_item($arguments) {
 function rp_inventory_edit_item($arguments)
 {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     $item = $arguments["item"];
     preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $item, $matches);
@@ -552,7 +552,7 @@ function rp_inventory_edit_item($arguments)
 
 function rp_inventory_delete_item($item) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $item, $matches);
     $old_host = $matches["host"];
@@ -604,7 +604,7 @@ function rp_inventory_delete_item($item) {
 
 function rp_inventory_get_selected_item($item) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     preg_match('/con_(?P<host>\d+)_(?P<slot>\d+)_(?P<id>\d+)_(?P<owner>\w+)/', $item, $matches);
     $host = $matches["host"];
@@ -652,8 +652,8 @@ function rp_inventory_sell_items($hero_id, $merchant_id, $items) {
 
 function rp_inventory_transfer_items($from_hero_id, $to_hero_id, $items) {
    	global $wpdb;
-    $db_table_name_items = $wpdb->prefix . 'rp_inventory';
-    $db_table_name_heroes = $wpdb->prefix . 'rp_heroes';
+    $db_table_name_items = $wpdb->prefix . 'sonnenstrasse_inventory';
+    $db_table_name_heroes = $wpdb->prefix . 'sonnenstrasse_heroes';
 
     $buyer = rp_inventory_get_hero($to_hero_id);
     $seller = rp_inventory_get_hero($from_hero_id);
@@ -731,7 +731,7 @@ function rp_inventory_transfer_items($from_hero_id, $to_hero_id, $items) {
 
 function rp_inventory_expand_containers($itemsList) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
     
     $new_items = array();
     foreach ($itemsList as $index => $item) {

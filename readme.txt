@@ -1,7 +1,7 @@
-=== BBSpoiler ===
+=== sonnenstrasse-inventory ===
 Contributors: Klemens
 Donate link: 
-Tags: rpg inventory equipment
+Tags: rpg sonnenstrasse inventory equipment
 Requires at least: 3.9
 Tested up to: 4.8.0
 Stable tag: trunk
@@ -20,7 +20,7 @@ For example:
 
 == Installation ==
 
-1. Upload <strong>rp-inventory</strong> folder to the <strong>/wp-content/plugins/</strong> directory.
+1. Upload <strong>sonnenstrasse-inventory</strong> folder to the <strong>/wp-content/plugins/</strong> directory.
 2. Activate the plugin through the <strong>Plugins</strong> menu in WordPress.
 3. That's all.
 

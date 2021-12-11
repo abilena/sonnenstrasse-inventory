@@ -3,7 +3,7 @@
 function rp_inventory_get_icons() {
 
     $path_local = plugin_dir_path(__FILE__);
-    $path_url = plugins_url() . "/rp-inventory";
+    $path_url = plugins_url() . "/sonnenstrasse-inventory";
 
     $icon_files = RPInventory\get_all_files($path_local . "../img/icons/");
     

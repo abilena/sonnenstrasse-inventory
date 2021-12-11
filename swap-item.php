@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$path = $_SERVER['DOCUMENT_ROOT'];
+$path = __DIR__ . "/../../..";
 
 include_once $path . '/wp-config.php';
 include_once $path . '/wp-load.php';
@@ -12,7 +12,7 @@ include_once $path . '/wp-includes/pluggable.php';
 
 function rp_inventory_swap_item($arguments) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     $item1 = $arguments["item1"];
     $item2 = $arguments["item2"];
@@ -160,7 +160,7 @@ function rp_inventory_swap_item($arguments) {
 
 function rp_inventory_swap_content($container_id, $new_owner) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     if ($container_id == 0) {
         return 1;
@@ -188,7 +188,7 @@ function rp_inventory_swap_content($container_id, $new_owner) {
 
 function rp_inventory_is_inside_container($item_id, $container_id) {
    	global $wpdb;
-    $db_table_name = $wpdb->prefix . 'rp_inventory';
+    $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 
     if ($item_id == 0) {
         return 0;

@@ -4,7 +4,7 @@ require_once('rp-inventory-database.php');
 
 function rp_inventory_detail($hero_id, $detail_type, $detail_label, $detail_value) {
     $path_local = plugin_dir_path(__FILE__);
-    $path_url = plugins_url() . "/rp-inventory";
+    $path_url = plugins_url() . "/sonnenstrasse-inventory";
     $edit_query = http_build_query(array_merge($_GET, array("detail" => $detail_type, "detail_label" => $detail_label)));
 
     $detail_html = "";
@@ -26,7 +26,7 @@ function rp_inventory_detail($hero_id, $detail_type, $detail_label, $detail_valu
 
 function rp_inventory_property($hero_id, $property_type, $property_label, $show_detailed) {
     $path_local = plugin_dir_path(__FILE__);
-    $path_url = plugins_url() . "/rp-inventory";
+    $path_url = plugins_url() . "/sonnenstrasse-inventory";
     $edit_query = http_build_query(array_merge($_GET, array("property" => $property_type, "property_label" => $property_label)));
 
     $property_html = "";
@@ -95,7 +95,7 @@ function rp_inventory_property($hero_id, $property_type, $property_label, $show_
 function rp_inventory_equipment($hero_id, $name)
 {
     $path_local = plugin_dir_path(__FILE__);
-    $path_url = plugins_url() . "/rp-inventory";
+    $path_url = plugins_url() . "/sonnenstrasse-inventory";
 
     rp_inventory_get_item_containers($hero_id, $name, $container_ids, $container_content, $container_orders);
 
@@ -143,7 +143,7 @@ function rp_inventory_admin_options() { ?>
 <?php
 
     $path_local = plugin_dir_path(__FILE__);
-    $path_url = plugins_url() . "/rp-inventory";
+    $path_url = plugins_url() . "/sonnenstrasse-inventory";
 
     $partys_html = "";
     $partys = rp_inventory_get_partys();

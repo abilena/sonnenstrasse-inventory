@@ -28,7 +28,7 @@
 	padding: 5px;
 }
 .rp-inventory-border {
-	border: solid 7px;
+	border: solid 2px;
 	border-image: url("../img/border.png") 7 7 7 7;
 }
 
@@ -164,8 +164,8 @@
 
 
 .rp-inventory-container-armorset table {
-    font-size: 11px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10px;
+    font-family: Arial;
 }
 
 .rp-inventory-container-armorset th {
@@ -175,8 +175,8 @@
     height: 25px;
     padding-top: 2px;
     padding-bottom: 2px;
-    font-size: 11px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10px;
+    font-family: Arial;
 }
 
 .rp-inventory-container-armorset table td {
@@ -227,8 +227,8 @@
     border: 1px solid white;
     padding: 10px;
     line-height: 14px;
-    font-size: 11px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10px;
+    font-family: Arial;
     font-weight: bold;
     text-shadow: 2px 2px #000000;
     text-indent: 0px;
@@ -296,9 +296,10 @@
 .rp-inventory-panel-rs-be {
     background-image: url('../img/shapes/rs_panel2.png');
     width: 47px;
+	height: 25px;
     text-align: center;
     position: relative;
-    top: 4px;
+    top: 2px;
     left: 5px;
     margin: auto;
     font-weight: normal;
@@ -357,8 +358,8 @@
 
 .rp-inventory-item-info-popup {
     position: absolute;
-    left: 40px;
-    top: -4px;
+    left: -4px;
+    top: 40px;
     z-index: 1000;
     width: 200px;
     height: auto;
@@ -367,8 +368,8 @@
     border: 1px solid white;
     padding: 10px;
     line-height: 14px;
-    font-size: 11px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10px;
+    font-family: Arial;
     color: #ffffff;
 }
 
@@ -397,9 +398,13 @@
 .rp-inventory-item-info-popup-price {
 }
 
+.rp-inventory-col-icon {
+	width: 42px;
+}
+
 .rp-inventory-item-name {
-    padding-left: 5px;
-    padding-right: 5px;
+	width: 170px;
+    padding-left: 10px;
     display: inline-block;
     overflow: hidden;
 }
@@ -409,9 +414,17 @@
     display: table-cell;
     height: 42px;
     line-height: 14px;
-    font-size: 11px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10px;
+    font-family: Arial;
+	font-weight: bold;
     text-shadow: 2px 2px #000000;
+}
+
+.rp-inventory-item-price {
+	width: 70px;
+    padding-right: 10px;
+    display: inline-block;
+    overflow: hidden;
 }
 
 .rp-inventory-item-poor {
@@ -555,7 +568,7 @@
 .rp-inventory-container-block {
 	display: inline-block;
 	vertical-align: top;
-	width: 325px;
+	width: 305px;
 }
 			
 .rp-inventory-container-parchment {
@@ -652,7 +665,7 @@
 }
 
 .rp-inventory-container-equipment {
-    margin: 0px 5px 20px 5px;
+    margin: 0px 0px 0px 0px;
 }
 
 .rp-inventory-equipment {
@@ -661,8 +674,8 @@
 
 .rp-inventory-equipment div a:before {
     position: absolute;
-    top: 6px;
-    right: 5px;
+    top: 2px;
+    right: 0px;
 	height: 18px;
 	width: 20px;
 	color: white;
@@ -692,8 +705,41 @@
 .rp-inventory-equipment-list .rp-inventory-equipment-display-button:before {
 	content: "\f180"; /* dashicons-screenoptions */
 }
+.rp-inventory-equipment-rs-details .rp-inventory-equipment-display-button:before {
+	content: "\f535"; /* dashicons-editor-table */
+}
+.rp-inventory-equipment-rs-overview .rp-inventory-equipment-display-button:before {
+	content: "\f483"; /* dashicons-universal-access */
+}
 .rp-inventory-equipment-list .rp-inventory-container-slot-empty {
     display: none;
+}
+
+.rp-inventory-equipment div[data-type="armor"] table .rp-inventory-col-name,
+.rp-inventory-equipment div[data-type="armor"] table .rp-inventory-col-rs,
+.rp-inventory-equipment div[data-type="armor"] table .rp-inventory-col-be,
+.rp-inventory-equipment div[data-type="armor"] table .rp-inventory-col-img,
+.rp-inventory-equipment div[data-type="armor"] table .rp-inventory-col-price {
+	display: none;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table th.rp-inventory-col-name {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table .rp-inventory-col-name,
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table .rp-inventory-col-price {
+	display: table-cell;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-rs-overview[data-type="armor"] table .rp-inventory-col-img {
+	display: table-cell;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-rs-details[data-type="armor"] table .rp-inventory-col-rs,
+.rp-inventory-equipment .rp-inventory-equipment-rs-details[data-type="armor"] table .rp-inventory-col-be {
+	display: table-cell;
 }
 
 .rp-inventory-equipment h2 {
@@ -704,18 +750,15 @@
     background-image: url(../img/background.heading.png);
     margin: 0px;
     color: white;
-    font-family: Verdana, Geneva, sans-serif;
-    font-weight: bold;
-    font-size: 11px;
-    line-height: 24px;
-    min-height: 24px;
+    font-family: Arial;
+    font-size: 10px;
+    line-height: 16px;
+    min-height: 16px;
     text-align: center;
-    text-transform: uppercase;
 }
 .rp-inventory-equipment-items {
-    border-top: 16px solid black;
-    border-image: url(../img/background.edge.png) 16 0 0 0;
-    background-image: url(../img/background.png);
+    border-bottom: 16px solid black;
+    border-image: url(../img/background.edge.png) 0 0 16 0;
     font-size: 0px;
     line-height: 0px;
 }
@@ -764,8 +807,8 @@
     display: block;
     width: 240px;
     padding: 0px 10px 0px 10px;    
-    font-size: 11px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10px;
+    font-family: Arial;
     color: #ffffff;
 }
 .rp-inventory-equipment-item-text {
@@ -783,7 +826,7 @@
 	width: 16px;
 	height: 16px;
 	margin-left: 5px;
-	margin-bottom: 5px;
+	margin-bottom: 2px;
 	display: inline-block;
 	vertical-align: middle;
 	background-image: url("../img/coin.png");

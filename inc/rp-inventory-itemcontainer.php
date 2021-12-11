@@ -3,7 +3,7 @@
 function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index) {
 
     $path_local = plugin_dir_path(__FILE__);
-    $path_url = plugins_url() . "/rp-inventory";
+    $path_url = plugins_url() . "/sonnenstrasse-inventory";
 
     $template_prefix = $is_admin_page ? "_admin" : "";
     $output = "";
@@ -22,7 +22,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
     }
     else
     {
-        $max_slot = max(48, (ceil(($max_slot + 1) / 7) * 7) - 1);
+        $max_slot = max(6, (ceil(($max_slot + 1) / 7) * 7) - 1);
     }
 
     $count_empty = 0;
@@ -55,7 +55,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
                 $rs = explode(";", $rs);
                 $be = str_replace(".", ",", sprintf("%.2f", $item->be));
                 for ($rs_index = 0; $rs_index < 8; $rs_index++) {
-                    $sum_rs[$rs_index] += $rs[$rs_index];
+                    $sum_rs[$rs_index] += intval($rs[$rs_index]);
                 }
                 $sum_be += $item->be;
             }

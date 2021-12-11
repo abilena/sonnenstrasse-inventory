@@ -3,74 +3,6 @@
 function rp_inventory_create_tables() {
    	global $wpdb;
 
-    $db_table_name = $wpdb->prefix . 'sonnenstrasse_partys';
-	// create the ECPT metabox database table
-	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
-	{
-		$sql = "CREATE TABLE " . $db_table_name . " (
-		`party_id` mediumint(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        `name` tinytext NOT NULL,
-        `current_year` smallint NOT NULL,
-        `current_month` smallint NOT NULL,
-        `current_day` smallint NOT NULL,
-		UNIQUE KEY party_id (party_id)
-		);";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta($sql);
-	}
-
-    $db_table_name = $wpdb->prefix . 'sonnenstrasse_heroes';
-	// create the ECPT metabox database table
-	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
-	{
-		$sql = "CREATE TABLE " . $db_table_name . " (
-		`hero_id` mediumint(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		`hero_type` tinytext NOT NULL,
-		`party` mediumint(9) NOT NULL,
-        `creator` tinytext NOT NULL,
-        `name` tinytext NOT NULL,
-        `display_name` tinytext NOT NULL,
-        `gender` tinytext NOT NULL,
-        `portrait` tinytext NOT NULL,
-        `weight` float NOT NULL,
-        `height` float NOT NULL,
-        `birth_year` smallint NOT NULL,
-        `birth_month` smallint NOT NULL,
-        `birth_day` smallint NOT NULL,
-        `birth_place` tinytext NOT NULL,
-        `biography` text NOT NULL,
-        `flavor` text NOT NULL,
-        `gold` float NOT NULL,
-		UNIQUE KEY hero_id (hero_id)
-		);";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta($sql);
-	}
-
-    $db_table_name = $wpdb->prefix . 'sonnenstrasse_properties';
-	// create the ECPT metabox database table
-	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
-	{
-		$sql = "CREATE TABLE " . $db_table_name . " (
-		`property_id` mediumint(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		`hero` mediumint(9) NOT NULL,
-        `type` tinytext NOT NULL,
-        `name` tinytext NOT NULL,
-        `variant` tinytext,
-        `info` tinytext,
-        `value` smallint,
-        `gp` smallint,
-        `tgp` mediumint,
-        `ap` mediumint,
-		UNIQUE KEY property_id (property_id)
-		);";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta($sql);
-	}
-
     $db_table_name = $wpdb->prefix . 'sonnenstrasse_inventory';
 	// create the ECPT metabox database table
 	if($wpdb->get_var("show tables like '$db_table_name'") != $db_table_name) 
@@ -105,9 +37,6 @@ function rp_inventory_drop_tables() {
 
     // delete the database tables
     $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_inventory');
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_properties');
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_heroes');
-    $wpdb->query("DROP TABLE IF EXISTS " . $wpdb->prefix . 'sonnenstrasse_partys');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -415,7 +344,7 @@ function rp_inventory_get_item_containers($owner_id, $owner_name, &$container_id
     $db_result = rp_inventory_get_items($owner_id);
 
     $default_container = new stdClass();
-    $default_container->name = $owner_name;
+    $default_container->name = "Am Körper";
     $default_container->item_id = 0;
     $default_container->owner = $owner_id;
     $default_container->hosts_container_id = 0;
@@ -498,6 +427,8 @@ function rp_inventory_create_item($arguments) {
     $wpdb->insert($db_table_name, $values);
 
     $wpdb->query('COMMIT');
+	
+	return "succeeded";
 }
 
 function rp_inventory_edit_item($arguments)

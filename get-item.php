@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$path = $_SERVER['DOCUMENT_ROOT'];
+$path = __DIR__ . "/../../..";
 
 include_once $path . '/wp-config.php';
 include_once $path . '/wp-load.php';

@@ -1,5 +1,5 @@
 
-var rp_inventory_baseuri = "/wp-content/plugins/rp-inventory2";
+var rp_inventory_baseuri = "/wp-content/plugins/sonnenstrasse-inventory";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Merchant show/hide
@@ -17,14 +17,18 @@ function rp_inventory_toggle_merchant(expander, merchant)
     }
 }
 
+var equipment_type_switchers = {
+  "default": "grid,list",
+  "armor": "rs-overview,rs-details,list",
+};
+
 function rp_inventory_toggle_equipment_display(container_name) {
     var container = document.getElementById(container_name);
-    if (container.className == "rp-inventory-equipment-grid") {
-        container.className = "rp-inventory-equipment-list";
-    }
-    else {
-        container.className = "rp-inventory-equipment-grid";
-    }
+	var className = container.className.substring(23);
+	var type = container.dataset.type;
+	var switcher = equipment_type_switchers[type].split(',');
+	var switcher_index = (switcher.indexOf(className) + 1) % switcher.length;
+	container.className = "rp-inventory-equipment-" + switcher[switcher_index];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

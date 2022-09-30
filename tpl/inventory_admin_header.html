@@ -80,6 +80,7 @@
             <tr><td>Behälter-Typ:</td><td><select id="rp-inventory-create-container-type">
                             <option value="default" selected>Standard</option>
                             <option value="armor">Rüstungs-Set</option>
+                            <option value="weapon">Waffen-Set</option>
                         </select></td></tr>
         </table>
     </div>
@@ -93,7 +94,57 @@
             <tr><td>BE:</td><td><input id="rp-inventory-create-be" value="0,0"></input></td></tr>
         </table>
     </div>
-    <div id="rp-inventory-popup-create-tab-weapon" class="rp-inventory-popup-create-tabcontent"></div>
+    <div id="rp-inventory-popup-create-tab-weapon" class="rp-inventory-popup-create-tabcontent">
+        <table>
+            <colgroup>
+                <col width="200">
+                <col width="400">
+            </colgroup>
+            <tr><td>DK:</td><td><select id="rp-inventory-create-wp-dk">
+                            <option value="H">H</option>
+                            <option value="HN">HN</option>
+                            <option value="N" selected>N</option>
+                            <option value="NS">NS</option>
+                            <option value="S">S</option>
+                            <option value="SP">SP</option>
+                            <option value="P">P</option>
+                        </select></td></tr>
+            <tr><td>INI:</td><td><input id="rp-inventory-create-wp-ini" value="0"></input></td></tr>
+            <tr><td>TP:</td><td><input id="rp-inventory-create-wp-tp" value="1W+4"></input></td></tr>
+            <tr><td>TP/KK:</td><td><input id="rp-inventory-create-wp-kk" value="11/4"></input></td></tr>
+            <tr><td>WM:</td><td><input id="rp-inventory-create-wp-wm" value="0/0"></input></td></tr>
+            <tr><td>BF:</td><td><input id="rp-inventory-create-wp-bf" value="1"></input></td></tr>
+            <tr><td>Talent:</td><td><select id="rp-inventory-create-wp-skill">
+                            <option value="Anderthalbhänder">Anderthalbhänder</option>
+                            <option value="Armbrust">Armbrust</option>
+                            <option value="Belagerungswaffen">Belagerungswaffen</option>
+                            <option value="Blasrohr">Blasrohr</option>
+                            <option value="Bogen">Bogen</option>
+                            <option value="Diskus">Diskus</option>
+                            <option value="Dolche">Dolche</option>
+                            <option value="Fechtwaffen">Fechtwaffen</option>
+                            <option value="Hiebwaffen">Hiebwaffen</option>
+                            <option value="Infanteriewaffen">Infanteriewaffen</option>
+                            <option value="Kettenstäbe">Kettenstäbe</option>
+                            <option value="Kettenwaffen">Kettenwaffen</option>
+                            <option value="Lanzenreiten">Lanzenreiten</option>
+                            <option value="Peitsche">Peitsche</option>
+                            <option value="Raufen">Raufen</option>
+                            <option value="Ringen">Ringen</option>
+                            <option value="Säbel">Säbel</option>
+                            <option value="Schleuder">Schleuder</option>
+                            <option value="Schwerter">Schwerter</option>
+                            <option value="Speere">Speere</option>
+                            <option value="Stäbe">Stäbe</option>
+                            <option value="Wurfbeile">Wurfbeile</option>
+                            <option value="Wurfmesser">Wurfmesser</option>
+                            <option value="Wurfspeere">Wurfspeere</option>
+                            <option value="Zweihandflegel">Zweihandflegel</option>
+                            <option value="Zweihandhiebwaffen">Zweihandhiebwaffen</option>
+                            <option value="Zweihandschwerter/-säbel">Zweihandschwerter/-säbel</option>
+                        </select></td></tr>
+        </table>
+    </div>
     <div class="rp-inventory-popup-create-buttons">
         <input class="button-primary" type="button" value="Erstellen" onclick="rp_inventory_create_item('[@Owner]')"></input>
         <input class="button-primary" type="button" value="Schliessen" onclick="rp_inventory_create_item_close()"></input>

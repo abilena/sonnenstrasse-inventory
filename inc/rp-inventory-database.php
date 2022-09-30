@@ -24,6 +24,17 @@ function rp_inventory_create_tables() {
         `weight` float NOT NULL,
         `rs` tinytext,
         `be` float,
+        `wp_dk` tinytext,
+        `wp_ini` float,
+        `wp_tp_dices` float,
+        `wp_tp_bonus` float,
+        `wp_tp_type` tinytext,
+        `wp_tp_kk_req` float,
+        `wp_tp_kk_span` float,
+        `wp_wm_at` float,
+        `wp_wm_pa` float,
+        `wp_bf` float,
+        `wp_skill` tinytext,
 		UNIQUE KEY item_id (item_id)
 		);";
 
@@ -422,7 +433,18 @@ function rp_inventory_create_item($arguments) {
         'price' => str_replace(",", ".", $arguments['price']),
         'weight' => str_replace(",", ".", $arguments['weight']),
         'rs' => str_replace(",", ".", $arguments['rs']),
-        'be' => str_replace(",", ".", $arguments['be'])
+        'be' => str_replace(",", ".", $arguments['be']),
+        'wp_dk' => $arguments['wp_dk'],
+        'wp_ini' => str_replace(",", ".", $arguments['wp_ini']),
+        'wp_tp_dices' => str_replace(",", ".", $arguments['wp_tp_dices']),
+        'wp_tp_bonus' => str_replace(",", ".", $arguments['wp_tp_bonus']),
+        'wp_tp_type' => $arguments['wp_tp_type'],
+        'wp_tp_kk_req' => str_replace(",", ".", $arguments['wp_tp_kk_req']),
+        'wp_tp_kk_span' => str_replace(",", ".", $arguments['wp_tp_kk_span']),
+        'wp_wm_at' => str_replace(",", ".", $arguments['wp_wm_at']),
+        'wp_wm_pa' => str_replace(",", ".", $arguments['wp_wm_pa']),
+        'wp_bf' => str_replace(",", ".", $arguments['wp_bf']),
+        'wp_skill' => $arguments['wp_skill']
     );
     $wpdb->insert($db_table_name, $values);
 
@@ -465,7 +487,18 @@ function rp_inventory_edit_item($arguments)
             'price' => str_replace(",", ".", $arguments['price']),
             'weight' => str_replace(",", ".", $arguments['weight']),
             'rs' => str_replace(",", ".", $arguments['rs']),
-            'be' => str_replace(",", ".", $arguments['be'])
+            'be' => str_replace(",", ".", $arguments['be']),
+            'wp_dk' => $arguments['wp_dk'],
+            'wp_ini' => str_replace(",", ".", $arguments['wp_ini']),
+            'wp_tp_dices' => str_replace(",", ".", $arguments['wp_tp_dices']),
+            'wp_tp_bonus' => str_replace(",", ".", $arguments['wp_tp_bonus']),
+            'wp_tp_type' => $arguments['wp_tp_type'],
+            'wp_tp_kk_req' => str_replace(",", ".", $arguments['wp_tp_kk_req']),
+            'wp_tp_kk_span' => str_replace(",", ".", $arguments['wp_tp_kk_span']),
+            'wp_wm_at' => str_replace(",", ".", $arguments['wp_wm_at']),
+            'wp_wm_pa' => str_replace(",", ".", $arguments['wp_wm_pa']),
+            'wp_bf' => str_replace(",", ".", $arguments['wp_bf']),
+            'wp_skill' => $arguments['wp_skill']
         );
         $updated = $wpdb->update($db_table_name, $values, array('item_id' => $id));
     }
@@ -563,6 +596,17 @@ function rp_inventory_get_selected_item($item) {
             $item_record->weight = str_replace(".", ",", $item_record->weight);
             $item_record->rs = str_replace(".", ",", $item_record->rs);
             $item_record->be = str_replace(".", ",", $item_record->be);
+            $item_record->wp_dk = stripslashes($item_record->wp_dk);
+            $item_record->wp_ini = str_replace(",", ".", $item_record->wp_ini);
+            $item_record->wp_tp_dices = str_replace(",", ".", $item_record->wp_tp_dices);
+            $item_record->wp_tp_bonus = str_replace(",", ".", $item_record->wp_tp_bonus);
+            $item_record->wp_tp_type = stripslashes($item_record->wp_tp_type);
+            $item_record->wp_tp_kk_req = str_replace(",", ".", $item_record->wp_tp_kk_req);
+            $item_record->wp_tp_kk_span = str_replace(",", ".", $item_record->wp_tp_kk_span);
+            $item_record->wp_wm_at = str_replace(",", ".", $item_record->wp_wm_at);
+            $item_record->wp_wm_pa = str_replace(",", ".", $item_record->wp_wm_pa);
+            $item_record->wp_bf = str_replace(",", ".", $item_record->wp_bf);
+            $item_record->wp_skill = stripslashes($item_record->wp_skill);
             return wp_json_encode($item_record);
         }
     }

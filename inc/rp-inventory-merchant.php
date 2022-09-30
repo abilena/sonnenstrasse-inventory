@@ -118,7 +118,7 @@ function rp_inventory_merchant_items($owner_id, $is_owner) {
 
         $container = $container_ids[$hosts_container_id];
         $contained_items = $container_content[$hosts_container_id];
-        $container_html = rp_inventory_itemcontainer_html($owner_id, FALSE, TRUE, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index);
+        $container_html = rp_inventory_itemcontainer_html($owner_id, FALSE, TRUE, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index, 0);
 
         $containers_html .= $container_html;
         $index++;

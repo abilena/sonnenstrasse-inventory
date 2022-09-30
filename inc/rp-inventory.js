@@ -20,6 +20,7 @@ function rp_inventory_toggle_merchant(expander, merchant)
 var equipment_type_switchers = {
   "default": "grid,list",
   "armor": "rs-overview,rs-details,list",
+  "weapon": "wp-details,list",
 };
 
 function rp_inventory_toggle_equipment_display(container_name) {

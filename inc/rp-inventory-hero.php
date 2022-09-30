@@ -47,11 +47,29 @@ function rp_inventory_hero_html_by_id($hero_id, $name) {
         $output = "";
         $containers_html = "";
         $index = 0;
+        $sum_be = 0.0;
+        foreach ($container_orders as $hosts_container_order => $hosts_container_id) {
+            $container = $container_ids[$hosts_container_id];
+            $contained_items = $container_content[$hosts_container_id];
+            $container_type = $container->hosts_container_type;
+            if ($container_type == "armor") {
+                $max_slot = empty($contained_items) ? 1 : max(array_keys($contained_items));
+                for ($slot = 0; $slot <= $max_slot; $slot++) {
+                    if (array_key_exists($slot, $contained_items)) {
+                        $item = $contained_items[$slot];
+                        if (!empty($item->rs)) {
+                            $sum_be += $item->be;
+                        }
+                    }
+                }
+            }
+        }
+
         foreach ($container_orders as $hosts_container_order => $hosts_container_id) {
 
             $container = $container_ids[$hosts_container_id];
             $contained_items = $container_content[$hosts_container_id];
-            $container_html = rp_inventory_itemcontainer_html($hero_id, FALSE, FALSE, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index);
+            $container_html = rp_inventory_itemcontainer_html($hero_id, FALSE, FALSE, $is_user, $is_admin, $is_owner, $container, $contained_items, $hosts_container_id, $index, $sum_be);
 
             $containers_html .= $container_html;
             $index++;

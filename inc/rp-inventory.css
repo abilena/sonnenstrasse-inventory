@@ -205,6 +205,12 @@
     text-align: center;
 }
 
+.rp-inventory-col-wp {
+    width: 40px;
+    text-align: center;
+    white-space: nowrap;
+}
+
 .rp-inventory-header-rs {
     width: 30px;
 }
@@ -215,6 +221,35 @@
 
 .rp-inventory-header-rs span {
     display: none;
+}
+
+.rp-inventory-col-wp span {
+    display: none;
+}
+
+.rp-inventory-col-wp:not([data-wp=""]):nth-child(7):hover .rp-inventory-tooltip-wp,
+.rp-inventory-col-wp:not([data-wp=""]):nth-child(8):hover .rp-inventory-tooltip-wp,
+.rp-inventory-col-wp:not([data-wp=""]):nth-child(9):hover .rp-inventory-tooltip-wp {
+    right: 0px;
+}
+
+.rp-inventory-col-wp:not([data-wp=""]):hover .rp-inventory-tooltip-wp {
+    display: block;
+    position: absolute;
+    margin-left: 0px;
+    margin-top: 23px;
+    z-index: 1;
+    background-color: #22211f;
+    border: 1px solid white;
+    padding: 10px;
+    line-height: 14px;
+    font-size: 10px;
+    font-family: Arial;
+    font-weight: bold;
+    text-shadow: 2px 2px #000000;
+    text-indent: 0px;
+    white-space: nowrap;
+    text-align: left;
 }
 
 .rp-inventory-header-rs:hover .rp-inventory-tooltip-rs {
@@ -233,6 +268,22 @@
     text-shadow: 2px 2px #000000;
     text-indent: 0px;
     white-space: nowrap;
+}
+
+.rp-inventory-col-wp .rp-inventory-tooltip-wp table,
+.rp-inventory-col-img .rp-inventory-tooltip-rs table {
+    width: auto;
+}
+
+.rp-inventory-col-wp .rp-inventory-tooltip-wp table tr td,
+.rp-inventory-col-img .rp-inventory-tooltip-rs table tr td {
+    height: auto;
+    color: var(--hoverColor);
+}
+
+.rp-inventory-col-wp .rp-inventory-tooltip-wp table tr td:nth-child(2),
+.rp-inventory-col-img .rp-inventory-tooltip-rs table tr td:nth-child(2) {
+    padding-left: 10px;
 }
 
 .rp-inventory-armor-display {
@@ -711,6 +762,9 @@
 .rp-inventory-equipment-rs-overview .rp-inventory-equipment-display-button:before {
 	content: "\f483"; /* dashicons-universal-access */
 }
+.rp-inventory-equipment-wp-details .rp-inventory-equipment-display-button:before {
+    content: "\f535"; /* dashicons-editor-table */
+}
 .rp-inventory-equipment-list .rp-inventory-container-slot-empty {
     display: none;
 }
@@ -723,23 +777,30 @@
 	display: none;
 }
 
-.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table th.rp-inventory-col-name {
-	text-align: left;
-	padding-left: 10px;
+.rp-inventory-equipment div[data-type="weapon"] table .rp-inventory-col-name,
+.rp-inventory-equipment div[data-type="weapon"] table .rp-inventory-col-wp,
+.rp-inventory-equipment div[data-type="weapon"] table .rp-inventory-col-price {
+    display: none;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table th.rp-inventory-col-name,
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="weapon"] table th.rp-inventory-col-name {
+    text-align: left;
+    padding-left: 10px;
 }
 
 .rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table .rp-inventory-col-name,
-.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table .rp-inventory-col-price {
-	display: table-cell;
-}
-
-.rp-inventory-equipment .rp-inventory-equipment-rs-overview[data-type="armor"] table .rp-inventory-col-img {
-	display: table-cell;
-}
-
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table .rp-inventory-col-price,
+.rp-inventory-equipment .rp-inventory-equipment-rs-overview[data-type="armor"] table .rp-inventory-col-img,
 .rp-inventory-equipment .rp-inventory-equipment-rs-details[data-type="armor"] table .rp-inventory-col-rs,
 .rp-inventory-equipment .rp-inventory-equipment-rs-details[data-type="armor"] table .rp-inventory-col-be {
 	display: table-cell;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="weapon"] table .rp-inventory-col-name,
+.rp-inventory-equipment .rp-inventory-equipment-list[data-type="weapon"] table .rp-inventory-col-price,
+.rp-inventory-equipment .rp-inventory-equipment-wp-details[data-type="weapon"] table .rp-inventory-col-wp {
+    display: table-cell;
 }
 
 .rp-inventory-equipment h2 {

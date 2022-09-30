@@ -397,6 +397,13 @@ function rp_inventory_fill_create_item_popup(responseText)
     document.getElementById("rp-inventory-create-rs").value = decodeURIComponent(item.rs);
     document.getElementById("rp-inventory-create-be").value = decodeURIComponent(item.be);
 
+    document.getElementById("rp-inventory-create-wp-dk").value = decodeURIComponent(item.wp_dk);
+    document.getElementById("rp-inventory-create-wp-ini").value = decodeURIComponent(item.wp_ini);
+    document.getElementById("rp-inventory-create-wp-tp").value = decodeURIComponent(item.wp_tp_dices) + "W+" + decodeURIComponent(item.wp_tp_bonus) + ((("" + item.wp_tp_type).length > 0) ? " (" + decodeURIComponent(item.wp_tp_type) + ")" : "");
+    document.getElementById("rp-inventory-create-wp-kk").value = decodeURIComponent(item.wp_tp_kk_req) + "/" + decodeURIComponent(item.wp_tp_kk_span);
+    document.getElementById("rp-inventory-create-wp-wm").value = decodeURIComponent(item.wp_wm_at) + "/" + decodeURIComponent(item.wp_wm_pa);
+    document.getElementById("rp-inventory-create-wp-bf").value = decodeURIComponent(item.wp_bf);
+    document.getElementById("rp-inventory-create-wp-skill").value = decodeURIComponent(item.wp_skill);
 }
 
 function rp_inventory_show_create_item_popup(action)
@@ -473,6 +480,13 @@ function rp_inventory_create_item(owner)
     var flavor = document.getElementById("rp-inventory-create-flavor").value;
     var rs = document.getElementById("rp-inventory-create-rs").value;
     var be = document.getElementById("rp-inventory-create-be").value;
+    var wp_dk = document.getElementById("rp-inventory-create-wp-dk").value;
+    var wp_ini = document.getElementById("rp-inventory-create-wp-ini").value;
+    var wp_tp = document.getElementById("rp-inventory-create-wp-tp").value;
+    var wp_kk = document.getElementById("rp-inventory-create-wp-kk").value;
+    var wp_wm = document.getElementById("rp-inventory-create-wp-wm").value;
+    var wp_bf = document.getElementById("rp-inventory-create-wp-bf").value;
+    var wp_skill = document.getElementById("rp-inventory-create-wp-skill").value;
 
     owner = encodeURIComponent(owner);
     name = encodeURIComponent(name);
@@ -487,6 +501,23 @@ function rp_inventory_create_item(owner)
     flavor = encodeURIComponent(flavor);
     rs = encodeURIComponent(rs);
     be = encodeURIComponent(be);
+    wp_dk = encodeURIComponent(wp_dk);
+    wp_ini = encodeURIComponent(wp_ini);
+    wp_bf = encodeURIComponent(wp_bf);
+    wp_skill = encodeURIComponent(wp_skill);
+
+    const regexp_wp_tp = /(?<wp_tp_dices>[0-9]+)[wW][6]?([+](?<wp_tp_bonus>[0-9]+))?(\s+\((?<wp_tp_type>\w)\))?/;
+    wp_tp_dices = encodeURIComponent(wp_tp.match(regexp_wp_tp).groups["wp_tp_dices"] ?? 1);
+    wp_tp_bonus = encodeURIComponent(wp_tp.match(regexp_wp_tp).groups["wp_tp_bonus"] ?? 4);
+    wp_tp_type = encodeURIComponent(wp_tp.match(regexp_wp_tp).groups["wp_tp_type"] ?? "");
+
+    const regexp_wp_kk = /(?<wp_tp_kk_req>[0-9]+)[\/](?<wp_tp_kk_span>[0-9]+)?/;
+    wp_tp_kk_req = encodeURIComponent(wp_kk.match(regexp_wp_kk).groups["wp_tp_kk_req"] ?? 11);
+    wp_tp_kk_span = encodeURIComponent(wp_kk.match(regexp_wp_kk).groups["wp_tp_kk_span"] ?? 4);
+
+    const regexp_wp_wm = /\+?(?<wp_wm_at>\-?[0-9]+)[\/]\+?(?<wp_wm_pa>\-?[0-9]+)?/;
+    wp_wm_at = encodeURIComponent(wp_wm.match(regexp_wp_wm).groups["wp_wm_at"] ?? 0);
+    wp_wm_pa = encodeURIComponent(wp_wm.match(regexp_wp_wm).groups["wp_wm_pa"] ?? 0);
 
     var parameters = "owner=" + owner;
     parameters += "&name=" + name;
@@ -501,6 +532,17 @@ function rp_inventory_create_item(owner)
     parameters += "&flavor=" + flavor;
     parameters += "&rs=" + rs;
     parameters += "&be=" + be;
+    parameters += "&wp_dk=" + wp_dk;
+    parameters += "&wp_ini=" + wp_ini;
+    parameters += "&wp_tp_dices=" + wp_tp_dices;
+    parameters += "&wp_tp_bonus=" + wp_tp_bonus;
+    parameters += "&wp_tp_type=" + wp_tp_type;
+    parameters += "&wp_tp_kk_req=" + wp_tp_kk_req;
+    parameters += "&wp_tp_kk_span=" + wp_tp_kk_span;
+    parameters += "&wp_wm_at=" + wp_wm_at;
+    parameters += "&wp_wm_pa=" + wp_wm_pa;
+    parameters += "&wp_bf=" + wp_bf;
+    parameters += "&wp_skill=" + wp_skill;
 
     isCreating = true;
 

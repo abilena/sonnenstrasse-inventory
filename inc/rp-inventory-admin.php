@@ -111,7 +111,7 @@ function rp_inventory_equipment($hero_id, $name)
 
         $container = $container_ids[$hosts_container_id];
         $contained_items = $container_content[$hosts_container_id];
-        $container_html = rp_inventory_itemcontainer_html($hero_id, TRUE, FALSE, TRUE, TRUE, TRUE, $container, $contained_items, $hosts_container_id, $index);
+        $container_html = rp_inventory_itemcontainer_html($hero_id, TRUE, FALSE, TRUE, TRUE, TRUE, $container, $contained_items, $hosts_container_id, $index, 0);
 
         $containers_html .= $container_html;
         $index++;

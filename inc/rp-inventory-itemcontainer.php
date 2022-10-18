@@ -41,10 +41,13 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
     $sonderfertigkeiten = rp_inventory_get_properties($owner, "feat");
     $talente = rp_inventory_get_properties($owner, "skill");
 
-    $ini_basis = @array_column($basiswerte, null, "name")["Initiative Basiswert"]->value ?? 0;
-    $at_basis = @array_column($basiswerte, null, "name")["Attacke Basiswert"]->value ?? 0;
-    $pa_basis = @array_column($basiswerte, null, "name")["Parade Basiswert"]->value ?? 0;
+    $mu_wert = @array_column($eigenschaften, null, "name")["Mut"]->value ?? 0;
+    $in_wert = @array_column($eigenschaften, null, "name")["Intuition"]->value ?? 0;
+    $ge_wert = @array_column($eigenschaften, null, "name")["Gewandtheit"]->value ?? 0;
     $kk_wert = @array_column($eigenschaften, null, "name")["Körperkraft"]->value ?? 0;
+    $ini_basis = round(($mu_wert+$mu_wert+$in_wert+$ge_wert)/5);
+    $at_basis = round(($mu_wert+$ge_wert+$kk_wert)/5);
+    $pa_basis = round(($in_wert+$ge_wert+$kk_wert)/5);
     $has_aw1 = @array_column($sonderfertigkeiten, null, "name")["Ausweichen I"] != null;
     $has_aw2 = @array_column($sonderfertigkeiten, null, "name")["Ausweichen II"] != null;
     $has_aw3 = @array_column($sonderfertigkeiten, null, "name")["Ausweichen III"] != null;

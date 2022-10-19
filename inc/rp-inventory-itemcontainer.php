@@ -173,7 +173,7 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
                             $taw_be_at = max(0, ceil(($real_be + $taw_ebe) / 2.0));
                             $taw_be_pa = ($real_be + $taw_ebe) - $taw_be_at;
                             $tp_kk_bonus = floor(max(0, $kk_wert - $item->wp_tp_kk_req) / max(1, $item->wp_tp_kk_span));
-                            $has_wp_spez = @array_column($sonderfertigkeiten, null, "name")["Waffenspezialisierung (".$item->wp_skill.", ".$item->name.")"] != null;
+                            $has_wp_spez = @array_column($sonderfertigkeiten, null, "name")["Waffenspezialisierung (".$item->wp_skill.", ".($item->wp_base ?? $item->name).")"] != null;
                             $taw_spez = ($has_wp_spez ? 1 : 0);
 
                             $ini_tooltip_wp .= "<tr><td>" . rp_inventory_format_bonus($item->wp_ini) . "</td><td>INI WM</td></tr>";

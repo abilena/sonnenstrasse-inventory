@@ -404,6 +404,7 @@ function rp_inventory_fill_create_item_popup(responseText)
     document.getElementById("rp-inventory-create-wp-wm").value = decodeURIComponent(item.wp_wm_at) + "/" + decodeURIComponent(item.wp_wm_pa);
     document.getElementById("rp-inventory-create-wp-bf").value = decodeURIComponent(item.wp_bf);
     document.getElementById("rp-inventory-create-wp-skill").value = decodeURIComponent(item.wp_skill);
+    document.getElementById("rp-inventory-create-wp-base").value = decodeURIComponent(item.wp_base);
 }
 
 function rp_inventory_show_create_item_popup(action)
@@ -487,6 +488,7 @@ function rp_inventory_create_item(owner)
     var wp_wm = document.getElementById("rp-inventory-create-wp-wm").value;
     var wp_bf = document.getElementById("rp-inventory-create-wp-bf").value;
     var wp_skill = document.getElementById("rp-inventory-create-wp-skill").value;
+    var wp_base = document.getElementById("rp-inventory-create-wp-base").value;
 
     owner = encodeURIComponent(owner);
     name = encodeURIComponent(name);
@@ -505,6 +507,7 @@ function rp_inventory_create_item(owner)
     wp_ini = encodeURIComponent(wp_ini);
     wp_bf = encodeURIComponent(wp_bf);
     wp_skill = encodeURIComponent(wp_skill);
+    wp_base = encodeURIComponent(wp_base);
 
     const regexp_wp_tp = /(?<wp_tp_dices>[0-9]+)[wW][6]?([+](?<wp_tp_bonus>[0-9]+))?(\s+\((?<wp_tp_type>\w)\))?/;
     wp_tp_dices = encodeURIComponent(wp_tp.match(regexp_wp_tp).groups["wp_tp_dices"] ?? 1);
@@ -543,6 +546,7 @@ function rp_inventory_create_item(owner)
     parameters += "&wp_wm_pa=" + wp_wm_pa;
     parameters += "&wp_bf=" + wp_bf;
     parameters += "&wp_skill=" + wp_skill;
+    parameters += "&wp_base=" + wp_base;
 
     isCreating = true;
 

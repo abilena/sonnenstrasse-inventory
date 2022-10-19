@@ -35,6 +35,7 @@ function rp_inventory_create_tables() {
         `wp_wm_pa` float,
         `wp_bf` float,
         `wp_skill` tinytext,
+        `wp_base` tinytext,
 		UNIQUE KEY item_id (item_id)
 		);";
 
@@ -444,7 +445,8 @@ function rp_inventory_create_item($arguments) {
         'wp_wm_at' => str_replace(",", ".", $arguments['wp_wm_at']),
         'wp_wm_pa' => str_replace(",", ".", $arguments['wp_wm_pa']),
         'wp_bf' => str_replace(",", ".", $arguments['wp_bf']),
-        'wp_skill' => $arguments['wp_skill']
+        'wp_skill' => $arguments['wp_skill'],
+        'wp_base' => $arguments['wp_base']
     );
     $wpdb->insert($db_table_name, $values);
 
@@ -498,7 +500,8 @@ function rp_inventory_edit_item($arguments)
             'wp_wm_at' => str_replace(",", ".", $arguments['wp_wm_at']),
             'wp_wm_pa' => str_replace(",", ".", $arguments['wp_wm_pa']),
             'wp_bf' => str_replace(",", ".", $arguments['wp_bf']),
-            'wp_skill' => $arguments['wp_skill']
+            'wp_skill' => $arguments['wp_skill'],
+            'wp_base' => $arguments['wp_base']
         );
         $updated = $wpdb->update($db_table_name, $values, array('item_id' => $id));
     }
@@ -607,6 +610,7 @@ function rp_inventory_get_selected_item($item) {
             $item_record->wp_wm_pa = str_replace(",", ".", $item_record->wp_wm_pa);
             $item_record->wp_bf = str_replace(",", ".", $item_record->wp_bf);
             $item_record->wp_skill = stripslashes($item_record->wp_skill);
+            $item_record->wp_base = stripslashes($item_record->wp_base);
             return wp_json_encode($item_record);
         }
     }

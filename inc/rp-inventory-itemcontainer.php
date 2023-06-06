@@ -276,7 +276,16 @@ function rp_inventory_itemcontainer_html($owner, $is_admin_page, $is_merchant, $
     }
 
     global $rp_inventory_index;
+    
+    if ($container_type == "armor") { $container_class = "rp-inventory-equipment-rs-overview"; }
+    else if ($container_type == "weapon") { $container_class = "rp-inventory-equipment-wp-details"; }
+    else { $container_class = "rp-inventory-equipment-grid"; }
+
+    $container_class_from_cookie = @$_COOKIE["rp-inventory-equipment-container-$rp_inventory_index-$owner-$container->item_id"];
+    if (!empty($container_class_from_cookie)) { $container_class = $container_class_from_cookie; }
+
     $tpl_inventory_container = new RPInventory\Template($path_local . "../tpl/inventory" . $template_prefix . "_container_" . $container_type . ".html");
+    $tpl_inventory_container->set("ContainerClass", $container_class);
 	$tpl_inventory_container->set("PluginBaseUri", $path_url);
     $tpl_inventory_container->set("ShortcodeId", $rp_inventory_index);
     $tpl_inventory_container->set("OwnerId", $owner);

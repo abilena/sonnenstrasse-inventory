@@ -751,10 +751,10 @@
     display: table-cell;
 }
 .rp-inventory-equipment-grid .rp-inventory-equipment-display-button:before {
-	content: "\f333"; /* dashicons-menu */
+	content: "\f180"; /* dashicons-screenoptions */
 }
 .rp-inventory-equipment-list .rp-inventory-equipment-display-button:before {
-	content: "\f180"; /* dashicons-screenoptions */
+	content: "\f136"; /* dashicons-align-right */
 }
 .rp-inventory-equipment-rs-details .rp-inventory-equipment-display-button:before {
 	content: "\f535"; /* dashicons-editor-table */
@@ -764,6 +764,9 @@
 }
 .rp-inventory-equipment-wp-details .rp-inventory-equipment-display-button:before {
     content: "\f535"; /* dashicons-editor-table */
+}
+.rp-inventory-equipment-compact .rp-inventory-equipment-display-button:before {
+	content: "\f333"; /* dashicons-menu */
 }
 .rp-inventory-equipment-list .rp-inventory-container-slot-empty {
     display: none;
@@ -783,10 +786,26 @@
     display: none;
 }
 
+.rp-inventory-equipment .rp-inventory-equipment-grid[data-type="armor"] table tr th,
+.rp-inventory-equipment .rp-inventory-equipment-grid[data-type="weapon"] table tr th,
+.rp-inventory-equipment .rp-inventory-equipment-grid[data-type="armor"] table tr:nth-child(1),
+.rp-inventory-equipment .rp-inventory-equipment-grid[data-type="weapon"] table tr:nth-child(1) {
+    display: none !important;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-grid[data-type="armor"] table tr,
+.rp-inventory-equipment .rp-inventory-equipment-grid[data-type="weapon"] table tr {
+    display: inline-block !important;
+}
+
 .rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table th.rp-inventory-col-name,
 .rp-inventory-equipment .rp-inventory-equipment-list[data-type="weapon"] table th.rp-inventory-col-name {
     text-align: left;
     padding-left: 10px;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-list .rp-inventory-equipment-item-text {
+    line-height: 12px;
 }
 
 .rp-inventory-equipment .rp-inventory-equipment-list[data-type="armor"] table .rp-inventory-col-name,
@@ -801,6 +820,46 @@
 .rp-inventory-equipment .rp-inventory-equipment-list[data-type="weapon"] table .rp-inventory-col-price,
 .rp-inventory-equipment .rp-inventory-equipment-wp-details[data-type="weapon"] table .rp-inventory-col-wp {
     display: table-cell;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] table tr th,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] table tr th,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] .rp-inventory-item-slot,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] .rp-inventory-item-slot,
+.rp-inventory-equipment .rp-inventory-equipment-compact .rp-inventory-equipment-item-slot,
+.rp-inventory-equipment .rp-inventory-equipment-compact .rp-inventory-equipment-item-price {
+    display: none;
+}
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] td.rp-inventory-col-name,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] td.rp-inventory-col-name {
+    display: table-cell;
+}
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] .rp-inventory-item-name-text,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] .rp-inventory-item-name-text,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] .rp-inventory-col-name,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] .rp-inventory-col-name,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-container-slot,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-equipment-item,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-equipment-item-details {
+    height: auto;
+}
+
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] .rp-inventory-item-name,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] .rp-inventory-item-name,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-equipment-item-details-content,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-equipment-item-text {
+    width: 280px;
+}
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="armor"] .rp-inventory-item-name-text,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="weapon"] .rp-inventory-item-name-text,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-equipment-item-details,
+.rp-inventory-equipment .rp-inventory-equipment-compact[data-type="default"] .rp-inventory-equipment-item-text {
+    line-height: 14px;
+    font-weight: normal;
+    color: #a99877;
+}
+.rp-inventory-equipment .rp-inventory-equipment-compact .rp-inventory-equipment-items {
+    padding-top: 5px;
 }
 
 .rp-inventory-equipment h2 {
@@ -818,7 +877,7 @@
     text-align: center;
 }
 .rp-inventory-equipment-items {
-    border-bottom: 16px solid black;
+    /* border-bottom: 16px solid black; */
     border-image: url(../img/background.edge.png) 0 0 16 0;
     font-size: 0px;
     line-height: 0px;
@@ -865,7 +924,8 @@
     vertical-align: top;
 }
 .rp-inventory-equipment-item-details-content {
-    display: block;
+    display: flex;
+    align-items: center;
     width: 240px;
     padding: 0px 10px 0px 10px;    
     font-size: 10px;
@@ -909,7 +969,9 @@
     
 }
 
-.rp-inventory-container-merchant-details-portrait-frame {    float: left;    border: 3px solid;
+.rp-inventory-container-merchant-details-portrait-frame {
+    float: left;
+    border: 3px solid;
     border-image: url("../img/slot.border.png") 3 3 3 3;
 }
 

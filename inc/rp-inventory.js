@@ -18,9 +18,9 @@ function rp_inventory_toggle_merchant(expander, merchant)
 }
 
 var equipment_type_switchers = {
-  "default": "grid,list",
-  "armor": "rs-overview,rs-details,list",
-  "weapon": "wp-details,list",
+  "default": "grid,list,compact",
+  "armor": "grid,list,compact,rs-details,rs-overview",
+  "weapon": "grid,list,compact,wp-details",
 };
 
 function rp_inventory_toggle_equipment_display(container_name) {
@@ -30,6 +30,7 @@ function rp_inventory_toggle_equipment_display(container_name) {
 	var switcher = equipment_type_switchers[type].split(',');
 	var switcher_index = (switcher.indexOf(className) + 1) % switcher.length;
 	container.className = "rp-inventory-equipment-" + switcher[switcher_index];
+    document.cookie = (container_name + "=" + container.className + ";");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

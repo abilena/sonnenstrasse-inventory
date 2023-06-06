@@ -804,7 +804,8 @@
     padding-left: 10px;
 }
 
-.rp-inventory-equipment .rp-inventory-equipment-list .rp-inventory-equipment-item-text {
+.rp-inventory-equipment .rp-inventory-equipment-list .rp-inventory-equipment-item-text,
+.rp-inventory-equipment-admin-container .rp-inventory-equipment-item-text {
     line-height: 12px;
 }
 
